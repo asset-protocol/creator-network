@@ -12,6 +12,7 @@ import {
 } from "react-router-dom";
 import AssetHubsMenu from './components/assetsHubsMenu';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { Footer } from 'antd/es/layout/layout';
 
 const { Header, Content, Sider } = Layout;
 
@@ -44,41 +45,33 @@ const App: React.FC = () => {
   }
 
   return (
-    <Layout hasSider>
+    <Layout hasSider className='w-100vw h-100vh'>
       <Sider
         style={{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0, top: 0, bottom: 0 }}
       >
         <AssetHubsMenu />
         <Menu theme="dark" mode="inline" defaultSelectedKeys={['dashboard']} items={items} onClick={(e) => onMenuClick(e.key)}/>
       </Sider>
-      <Layout style={{ marginLeft: 200 }}>
-        <Header style={{ padding: 0, background: colorBgContainer }} >
-          <div className="flex items-end px-2">
-            <div
-              className="flex items-end cursor-pointer"
-            >
-              {/* <div className="text-xl font-bold">{hubInfo?.name}</div> */}
-            </div>
-            <div className="flex-1"></div>
+      <Layout style={{ marginLeft: 200 }} className='fcc-between'>
+        <Header style={{ padding: 0, background: colorBgContainer }} className='flex-0 fcc-center w-full' >
+          <div className="w-full flex items-center justify-end mr-4">
             <ConnectButton />
           </div>
         </Header>
-        <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+        <Content style={{ overflow: 'initial' }} className='flex-1 w-full h-full rounded-2 p-4'>
           <div
             style={{
-              padding: 24,
-              textAlign: 'center',
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
             }}
-            className='w-full bg-#333'
+            className='w-full h-full p-4'
           >
             <Outlet />
           </div>
         </Content>
-        {/* <Footer style={{ textAlign: 'center' }}>
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
-        </Footer> */}
+        <Footer style={{ textAlign: 'center' }} className='flex-0 whitespace-nowrap w-full'>
+          Creator Network ©{new Date().getFullYear()} Created by DeSchool
+        </Footer>
       </Layout>
     </Layout>
   );

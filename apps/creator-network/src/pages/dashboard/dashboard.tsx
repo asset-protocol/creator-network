@@ -6,7 +6,7 @@ const DashboardPage = () => {
   const { assetHubId } = useAuth();
 
   return (
-    <div className='w-full h-68 bg-green'>
+    <div className='w-full h-68'>
       <div className='w-full frc-between gap-16'>
           <div className='flex-1 frc-between gap-8'>
           {assetHubId && <AssetsTotalCount id={assetHubId}/> }

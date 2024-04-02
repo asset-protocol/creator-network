@@ -12,7 +12,8 @@ const AssetsPage = () => {
   };
   
   return (
-    <div>AssetsPage
+    <div className="w-full h-full">
+      <h1>资产管理</h1>
       {assetHubId && <AssetList
         hub={assetHubId}
         grid={{ column: 4, gutter: 12, xs: 2, sm: 3 }}

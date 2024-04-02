@@ -44,7 +44,6 @@ const AssetHubsMenu = () => {
   useEffect(() => {
     if (currentHubs) {
       setAssetHubId(currentHubs.id)
-      console.log('currentHubs', currentHubs)
       changeHub(currentHubs.name);
     }
   }, [currentHubs, setAssetHubId])
