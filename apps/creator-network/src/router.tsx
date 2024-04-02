@@ -3,6 +3,7 @@ import LoginPage from './pages/login'
 import DashboardPage from './pages/dashboard/dashboard'
 import VersionPage from './pages/version'
 import AssetsPage from './pages/assets/assets'
+import AssetViewerPage from './pages/assets-viewer'
 import Layout from './App'
 
 
@@ -13,8 +14,9 @@ export default function Root() {
         <Route path="/" element={<DashboardPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/assets" element={<AssetsPage />} />
         <Route path="/version" element={<VersionPage />} />
+        <Route path="/assets" element={<AssetsPage />} />
+        <Route path="/assets/:assetId" element={<AssetViewerPage />} />
       </Route>
     </Routes>
   )
