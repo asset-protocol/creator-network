@@ -6,7 +6,7 @@ const client = new ApolloClient({
   uri: 'http://3.87.189.32:3000/graphql',
 });
 
-export function AppProvider(props: { children: React.ReactNode }) {
+export function CustomApolloProvider(props: { children: React.ReactNode }) {
   return (
     <ApolloProvider client={client}>
       {props.children}

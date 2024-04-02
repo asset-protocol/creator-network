@@ -1,6 +1,6 @@
 export type AssetType = "image" | "video" | "audio" | "markdown" | string;
 
-interface Asset {
+export type Asset = {
   id: string;
   assetId: bigint;
   type: AssetType;
@@ -23,7 +23,7 @@ interface Asset {
   gatedModuleInitData?: string
 }
 
-interface AssetHubInfo {
+export type AssetHubInfo = {
   id: string
   name: string
   admin: string

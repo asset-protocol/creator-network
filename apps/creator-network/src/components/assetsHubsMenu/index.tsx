@@ -2,21 +2,22 @@ import { Avatar, Dropdown, Spin } from 'antd';
 import { AntDesignOutlined, DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd'
 import { useEffect, useMemo, useState } from 'react';
-import useAssetHubs from '~/hooks/useAssetsHub';
 import { useAuth } from '~/context/auth';
-
+import { Asset, useAssetHub, useGetAssetHubs } from '@repo/ui/asset';
+type AssetHubsMenuType = Pick<Asset, 'id' | 'name'>
 
 const AssetHubsMenu = () => {
-  const { loading, data } = useAssetHubs()
   const { setAssetHubId } = useAuth()
+  const { changeHub } = useAssetHub();
 
-  console.log('data', data)
+  const { data, loading } = useGetAssetHubs();
+
 
   const [selectedKeys, setSelectedKeys] = useState<string>()
 
   const items: MenuProps['items'] = useMemo(() => {
-    if (data?.assetHubs?.length) {
-      return data.assetHubs.map((item: AssetHubsMenu) => {
+    if (data?.length) {
+      return data.map((item: AssetHubsMenuType) => {
         return {
           label: item.name,
           key: item.id,
@@ -33,9 +34,9 @@ const AssetHubsMenu = () => {
 
   const currentHubs = useMemo(() => {
     if (!selectedKeys) {
-      return data?.assetHubs?.[0]
+      return data?.[0]
     }
-    return data?.assetHubs?.find((item: AssetHubsMenu) => {
+    return data?.find((item: AssetHubsMenuType) => {
       return item.name === selectedKeys
     })
   }, [data, selectedKeys])
@@ -43,6 +44,8 @@ const AssetHubsMenu = () => {
   useEffect(() => {
     if (currentHubs) {
       setAssetHubId(currentHubs.id)
+      console.log('currentHubs', currentHubs)
+      changeHub(currentHubs.name);
     }
   }, [currentHubs, setAssetHubId])
 
@@ -57,7 +60,7 @@ const AssetHubsMenu = () => {
         <div className='font-bold text-white mt-4 cursor-pointer'>
           {loading ? <Spin />
           : currentHubs?.name || '--'}
-          {(!loading && data?.assetHubs?.length > 1) && <DownOutlined />}
+          {(!loading && data?.length && data?.length > 1) && <DownOutlined />}
         </div>
       </Dropdown>
     </div>

@@ -1,7 +1,7 @@
 
 import { WatchQueryFetchPolicy, gql, useApolloClient, useQuery } from '@apollo/client'
+import { Asset } from '../core'
 import { useMemo, useState } from 'react'
-import { Asset } from '~/@types'
 
 export type GqlAssetList<T> = {
   assetsConnection: {

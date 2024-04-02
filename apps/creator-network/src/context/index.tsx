@@ -2,7 +2,8 @@ import type { ReactElement } from 'react'
 import { createContext } from 'react'
 import { AntdConfigProvider } from './antd'
 import { AuthProvider } from './auth'
-import { AppProvider } from './apollo'
+import { CustomApolloProvider } from './apollo'
+import { AppProvider } from './app'
 // 集成多个context,对外提供一个provider
 const AllContext = createContext({})
 const AllContextProvider = ({ children }: { children: ReactElement }) => (
@@ -10,7 +11,9 @@ const AllContextProvider = ({ children }: { children: ReactElement }) => (
     <AntdConfigProvider>
       <AuthProvider>
         <AppProvider>
-          {children}
+          <CustomApolloProvider>
+            {children}
+          </CustomApolloProvider>
         </AppProvider>
       </AuthProvider>
     </AntdConfigProvider>

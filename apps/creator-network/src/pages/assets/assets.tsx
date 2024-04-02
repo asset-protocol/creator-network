@@ -1,22 +1,24 @@
+import { Asset, AssetList, useAssetHub } from "@repo/ui/asset";
 import { useAuth } from "~/context/auth";
-import { useGetHubAssets } from "~/hooks/asset";
 
 const AssetsPage = () => {
-  console.log('AssetsPage')
-  const { assetHubId } = useAuth()
-  const { data, loading } = useGetHubAssets({
-    hub: assetHubId ?? "",
-    first: 9999,
-    fetchPolicy: "no-cache",
-    orderBy: ["timestamp_DESC"],
-  });
+  const { hubInfo } = useAssetHub();
+  const { assetHubId } = useAuth();
+  console.log('AssetsPage, hubInfo', hubInfo)
 
-  console.log('data', data)
-  
-  if (loading) return <div>Loading...</div>;
+  const hanldeClickAsset = (asset: Asset) => {
+    console.log('asset', asset)
+    // navigateHub("asset/" + asset.assetId.toString());
+  };
   
   return (
-    <div>AssetsPage</div>
+    <div>AssetsPage
+      {assetHubId && <AssetList
+        hub={assetHubId}
+        grid={{ column: 4, gutter: 12, xs: 2, sm: 3 }}
+        onAssetClick={hanldeClickAsset}
+      ></AssetList>}
+    </div>
   )
 }
 
