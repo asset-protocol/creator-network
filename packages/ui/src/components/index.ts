@@ -1,4 +1,3 @@
-import 'virtual:uno.css'
 export * from './AssetEditor';
 export * from './AssetList/AssetList';
 export * from './AssetViewer';

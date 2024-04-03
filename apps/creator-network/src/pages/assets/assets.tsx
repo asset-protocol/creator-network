@@ -18,7 +18,7 @@ const AssetsPage = () => {
   
   return (
     <div className="w-full h-full">
-      <h2 className="frc-between">
+      <h2 className="frc-between mb-4">
         资产管理
         <Button type="primary" icon={<PlusSquareOutlined />} onClick={() => navigate(`/assets/create`)}>创建资产</Button>
       </h2>

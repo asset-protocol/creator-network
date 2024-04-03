@@ -1,26 +1,25 @@
-import 'virtual:uno.css'
 import { Asset } from "../..";
 import { useGetHubAssets } from "../../client/indexer";
+import { useAssetHub } from "../../context";
 import { AssetItem } from "./AssetItem";
 import List, { ListGridType } from "antd/es/list";
 
 export type AssetListProps = {
   onAssetClick?: (asset: Asset) => void;
   grid?: ListGridType;
-  hub: string;
   classname?: string;
   itemClassName?: string;
 };
 
 export function AssetList(props: AssetListProps) {
+  const { hubInfo } = useAssetHub();
 
   const { data, loading } = useGetHubAssets({
-    hub: props.hub,
+    hub: hubInfo?.id ?? "",
     first: 9999,
     fetchPolicy: "no-cache",
     orderBy: ["timestamp_DESC"],
   });
-  console.log('data', data)
   return (
     <List
       className={props.classname}

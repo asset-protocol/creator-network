@@ -10,14 +10,18 @@ export function AssetItem(props: {
   classname?: string;
 }) {
   const { value } = props;
-  console.log('AssetItem, value', value)
   const replaceUri = useReplaceUri();
   const viewAsset = () => {
     props.onClick?.(value);
   };
 
   return (
-    <div className={`shadow-md rounded overflow-hidden flex flex-col w-full h-full ${props.classname}`}>
+    <div
+      className={clsx(
+        "shadow-md rounded overflow-hidden flex flex-col w-full h-full",
+        props.classname
+      )}
+    >
       {
         <Image
           title="asset image"
@@ -58,7 +62,7 @@ export function AssetItem(props: {
         <div className="line-clamp-1">{value.description}</div>
         <div className="flex-1 flex gap-2">
           {value.tags ? (
-            value.tags.split(",").map((t: string) => (
+            JSON.parse(value.tags).map?.((t: string) => (
               <Tag
                 key={t}
                 color={

@@ -18,7 +18,7 @@ import {
 import { $createCodeNode } from "@lexical/code";
 import { Button, Dropdown, MenuProps } from "antd";
 import { blockTypeToBlockName, rootTypeToRootName } from "./consts";
-import { OutlineIcon } from "../../../../../../components/MIcon/MIcon";
+import { OutlineIcon } from "../../../MIcon/MIcon";
 import { ReactNode } from "react";
 
 function MenuItem({ children }: { children: ReactNode }) {
@@ -211,7 +211,6 @@ export function BlockFormatDropDown({
       onClick: formatCode,
     },
   ];
-  console.log("blocktype", blockType);
   return (
     <Dropdown menu={{ items }} trigger={["click"]}>
       <Button className="px-1">

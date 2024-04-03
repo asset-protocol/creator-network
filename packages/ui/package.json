@@ -3,11 +3,6 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
-    "./button": "./src/button.tsx",
-    "./button1": "./src/button.tsx",
-    "./card": "./src/card.tsx",
-    "./code": "./src/code.tsx",
-    "./label": "./src/label.tsx",
     "./asset": "./src/index.ts",
     "./assethub": "./src/client/assethub/index.ts",
     "./core": "./src/client/core.ts",
@@ -16,7 +11,7 @@
     "./components": "./src/components/index.ts",
     "./plugins": "./src/plugins/index.ts",
     "./hooks": "./src/hook/index.ts",
-    "./lib": "./src/hook/index.ts"
+    "./lib": "./src/lib/index.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",

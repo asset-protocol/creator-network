@@ -64,7 +64,7 @@ const App: React.FC = () => {
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
             }}
-            className='w-full h-full p-4'
+            className='w-full h-full p-4 overflow-auto'
           >
             <Outlet />
           </div>
