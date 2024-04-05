@@ -18,10 +18,16 @@ export const HubInfoContext = createContext<HubInfoContextData>({} as never);
 export type HubInfoProviderProps = {
   signer: Signer;
   hub?: string;
+  hubData?: string;
   assetHubManager?: string;
   children?: React.ReactNode;
 };
 
+/**
+ * provider asset hub contract
+ * @param props 
+ * @returns 
+ */
 export function HubInfoProvider(props: HubInfoProviderProps) {
   const [hubContract, setHubContract] = useState<AssethubContract>();
   const { data: hubData } = useGetAssetHubByNameOrId(props.hub);

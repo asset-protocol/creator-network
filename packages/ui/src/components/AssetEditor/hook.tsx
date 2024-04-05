@@ -91,7 +91,7 @@ export function useAssetPublish() {
         setTip("Updating asset...");
         await update(asset.assetId, newData);
       } else {
-        setTip("Ceating asset...");
+        setTip("Creating asset...");
         assetId = await create({
           ...newData,
           assetCreateModuleData: ZERO_BYTES,

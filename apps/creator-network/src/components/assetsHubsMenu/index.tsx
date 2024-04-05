@@ -2,12 +2,10 @@ import { Avatar, Dropdown, Spin } from 'antd';
 import { AntDesignOutlined, DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd'
 import { useEffect, useMemo, useState } from 'react';
-import { useAuth } from '~/context/auth';
 import { Asset, useAssetHub, useGetAssetHubs } from '@repo/ui/asset';
 type AssetHubsMenuType = Pick<Asset, 'id' | 'name'>
 
 const AssetHubsMenu = () => {
-  const { setAssetHubId } = useAuth()
   const { changeHub } = useAssetHub();
 
   const { data, loading } = useGetAssetHubs();
@@ -29,7 +27,7 @@ const AssetHubsMenu = () => {
 
   const onClick: MenuProps['onClick'] = ({ key }) => {
     setSelectedKeys(key)
-    setAssetHubId(key)
+    changeHub?.(key)
   };
 
   const currentHubs = useMemo(() => {
@@ -43,10 +41,9 @@ const AssetHubsMenu = () => {
 
   useEffect(() => {
     if (currentHubs) {
-      setAssetHubId(currentHubs.id)
-      changeHub?.(currentHubs.name);
+      changeHub?.(currentHubs.id);
     }
-  }, [currentHubs, setAssetHubId])
+  }, [currentHubs, changeHub])
 
   return (
     <div className="fcc-center py-4 mb-2" >

@@ -27,7 +27,9 @@ export function useGetAssetHubs() {
 
 const GET_HUB_BY_NAME_OR_ID = gql`
 query GetAssetHubBy($nameOrId: String){
-  assetHubs(where: {OR: {name_eq: $nameOrId, OR: {id_eq: $nameOrId}}}, orderBy: timestamp_ASC){
+  assetHubs(where: {
+    OR: [{id_eq: $nameOrId}, {name_eq: $nameOrId}]
+  }, orderBy: timestamp_ASC){
     id
     admin
     name
@@ -41,7 +43,6 @@ query GetAssetHubBy($nameOrId: String){
 }`;
 
 export function useGetAssetHubByNameOrId(nameOrId?: string) {
-  console.log('useGetAssetHubByNameOrId', nameOrId)
   nameOrId = nameOrId || "";
   const { data, ...res } = useQuery<GqlAssetHubList<AssetHubInfo>>(GET_HUB_BY_NAME_OR_ID, {
     variables: {
@@ -49,6 +50,5 @@ export function useGetAssetHubByNameOrId(nameOrId?: string) {
     },
     skip: !nameOrId
   });
-  console.log('useGetAssetHubByNameOrId data', data)
   return { ...res, data: data?.assetHubs[0] };
 }

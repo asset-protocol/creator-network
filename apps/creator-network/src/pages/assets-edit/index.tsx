@@ -12,6 +12,8 @@ const AssetEditPage = () => {
   const { hubInfo } = useAssetHub();
   const { asset } = useGetAssetById(toBigInt(assetId!), hubInfo?.id ?? "");
 
+  console.log('hubInfo', hubInfo)
+
   const navigate = useNavigateAssetHub();
 
   const handleSubmited = (assetId: bigint) => {

@@ -3,6 +3,7 @@ import { Button, Input, Upload } from "antd";
 import { useBlobRequest } from "../../lib/request";
 import { useAssetEditor } from "./AssetEditorContext";
 import { useReplaceUri } from "../../lib/utils";
+import { useMemo } from "react";
 
 export function AssetEditorHeader(props: {
   useImage?: boolean;
@@ -12,13 +13,16 @@ export function AssetEditorHeader(props: {
   const { metadata, setMetadata } = useAssetEditor();
   const replaceUri = useReplaceUri();
 
-  const resValue = metadata ?? {
-    name: "",
-    title: "",
-    description: "",
-    image: undefined,
-  };
-  const image = replaceUri(resValue.image);
+  const resValue = useMemo(() => {
+    if (metadata) return metadata;
+    return {
+      name: "",
+      title: "",
+      description: "",
+      image: undefined,
+    }
+  }, [metadata]);
+  const image = useMemo(() => replaceUri(resValue.image), [resValue.image]);
   const useImage = props.useImage !== false;
 
   return (
