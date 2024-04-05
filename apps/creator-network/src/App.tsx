@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   AppstoreOutlined,
   CloudOutlined,
@@ -8,6 +8,7 @@ import type { MenuProps } from 'antd';
 import { Layout, Menu, theme } from 'antd';
 import {
   Outlet,
+  useLocation,
   useNavigate,
 } from "react-router-dom";
 import AssetHubsMenu from './components/assetsHubsMenu';
@@ -36,6 +37,7 @@ const items: MenuProps['items'] = [
 
 const App: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -44,13 +46,20 @@ const App: React.FC = () => {
     navigate(key)
   }
 
+  const defaultSelectedKey = useMemo(() => {
+    if (location.pathname === '/') return 'dashboard'
+    if (location.pathname.includes('assets')) return 'assets'
+    if (location.pathname.includes('version')) return 'version'
+    return 'dashboard'
+  }, [location])
+
   return (
     <Layout hasSider className='w-100vw h-100vh'>
       <Sider
         style={{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0, top: 0, bottom: 0 }}
       >
         <AssetHubsMenu />
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['dashboard']} items={items} onClick={(e) => onMenuClick(e.key)}/>
+        <Menu theme="dark" mode="inline" defaultSelectedKeys={[defaultSelectedKey]} items={items} onClick={(e) => onMenuClick(e.key)}/>
       </Sider>
       <Layout style={{ marginLeft: 200 }} className='fcc-between'>
         <Header style={{ padding: 0, background: colorBgContainer }} className='flex-0 fcc-center w-full' >

@@ -48,7 +48,7 @@ function AppAssetHubProvider(props: { children: React.ReactNode }) {
       grapqlClient={client}
       storage={"ipfs"}
       plugins={plugins}
-      account={account.address}
+      account={account.address ? {address: account.address} : undefined}
       requireLogin={() => openConnectModal?.()}
       assetHubManager={AssetHubManager}
     >
