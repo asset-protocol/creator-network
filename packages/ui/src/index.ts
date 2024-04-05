@@ -1,5 +1,4 @@
 window.global ||= window;
-import "./index.css";
 export * from './core';
 export * from './context';
 export * from "./components";
