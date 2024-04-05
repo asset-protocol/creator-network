@@ -7,4 +7,5 @@ export * from './AssetCollect';
 export * from './Address/AddressLink';
 export * from './Link/Link';
 export * from './Assset/AssetCard';
+export * from './AssetDynamics';
 

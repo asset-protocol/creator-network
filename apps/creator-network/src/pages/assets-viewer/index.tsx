@@ -4,17 +4,14 @@ import { useAccount } from "wagmi";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import Button from "antd/es/button";
 import { LeftOutlined } from "@ant-design/icons";
-import { useAssetHub } from "@repo/ui/context";
 
 const AssetViewerPage = () => {
   const { assetId } = useParams();
   const { address } = useAccount();
-  const { assetHub } = useAssetHub();
   const { openConnectModal } = useConnectModal();
   const navigate = useNavigate();
 
   const resAssetId = assetId && BigInt(assetId);
-  console.log('resAssetId', resAssetId)
 
   const config: Omit<AssetViewerProps, "assetId"> = {
     account: address,
@@ -31,7 +28,7 @@ const AssetViewerPage = () => {
       </h2>
       {resAssetId ? (
         <div className="mt-8">
-          <AssetViewer assetId={resAssetId} hubId={assetHub?.id} {...config} />
+          <AssetViewer assetId={resAssetId} {...config} />
         </div>
       ) : (
         <div>Loading...</div>
