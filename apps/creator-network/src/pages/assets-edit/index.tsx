@@ -17,7 +17,7 @@ const AssetEditPage = () => {
   const navigate = useNavigateAssetHub();
 
   const handleSubmited = (assetId: bigint) => {
-    navigate(`/asset/${assetId}`, { replace: true });
+    navigate(`/assets/${assetId}`, { replace: true });
   };
 
   if (!asset) {

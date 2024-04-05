@@ -38,7 +38,7 @@ function AppAssetHubProvider(props: { children: React.ReactNode }) {
   ];
 
   const client = new ApolloClient({
-    uri: "http://3.87.189.32:3000/graphql",
+    uri: "/api/graphql",
     cache: new InMemoryCache(),
   });
 

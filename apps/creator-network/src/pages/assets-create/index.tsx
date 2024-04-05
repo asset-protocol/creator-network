@@ -9,7 +9,7 @@ const AssetCreatePage = () => {
   const navigate = useNavigate();
 
   const handleSubmitted = (assetId: bigint) => {
-    navigateHub(`/asset/${assetId}`, { replace: true });
+    navigateHub(`/assets/${assetId}`, { replace: true });
   };
   return (
     <div className="max-w-[1080px] mx-auto">
