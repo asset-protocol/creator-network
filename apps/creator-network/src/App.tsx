@@ -13,7 +13,7 @@ import {
 } from "react-router-dom";
 import AssetHubsMenu from './components/assetsHubsMenu';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { Footer } from 'antd/es/layout/layout';
+// import { Footer } from 'antd/es/layout/layout';
 
 const { Header, Content, Sider } = Layout;
 
@@ -78,9 +78,9 @@ const App: React.FC = () => {
             <Outlet />
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }} className='flex-0 whitespace-nowrap w-full'>
+        {/* <Footer style={{ textAlign: 'center' }} className='flex-0 whitespace-nowrap w-full'>
           Creator Network ©{new Date().getFullYear()} Created by DeSchool
-        </Footer>
+        </Footer> */}
       </Layout>
     </Layout>
   );
