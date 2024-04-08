@@ -6,7 +6,7 @@ import {
   ipfsPinataPlugin,
 } from "@repo/ui/asset";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import { useEthersSigner } from "../context/ether";
+import { useEthersSigner } from "../ether";
 import { useAccount } from "wagmi";
 import { useMemo } from "react";
 import { FeeCollectModule } from "./plugins/FeeCollectModule";
