@@ -144,7 +144,7 @@ export function useGetAssetById(assetId: bigint, hub: string) {
     fetchPolicy: "no-cache",
     skip: !hub
   })
-  return { ...res, asset: data?.assetsConnection.edges?.[0].node }
+  return { ...res, asset: data?.assetsConnection?.edges?.[0]?.node }
 }
 
 const REFRESH_ASSET_METADATA = gql`
@@ -170,4 +170,27 @@ export function useRefreshAssetMetadata() {
     }
   }
   return { refresh, loading }
+}
+
+const GET_ASSET_DYNAMICS = gql`
+  query GetAssetsHubs($hub: String!, $assetId: BigInt!) {
+    assetMetadataHistories(where: {asset: {assetId_eq: $assetId, hub_eq: $hub}}) {
+      id
+      asset {
+        name
+        content
+        hash
+        lastUpdatedAt
+        publisher
+      }
+    }
+  }
+`;
+
+export function useGetAssetDynamics(hub: string, assetId: bigint) {
+  const tokenId = assetId.toString();
+  const { loading, error, data } = useQuery(GET_ASSET_DYNAMICS, {
+    variables: { hub, assetId: tokenId }
+  });
+  return { loading, error, data }
 }

@@ -1,4 +1,4 @@
-import { AssetViewer, AssetViewerProps } from "@repo/ui/asset";
+import { AssetViewer, AssetViewerProps, useAssetHub, AssetDynamics } from "@repo/ui/asset";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAccount } from "wagmi";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
@@ -8,6 +8,7 @@ import { LeftOutlined } from "@ant-design/icons";
 const AssetViewerPage = () => {
   const { assetId } = useParams();
   const { address } = useAccount();
+  const { hubInfo } = useAssetHub();
   const { openConnectModal } = useConnectModal();
   const navigate = useNavigate();
 
@@ -29,6 +30,9 @@ const AssetViewerPage = () => {
       {resAssetId ? (
         <div className="mt-8">
           <AssetViewer assetId={resAssetId} {...config} />
+          <div>
+            {hubInfo?.id && <AssetDynamics hub={hubInfo.id} assetId={resAssetId}/>}
+          </div>
         </div>
       ) : (
         <div>Loading...</div>
