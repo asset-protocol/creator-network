@@ -61,12 +61,13 @@ export function AssetViewerHeaderFlow(props: {
   return (
     <div className={props.className}>
       {showCover && (
-        <div className="relative w-full aspect-[24/9] mb-8">
+        <div className="relative w-full aspect-[24/9]">
           <img
             src={replaceUri(asset?.image)}
             alt=""
-            className="w-full h-full object-cover rounded-md overflow-hidden"
+            className="w-full h-full absolute top-0 object-cover rounded-md overflow-hidden"
           />
+          <div className=" absolute bottom-0 w-full h-32 bg-gradient-to-t from-white from-0% via-[#fffffff0] via-10%  to-transparent backdrop-blur-md"></div>
         </div>
       )}
       <div
