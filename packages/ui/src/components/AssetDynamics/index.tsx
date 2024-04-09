@@ -1,8 +1,10 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useGetAssetDynamics } from "../../client/indexer/asset";
 import { ItemUpdate } from "./ItemUpdate";
 import { Asset } from "../../client/core";
 import { Typography } from 'antd';
+import Modal from "antd/es/modal/Modal";
+import { AssetContent } from "../AssetViewer/AssetContent";
 
 const { Title } = Typography;
 
@@ -13,6 +15,8 @@ type AssetDynamicsProps = {
 
 export function AssetDynamics (props: AssetDynamicsProps) {
   const { hub, assetId } = props
+  const [selectAsset, setSelectAsset] = useState<Asset | null>(null)
+  const [open, setOpen] = useState(false)
 
   const { loading, data } = useGetAssetDynamics(hub, assetId)
 
@@ -20,15 +24,16 @@ export function AssetDynamics (props: AssetDynamicsProps) {
     return data?.assetMetadataHistories || []
   }, [data])
 
-  console.log('AssetDynamics data', data)
-
-  const onClick = (asset: Asset) => {
-    console.log('onClick asset', asset)
+  const onClick = (val: string) => {
+    console.log('onClick asset', val)
+    setSelectAsset(JSON.parse(val))
+    setOpen(true)
   }
 
   if (loading) return <div>Loading...</div>
 
   return (
+    <>
     <div className="my-4">
       <Title level={2}>AssetDynamics</Title>
       <div className="bg-#fefcfc rounded-1 pb-4">
@@ -41,10 +46,41 @@ export function AssetDynamics (props: AssetDynamicsProps) {
         </div>
         {
           list.map((item: any, index: number) => {
-            return <ItemUpdate key={item.id} showV2Button={(index < list.length - 1)} asset={item.asset} onClick={onClick}/>
+            return <ItemUpdate
+              key={item.id}
+              showV2Button={(index < list.length - 1)}
+              timestamp={item.timestamp}
+              asset={item.asset}
+              onClick={() => {
+                onClick(list[list.length - 1].metadata)
+              }}
+              onClick2={() => {
+                onClick(item.metadata)
+              }}
+              />
           })
         }
       </div>
     </div>
+    <Modal
+      open={open}
+      destroyOnClose
+      centered
+      footer={null}
+      title="Pulbish Asset"
+      width={700}
+      transitionName=""
+      maskClosable={false}
+      maskTransitionName=""
+      onCancel={() => {
+        setOpen(false)
+        setSelectAsset(null)
+      }}
+      className="h-[max-content]"
+      wrapClassName="backdrop-blur-md"
+    >
+      {selectAsset && <AssetContent asset={selectAsset}/>}
+    </Modal>
+    </>
   );
 }

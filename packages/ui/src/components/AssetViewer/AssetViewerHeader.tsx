@@ -19,6 +19,7 @@ export function AssetViewerHeader(props: {
   className?: string;
 }) {
   const { asset, account, requestLogin, onEdit } = useAssetViewer();
+  console.log('AssetViewerHeader asset', asset)
   const showCover = props.showCover ?? true;
   const showDescription = props.showDescription ?? true;
 
@@ -26,7 +27,7 @@ export function AssetViewerHeader(props: {
   const { hubInfo } = useAssetHub();
   const { data, refetch: collectorsRefetch } = useGetAssetCollectors(
     hubInfo?.id ?? "",
-    asset.assetId.toString(),
+    asset?.assetId?.toString(),
     account
   );
   const { refresh: refreshMetadata } =

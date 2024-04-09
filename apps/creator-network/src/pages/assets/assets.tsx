@@ -6,7 +6,6 @@ import { useNavigateAssetHub } from "~/utils/route";
 
 const AssetsPage = () => {
   const { hubInfo } = useAssetHub();
-  console.log('AssetsPage hubInfo', hubInfo)
   const navigateHub = useNavigateAssetHub();
   const navigate = useNavigate();
 

@@ -1,4 +1,3 @@
-import { useAssetHub } from "@repo/ui/asset";
 import { useMemo } from "react";
 import useAssetHubsById from "~/hooks/useAssetsHubById";
 
@@ -9,8 +8,6 @@ type AssetsHubsInfoProps = {
 const AssetsHubsInfo: React.FC<AssetsHubsInfoProps> = (props) => {
   const { id } = props;
   const { loading, error, data } = useAssetHubsById(id);
-  const { hubInfo } = useAssetHub();
-  console.log('hubInfo', hubInfo)
   
   const assetHub = useMemo(() => {
     return data?.assetHubById

@@ -173,15 +173,15 @@ export function useRefreshAssetMetadata() {
 }
 
 const GET_ASSET_DYNAMICS = gql`
-  query GetAssetsHubs($hub: String!, $assetId: BigInt!) {
+  query GetAssetMetadataHistories($hub: String!, $assetId: BigInt!) {
     assetMetadataHistories(where: {asset: {assetId_eq: $assetId, hub_eq: $hub}}) {
       id
+      metadata
       asset {
-        name
-        content
         hash
         lastUpdatedAt
         publisher
+        metadata
       }
     }
   }
