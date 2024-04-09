@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { useGetAssetDynamics } from "../../client/indexer/asset";
 import { ItemUpdate } from "./ItemUpdate";
 import { Asset } from "../../client/core";
-import { Typography } from 'antd';
+import { Skeleton, Typography } from 'antd';
 import Modal from "antd/es/modal/Modal";
 import { AssetContent } from "../AssetViewer/AssetContent";
 
@@ -30,7 +30,7 @@ export function AssetDynamics (props: AssetDynamicsProps) {
     setOpen(true)
   }
 
-  if (loading) return <div>Loading...</div>
+  if (loading) return <div><Skeleton /></div>
 
   return (
     <>

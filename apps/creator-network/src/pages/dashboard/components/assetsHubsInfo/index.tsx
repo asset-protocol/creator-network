@@ -1,3 +1,4 @@
+import { Skeleton } from "antd";
 import { useMemo } from "react";
 import useAssetHubsById from "~/hooks/useAssetsHubById";
 
@@ -13,11 +14,11 @@ const AssetsHubsInfo: React.FC<AssetsHubsInfoProps> = (props) => {
     return data?.assetHubById
   }, [data])
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className='w-full flex-2 bg-#f2f5f8 rounded-1 h-auto text-left p-4'><Skeleton /></div>;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className='flex-1 bg-#f2f5f8 rounded-1 h-auto text-left p-4'>
+    <div className='w-full flex-1 bg-#f2f5f8 rounded-1 h-auto text-left p-4'>
       <div><span className='text-#333 font-500 mr-2'>AssetHub Name:</span><span>{assetHub.name}</span></div>
       <div><span className='text-#333 font-500 mr-2'>AssetHub:</span><span>{assetHub.hash}</span></div>
       <div><span className='text-#333 font-500 mr-2'>AssetHub Admin:</span><span>{assetHub.admin}</span></div>
