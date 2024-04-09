@@ -49,7 +49,7 @@ export function AssetDynamics (props: AssetDynamicsProps) {
             return <ItemUpdate
               key={item.id}
               showV2Button={(index < list.length - 1)}
-              timestamp={item.timestamp}
+              timestamp={JSON.parse(item.metadata).timestamp}
               asset={item.asset}
               onClick={() => {
                 onClick(list[list.length - 1].metadata)
