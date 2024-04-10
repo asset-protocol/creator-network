@@ -13,20 +13,14 @@ const DashboardPage = () => {
       <h2 className="frc-between mb-4">
         <Title level={2}>控制面板</Title>
       </h2>
-      <div className='w-full frc-between gap-16'>
-          <div className='flex-1 frc-center gap-8'>
-            {hubInfo?.id && <AssetsTotalCount id={hubInfo?.id}/> }
-            {/* <div className='fcc-center w-30 bg-#fef4f4 rounded-full aspect-[1/1] whitespace-nowrap'>
-              <span className='text-#333 text-base'>Collect 总数</span>
-              <span className='font-bold text-2xl'>30</span>
-            </div>
-            <div className='fcc-center w-30 bg-#fef4f4 rounded-full aspect-[1/1] whitespace-nowrap'>
-              <span className='text-#333 text-base'>总浏览量</span>
-              <span className='font-bold text-2xl'>30</span>
-            </div> */}
-          </div>
-          {hubInfo?.id && <AssetsHubsInfo id={hubInfo?.id}/>}
-      </div>
+      {hubInfo?.id && <div className='w-full frc-between gap-4 bg-#dedede40 px-4 py-4 rounded-2'>
+        <div className='flex-0'>
+          <AssetsTotalCount id={hubInfo?.id}/>
+        </div>
+        <div className='flex-1'>
+          <AssetsHubsInfo id={hubInfo?.id}/>
+        </div>
+      </div>}
     </div>
   )
 }

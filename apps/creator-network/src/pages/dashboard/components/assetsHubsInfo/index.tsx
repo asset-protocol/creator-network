@@ -1,6 +1,7 @@
-import { Skeleton } from "antd";
+import { Skeleton, Typography } from "antd";
 import { useMemo } from "react";
 import useAssetHubsById from "~/hooks/useAssetsHubById";
+const { Text } = Typography;
 
 type AssetsHubsInfoProps = {
   id: string
@@ -14,17 +15,35 @@ const AssetsHubsInfo: React.FC<AssetsHubsInfoProps> = (props) => {
     return data?.assetHubById
   }, [data])
 
-  if (loading) return <div className='w-full flex-2 bg-#f2f5f8 rounded-1 h-auto text-left p-4'><Skeleton /></div>;
+  if (loading) return <div className='w-full flex-2 bg-#6525FF0A rounded-1 h-auto text-left p-4'><Skeleton /></div>;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className='w-full flex-1 bg-#f2f5f8 rounded-1 h-auto text-left p-4'>
-      <div><span className='text-#333 font-500 mr-2'>AssetHub Name:</span><span>{assetHub.name}</span></div>
-      <div><span className='text-#333 font-500 mr-2'>AssetHub:</span><span>{assetHub.hash}</span></div>
-      <div><span className='text-#333 font-500 mr-2'>AssetHub Admin:</span><span>{assetHub.admin}</span></div>
-      <div><span className='text-#333 font-500 mr-2'>AssetHub Version:</span><span>{assetHub.version || '--'}</span></div>
-      <div><span className='text-#333 font-500 mr-2'>AssetHub CreateTime:</span><span>{assetHub.timestamp}</span></div>
-      <div><span className='text-#333 font-500 mr-2'>NftGatedModule:</span><span>{assetHub.nftGatedModule}</span></div>
+    <div className='w-full flex-1 bg-#6525FF0A rounded-1 h-auto text-left p-4'>
+      <div className="frc-start gap-2">
+        <Text >AssetHub Name:</Text>
+        <Text type="secondary" strong italic>{assetHub.name}</Text>
+      </div>
+      <div className="frc-start gap-2">
+        <Text >AssetHub Hash:</Text>
+        <Text type="secondary" strong italic>{assetHub.hash}</Text>
+      </div>
+      <div className="frc-start gap-2">
+        <Text >AssetHub Admin:</Text>
+        <Text type="secondary" strong italic>{assetHub.admin}</Text>
+      </div>
+      <div className="frc-start gap-2">
+        <Text >AssetHub Version:</Text>
+        <Text type="secondary" strong italic>{assetHub.version || '--'}</Text>
+      </div>
+      <div className="frc-start gap-2">
+        <Text >AssetHub CreateTime:</Text>
+        <Text type="secondary" strong italic>{assetHub.timestamp ? new Date(Number.parseInt(assetHub.timestamp.toString())).toString() : '--'}</Text>
+      </div>
+      <div className="frc-start gap-2">
+        <Text >NftGatedModule:</Text>
+        <Text type="secondary" strong italic>{assetHub.nftGatedModule}</Text>
+      </div>
     </div>
   )
 }
