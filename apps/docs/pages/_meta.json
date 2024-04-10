@@ -1,0 +1,20 @@
+{
+  "index": "Introduction",
+  "installing": "Installing Asset Protocol",
+  "about": {
+    "title": "About",
+    "type": "page"
+  },
+  "Creator Network": {
+    "title": "Creator Network ↗",
+    "type": "page",
+    "href": "https://creator-network.netlify.app",
+    "newWindow": true
+  },
+  "demo": {
+    "title": "Demo ↗",
+    "type": "page",
+    "href": "https://assethub-test.deschool.app/home",
+    "newWindow": true
+  }
+}
