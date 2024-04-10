@@ -4,6 +4,9 @@ import { useAccount } from "wagmi";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import Button from "antd/es/button";
 import { LeftOutlined } from "@ant-design/icons";
+import Typography from "antd/es/typography";
+
+const { Title } = Typography;
 
 const AssetViewerPage = () => {
   const { assetId } = useParams();
@@ -24,9 +27,10 @@ const AssetViewerPage = () => {
 
   return (
     <div className="flex flex-col m-auto">
-      <h2>
-        <Button icon={<LeftOutlined />} onClick={() => navigate(-1)}>返回</Button>
-      </h2>
+      <div className="frc-start gap-4">
+        <Button className="mb-3" icon={<LeftOutlined />} onClick={() => navigate(-1)}>返回</Button>
+        <Title level={2}>资产详情</Title>
+      </div>
       {resAssetId ? (
         <div className="mt-8">
           <AssetViewer assetId={resAssetId} {...config} />

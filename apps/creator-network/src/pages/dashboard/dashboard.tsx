@@ -1,12 +1,18 @@
 import AssetsHubsInfo from '~/pages/dashboard/components/assetsHubsInfo';
 import AssetsTotalCount from './components/assetsTotalCount';
 import { useAssetHub } from '@repo/ui/asset';
+import Typography from "antd/es/typography";
+
+const { Title } = Typography;
 
 const DashboardPage = () => {
   const { hubInfo } = useAssetHub();
 
   return (
     <div className='w-full h-68'>
+      <h2 className="frc-between mb-4">
+        <Title level={2}>控制面板</Title>
+      </h2>
       <div className='w-full frc-between gap-16'>
           <div className='flex-1 frc-center gap-8'>
             {hubInfo?.id && <AssetsTotalCount id={hubInfo?.id}/> }

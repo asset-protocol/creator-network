@@ -35,7 +35,7 @@ export function AssetDynamics (props: AssetDynamicsProps) {
   return (
     <>
     <div className="my-4">
-      <Title level={2}>AssetDynamics</Title>
+      <Title level={2}>资产动态-内容修改</Title>
       <div className="bg-#fefcfc rounded-1 pb-4">
         <div className="tr frc-between mb-4 py-4 font-500 bg-#dedede px-4 rounded-t-1">
           <div className="flex-1">Hash</div>
