@@ -16,5 +16,11 @@
     "type": "page",
     "href": "https://assethub-test.deschool.app/home",
     "newWindow": true
+  },
+  "api": {
+    "title": "Api ↗",
+    "type": "page",
+    "href": "http://3.87.189.32:3000/graphql",
+    "newWindow": true
   }
 }
