@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import DashboardPage from './pages/dashboard/dashboard'
 import VersionPage from './pages/version'
+import AssetsPersonPage from './pages/assets-person'
 import AssetsPage from './pages/assets/assets'
 import AssetViewerPage from './pages/assets-viewer'
 import AssetCreatePage from './pages/assets-create'
@@ -15,6 +16,7 @@ export default function Root() {
         <Route path="/" element={<DashboardPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/assets" element={<AssetsPage />} />
+        <Route path="/assets-person" element={<AssetsPersonPage />} />
         <Route path="/assets/:assetId" element={<AssetViewerPage />} />
         <Route path="/assets/create" element={<AssetCreatePage />} />
         <Route path="/assets/:assetId/edit" element={<AssetEditPage />} />

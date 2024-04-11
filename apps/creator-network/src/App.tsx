@@ -3,6 +3,7 @@ import {
   AppstoreOutlined,
   CloudOutlined,
   ApartmentOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu, theme } from 'antd';
@@ -13,31 +14,17 @@ import {
 } from "react-router-dom";
 import AssetHubsMenu from './components/assetsHubsMenu';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useAccount } from 'wagmi';
+import { useAssetHub } from '@repo/ui/context';
 // import { Footer } from 'antd/es/layout/layout';
 
 const { Header, Content, Sider } = Layout;
 
-const items: MenuProps['items'] = [
-  {
-    key: 'dashboard',
-    icon: <AppstoreOutlined />,
-    label: '控制面板',
-  }, 
-  {
-    key: 'assets',
-    icon: <CloudOutlined />,
-    label: '资产管理',
-  }, 
-  {
-    key: 'version',
-    icon: <ApartmentOutlined />,
-    label: '版本管理',
-  }, 
-]
-
 const App: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const account = useAccount()
+  const { hubInfo } = useAssetHub();
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -45,6 +32,51 @@ const App: React.FC = () => {
   const onMenuClick = (key: string) => {
     navigate(key)
   }
+
+  const items: MenuProps['items'] = useMemo(() => {
+    if (account?.address && hubInfo?.id) {
+      return [
+        {
+          key: 'dashboard',
+          icon: <AppstoreOutlined />,
+          label: '控制面板',
+        }, 
+        {
+          key: 'assets',
+          icon: <CloudOutlined />,
+          label: '资产管理',
+        }, 
+        {
+          key: 'assets-person',
+          icon: <UserOutlined />,
+          label: '个人资产',
+        }, 
+        {
+          key: 'version',
+          icon: <ApartmentOutlined />,
+          label: '版本管理',
+        }, 
+      ]
+    }
+
+    return [
+      {
+        key: 'dashboard',
+        icon: <AppstoreOutlined />,
+        label: '控制面板',
+      }, 
+      {
+        key: 'assets',
+        icon: <CloudOutlined />,
+        label: '资产管理',
+      }, 
+      {
+        key: 'version',
+        icon: <ApartmentOutlined />,
+        label: '版本管理',
+      }, 
+    ]
+  }, [hubInfo, account])
 
   const defaultSelectedKey = useMemo(() => {
     if (location.pathname === '/') return 'dashboard'
