@@ -52,7 +52,7 @@ return (
     </div>
     <section className="[ cards ]" id="building-blocks">
       <div className="[ card ] [ blur-bg ]" data-lightsource-distance="l">
-        <h2>Light</h2>
+        <h2>Assets</h2>
         <p>Gradients and shadows simulate a single light source shining across the page — touching every element.</p>
         <svg className="[ light-illustration ]" viewBox="0 0 256 256" fill="var(--color-orange-medium)">
           <radialGradient id="radialGradient">
@@ -69,7 +69,7 @@ return (
         </svg>
       </div>
       <div className="[ card ] [ blur-bg ]" data-lightsource-distance="m">
-        <h2>Contact</h2>
+        <h2>Application</h2>
         <svg className="[ containers-illustration ]" strokeWidth="2" strokeDasharray="4" stroke="var(--color-orange-medium)">
           <line x1="0" y1="0" x2="50%" y2="50%"></line>
           <line x1="100%" y1="0" x2="50%" y2="50%"></line>
@@ -85,12 +85,20 @@ return (
           </linearGradient>
           <circle cx="128" cy="128" r="128" fill="url(#colorGradient)"></circle>
         </svg>
-        <h2>Color</h2>
+        <h2>Assets Hubs</h2>
         <p>A base hue blends into everything — unifying text, shadows, and illustrations.</p>
       </div>
       <div className="[ card ] [ blur-bg ]" data-lightsource-distance="s">
-        <h2>Texture</h2>
+        <h2>Asset Hub Managemer</h2>
         <p>A subtle generative grain adds a touch of the physcial world and smoothes out gradients.</p>
+      </div>
+    </section>
+    <section className='mt-16'>
+      <div className="[ card ] [ blur-bg ] flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+        <h2 className='mb-8'>Protocl Design</h2>
+        <div className='p-8'>
+          <img src="design-2024-04-11.jpg" alt="design" className="w-full h-full mx-auto"/>
+        </div>
       </div>
     </section>
   </div>
