@@ -46,13 +46,6 @@ export default defineConfig({
     ['fce-center', 'flex flex-col items-end justify-center'],
     ['fce-end', 'flex flex-col items-end justify-end'],
     ['frs-center', 'flex flex-row items-start justify-center'],
-    ['purple-button', 'inline-flex items-center bg-#774FF8 text-white hover:cursor-pointer hover:bg-purple-500'],
-    ['purple-text-button', 'inline-flex items-center text-#774FF8 hover:cursor-pointer hover:text-purple-500'],
-    ['white-text-button', 'inline-flex items-center text-#ffffffdd bg-#0E0C134F hover:cursor-pointer hover:text-white'],
-    [
-      'purple-border-button',
-      'inline-flex items-center border border-#6525FF rounded-xl text-#6525FF hover:cursor-pointer hover:text-purple-500',
-    ],
     ['flex-layout', 'w-full mx-auto px-8 md:px-4 max-w-1280px'],
   ],
   presets: [presetUno(), presetAttributify(), presetIcons()],
