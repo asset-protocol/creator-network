@@ -15,7 +15,7 @@ const AssetViewerPage = () => {
   const { openConnectModal } = useConnectModal();
   const navigate = useNavigate();
 
-  const resAssetId = assetId && BigInt(assetId);
+  const resAssetId = assetId ? BigInt(assetId) : undefined;
 
   const config: Omit<AssetViewerProps, "assetId"> = {
     account: address,
@@ -31,7 +31,7 @@ const AssetViewerPage = () => {
         <Button className="mb-3" icon={<LeftOutlined />} onClick={() => navigate(-1)}>返回</Button>
         <Title level={2}>资产详情</Title>
       </div>
-      {resAssetId ? (
+      {resAssetId !== undefined ? (
         <div className="mt-8">
           <AssetViewer assetId={resAssetId} {...config} />
           <div>
