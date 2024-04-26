@@ -7,8 +7,7 @@ export type AssetMetadata = {
   description?: string;
   image?: string;
   tags?: string[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  extra?: { [key in string]: any };
+  properties?: { [key in string]: any };
 }
 
 export type AssetModule = {

@@ -68,7 +68,7 @@ export function useAssetPublish() {
         data.tags = data.description?.match(/#\w+/g)?.map(t => t.slice(1)) || undefined;
       }
       const newMetadata = JSON.stringify(data);
-      if (newMetadata !== asset?.metadata) {
+      if (newMetadata !== JSON.stringify(asset?.metadata)) {
         newData.contentURI = await storage.upload({
           data: newMetadata,
         });
