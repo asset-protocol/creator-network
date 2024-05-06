@@ -24,9 +24,8 @@ export function AssetDynamics (props: AssetDynamicsProps) {
     return data?.assetMetadataHistories || []
   }, [data])
 
-  const onClick = (val: string) => {
-    console.log('onClick asset', val)
-    setSelectAsset(JSON.parse(val))
+  const onClick = (val: any) => {
+    setSelectAsset(val)
     setOpen(true)
   }
 
@@ -49,7 +48,7 @@ export function AssetDynamics (props: AssetDynamicsProps) {
             return <ItemUpdate
               key={item.id}
               showV2Button={(index < list.length - 1)}
-              timestamp={JSON.parse(item.metadata).timestamp}
+              timestamp={item.metadata.timestamp}
               asset={item.asset}
               onClick={() => {
                 onClick(list[list.length - 1].metadata)

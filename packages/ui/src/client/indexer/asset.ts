@@ -178,7 +178,7 @@ export function useRefreshAssetMetadata() {
 
 const GET_ASSET_DYNAMICS = gql`
   query GetAssetMetadataHistories($hub: String!, $assetId: BigInt!) {
-    assetMetadataHistories(where: {asset: {assetId_eq: $assetId, hub_eq: $hub}}, orderBy: metadata_DESC) {
+    assetMetadataHistories(where: {asset: {assetId_eq: $assetId, hub_eq: $hub}}, orderBy: asset_lastUpdatedAt_DESC) {
       id
       metadata
       timestamp
