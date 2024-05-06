@@ -8,7 +8,7 @@ export function useReplaceUri() {
     if (typeof uri !== "string") return uri;
     const paths = uri.split("://");
     if (paths.length > 1 && paths[0] && paths[0].length < 16) {
-      const storage = ctx.storages[paths[0]];
+      const storage = ctx?.storages[paths[0]];
       if (storage) {
         return storage.getUrl(uri);
       }
@@ -21,7 +21,7 @@ export function replaceUri(uri?: string) {
   if (!uri) return uri;
   if (typeof uri !== "string") return uri;
   const paths = uri.split("://");
-  if (paths.length > 1 && paths[0].length < 16) {
+  if (paths.length > 1 && paths[0] && paths[0].length < 16) {
     const storage = globalConfig.storages[paths[0]];
     if (storage) {
       return storage.getUrl(uri);
