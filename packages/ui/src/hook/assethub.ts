@@ -14,8 +14,7 @@ export function useDeployNewAssetHub() {
   const zeroAssetHubCreateData: Partial<HubCreateDataStructOutput> = {
     admin: ZeroAddress,
     name: "",
-    collectNft: true,
-    assetCreateModule: ZeroAddress,
+    createModule: ZeroAddress,
   }
   const deploy = async (data: HubCreateDataStructOutput) => {
     if (!assetHubManager) {

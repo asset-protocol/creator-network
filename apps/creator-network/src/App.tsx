@@ -76,7 +76,7 @@ const App: React.FC = () => {
         label: '版本管理',
       }, 
     ]
-  }, [hubInfo, account])
+  }, [hubInfo, account?.address])
 
   const defaultSelectedKey = useMemo(() => {
     if (location.pathname === '/') return 'dashboard'

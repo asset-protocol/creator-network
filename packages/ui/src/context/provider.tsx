@@ -2,9 +2,9 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ApolloClient, ApolloProvider } from "@apollo/client";
 import { useContext, useState, createContext } from "react";
 import { Signer } from "ethers";
-import { IStorage, StorageScheme } from "../core/storage";
-import { AssetHubConfig, AssetHubPlugin } from "../core/plugin";
+import { AssetHubConfig, AssetHubPlugin, globalConfig } from "../core/plugin";
 import { HubInfoContext, HubInfoProvider } from "./hub-info";
+import { IStorage, StorageScheme } from "../core/storage";
 
 export type AccountInfo = {
   address: string;
@@ -42,12 +42,12 @@ export type AssetProviderProps = {
 
 export function AssetProvider(props: AssetProviderProps) {
   const [hub, setHub] = useState<string | undefined>(props.hub);
-  const config = new AssetHubConfig();
+  const config = globalConfig;
   if (props.plugins) {
     props.plugins.forEach((p) => p(config));
   }
   const ctx = config;
-  const [storage, setStorage] = useState<IStorage>(ctx.storages[props.storage]);
+  const [storage, setStorage] = useState<IStorage | undefined>(ctx.storages[props.storage]);
   if (!storage) throw new Error("storage not found: " + props.storage);
   const value = {
     ctx,
@@ -76,7 +76,6 @@ export function AssetProvider(props: AssetProviderProps) {
   );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 export function useAssetHub() {
   const ctx = useContext(AssetContext);
   const infoCtx = useContext(HubInfoContext);

@@ -12,7 +12,7 @@ export type AssetListProps = {
 };
 
 export function AssetList(props: AssetListProps) {
-
+  console.log("AssetList ==== ", props);
   const { data, loading } = useGetHubAssets({
     hub: props.hub ?? "",
     first: 9999,

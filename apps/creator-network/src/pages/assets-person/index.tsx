@@ -28,8 +28,10 @@ const AssetsPersonPage = () => {
   return (
     <div className="w-full h-full">
       <h2 className="frc-between mb-4">
+        <div>
         <Title level={2}>个人资产管理</Title>
         <Button disabled={!hubInfo?.id} type="primary" icon={<PlusSquareOutlined />} onClick={() => navigate(`/assets/create`)}>创建资产</Button>
+        </div>
       </h2>
       <List
         // pagination={{ position: "bottom", align: "center" }}
