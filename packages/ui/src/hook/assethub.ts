@@ -2,7 +2,7 @@ import { useAssetHub } from "../context/provider";
 import { DataTypes, NewTokenGlobalModule } from '../client/assethub';
 import { BytesLike, ZeroAddress } from 'ethers';
 import { useCallback, useEffect, useState } from "react";
-import { HubCreateDataStructOutput } from "../client/assethub/abi/LiteAssetHubManager";
+import { HubCreateDataStruct } from "../client/assethub/abi/LiteAssetHubManager";
 import { INGORED_ADDRESS, ZERO_BYTES } from "../core";
 import { PayableOverrides } from "../client/assethub/abi";
 import { HubTokenFeeConfigStructOutput } from "../client/assethub/abi/TokenGlobalModule";
@@ -11,12 +11,12 @@ export function useDeployNewAssetHub() {
   const { assetHubManager } = useAssetHub();
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<string>();
-  const zeroAssetHubCreateData: Partial<HubCreateDataStructOutput> = {
+  const zeroAssetHubCreateData: Partial<HubCreateDataStruct> = {
     admin: ZeroAddress,
     name: "",
     createModule: ZeroAddress,
   }
-  const deploy = async (data: HubCreateDataStructOutput) => {
+  const deploy = async (data: HubCreateDataStruct) => {
     if (!assetHubManager) {
       throw new Error("AssetHubManager not found");
     }
@@ -34,11 +34,30 @@ export function useDeployNewAssetHub() {
       await res.wait();
       console.log("asset hub created: ", hub);
       setData(hub);
+      return hub;
     } finally {
       setIsLoading(false);
     }
   }
   return { deploy, data, isLoading };
+}
+
+export function useHasNamedHub() {
+  const { assetHubManager } = useAssetHub();
+  const [loading, setLoading] = useState(false);
+  const hasNamedHub = async (hubId: string) => {
+    if (!assetHubManager) {
+      throw new Error("AssetHubManager not found");
+    }
+    setLoading(true);
+    try {
+      const exists = await assetHubManager.assetHubInfoByName(hubId);
+      return exists.feeCollectModule !== ZeroAddress;
+    } finally {
+      setLoading(false);
+    }
+  }
+  return { hasNamedHub, isLoading: loading };
 }
 
 export type AssetCreateData = Partial<DataTypes.AssetCreateDataStruct>;

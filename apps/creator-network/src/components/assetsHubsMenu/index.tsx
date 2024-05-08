@@ -35,7 +35,7 @@ const AssetHubsMenu = () => {
       return data?.[0]
     }
     return data?.find((item: AssetHubsMenuType) => {
-      return item.name === selectedKeys
+      return item.id === selectedKeys
     })
   }, [data, selectedKeys])
 

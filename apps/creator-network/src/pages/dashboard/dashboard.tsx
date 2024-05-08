@@ -2,16 +2,25 @@ import AssetsHubsInfo from '~/pages/dashboard/components/assetsHubsInfo';
 import AssetsTotalCount from './components/assetsTotalCount';
 import { useAssetHub } from '@repo/ui/asset';
 import Typography from "antd/es/typography";
+import { CreateHubModal } from '~/components/hub/CreateHub';
+import { useState } from 'react';
+import Button from 'antd/es/button';
+import { PlusSquareOutlined } from '@ant-design/icons';
 
 const { Title } = Typography;
 
 const DashboardPage = () => {
-  const { hubInfo } = useAssetHub();
+  const { hubInfo, changeHub } = useAssetHub();
+  const [open, setOpen] = useState(false);
 
   return (
+    <>
     <div className='w-full h-full relative'>
-      <h2 className="frc-between mb-4">
-        <Title level={2}>控制面板</Title>
+      <h2 className="w-full mb-4">
+        <div className="frc-between">
+          <Title level={2}>控制面板</Title>
+          <Button disabled={!hubInfo?.id} type="primary" icon={<PlusSquareOutlined />} onClick={() => setOpen(true)}>创建Hub</Button>
+        </div>
       </h2>
       {hubInfo?.id && <div className='w-full frc-between gap-4 bg-#dedede40 px-4 py-4 rounded-2'>
         <div className='flex-0'>
@@ -27,6 +36,15 @@ const DashboardPage = () => {
         </svg>
       </div>
     </div>
+    <CreateHubModal
+        onCancel={() => setOpen(false)}
+        open={open}
+        onFinish={(hub) => {
+          setOpen(false);
+          changeHub(hub.hub);
+        }}
+      />
+    </>
   )
 }
 
