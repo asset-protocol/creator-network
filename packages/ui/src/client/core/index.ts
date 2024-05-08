@@ -8,6 +8,7 @@ export type Asset = {
   type: AssetType;
   name: string;
   image: string;
+  hub: string;
   content: string;
   description: string;
   contractAddress: string;

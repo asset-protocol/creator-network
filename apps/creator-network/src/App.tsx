@@ -4,6 +4,7 @@ import {
   CloudOutlined,
   ApartmentOutlined,
   UserOutlined,
+  CloudServerOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu, theme } from 'antd';
@@ -47,6 +48,11 @@ const App: React.FC = () => {
           label: '资产管理',
         }, 
         {
+          key: 'curations',
+          icon: <CloudServerOutlined />,
+          label: '策展管理',
+        }, 
+        {
           key: 'assets-person',
           icon: <UserOutlined />,
           label: '个人资产',
@@ -69,6 +75,11 @@ const App: React.FC = () => {
         key: 'assets',
         icon: <CloudOutlined />,
         label: '资产管理',
+      }, 
+      {
+        key: 'curations',
+        icon: <CloudServerOutlined />,
+        label: '策展管理',
       }, 
       {
         key: 'version',
