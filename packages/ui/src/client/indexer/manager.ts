@@ -6,6 +6,9 @@ query GetHubManager {
   hubManagers {
     globalModule
     id
+    globalModule
+    curation
+    hubCreatorNft
     timestamp
   }
 }
@@ -14,6 +17,8 @@ query GetHubManager {
 export type AssetHubManagerInfo = {
   id: string;
   globalModule: string;
+  curation: string;
+  hubCreatorNft: string;
   timestamp: string;
 }
 

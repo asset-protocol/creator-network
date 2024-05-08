@@ -8,6 +8,7 @@ export function AssetItem(props: {
   value: Asset;
   onClick?: (asset: Asset) => void;
   classname?: string;
+  footer?: React.ReactNode;
 }) {
   const { value } = props;
   const replaceUri = useReplaceUri();
@@ -82,6 +83,16 @@ export function AssetItem(props: {
             {fromNow(Number.parseInt(value.timestamp.toString()))}
           </div>
         </div>
+        {props.footer ? (
+          props.footer
+        ) : (
+          <div className="flex items-center justify-between">
+            <div>{value.collectCount?.toString() ?? 0} Collected</div>
+            <div className="text-gray-500">
+              {fromNow(Number.parseInt(value.timestamp.toString()))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
