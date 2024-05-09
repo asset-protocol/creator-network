@@ -6,7 +6,8 @@ import { useNavigateAssetHub } from "~/utils/route";
 import Typography from "antd/es/typography";
 import { useAccount } from "wagmi";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import AssetsTags from "~/components/assetsTags";
 
 const { Title } = Typography;
 
@@ -17,6 +18,7 @@ const AssetsPage = () => {
   const navigate = useNavigate();
   const account = useAccount()
   const { openConnectModal } = useConnectModal();
+  const [selectedTags, setSelectTags] = useState<string[]>([]);
 
   const hubId = useMemo(() => {
     return hubInfo?.id ?? ''
@@ -44,11 +46,21 @@ const AssetsPage = () => {
         <Button disabled={!hubInfo?.id} type="primary" icon={<PlusSquareOutlined />} onClick={onClick}>创建资产</Button>
         </div>
       </h2>
-      {hubId && <AssetList
-        hub={hubId}
+      {hubId && <>
+        <AssetsTags onChange={setSelectTags}/>
+        <AssetList
+        query={{
+          hub: hubId,
+          first: 9999,
+          tags: selectedTags.map((t) => t.toLowerCase()),
+          fetchPolicy: "no-cache",
+          orderBy: ["timestamp_DESC"],
+          skipFunc: (args) => !args.hub,
+        }}
         grid={{ column: 4, gutter: 12, xs: 2, sm: 3 }}
         onAssetClick={hanldeClickAsset}
-      ></AssetList>}
+      ></AssetList>
+      </>}
     </div>
   )
 }
