@@ -4,8 +4,6 @@ import { StorageScheme, creatorNetwork, getStorage } from "@creator-network/core
 import { HubInfoContext, HubInfoProvider } from "./hub-info";
 import { getInjectedProviders } from "./provider-inject";
 import { ApolloClient, ApolloProvider } from "@apollo/client";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
 
 export type AccountInfo = {
   address: string;
@@ -32,7 +30,6 @@ export type AssetProviderProps = {
   children?: React.ReactNode;
 };
 
-const queryClient = new QueryClient();
 export function AssetProvider(props: AssetProviderProps) {
   const [storage, setStorage] = useState<StorageScheme | undefined>(props.storage);
   const value = {
@@ -47,14 +44,12 @@ export function AssetProvider(props: AssetProviderProps) {
   );
   return (
     <AssetContext.Provider value={value}>
-      <QueryClientProvider client={queryClient}>
-        <ApolloProvider client={props.grapqlClient}>
-          <HubInfoProvider
-            signer={props.signer}
-            children={children}
-          />
-        </ApolloProvider>
-      </QueryClientProvider>
+      <ApolloProvider client={props.grapqlClient}>
+        <HubInfoProvider
+          signer={props.signer}
+          children={children}
+        />
+      </ApolloProvider>
     </AssetContext.Provider>
   );
 }

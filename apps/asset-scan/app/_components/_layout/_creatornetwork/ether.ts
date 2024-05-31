@@ -2,6 +2,18 @@ import { BrowserProvider, FallbackProvider, JsonRpcProvider, JsonRpcSigner } fro
 import { useMemo } from 'react'
 import type { Account, Chain, Client, Transport } from 'viem'
 import { type Config, useClient, useConnectorClient } from 'wagmi'
+import { createPublicClient, http } from 'viem'
+import { baseSepolia } from 'viem/chains'
+
+export function createRpcClient() {
+  const publicClient = createPublicClient({
+    chain: baseSepolia,
+    transport: http()
+  })
+  return publicClient;
+}
+
+export const publicEthProvider = clientToProvider(createRpcClient());
 
 export function clientToProvider(client: Client<Transport, Chain>) {
   const { chain, transport } = client

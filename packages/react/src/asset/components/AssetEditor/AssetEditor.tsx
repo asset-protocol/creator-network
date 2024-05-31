@@ -1,4 +1,3 @@
-"use client"
 import { AssetMetadataEditor } from "./AssetMetadataEditor";
 import clsx from "clsx";
 import {

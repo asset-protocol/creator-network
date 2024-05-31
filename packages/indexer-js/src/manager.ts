@@ -1,5 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { useMemo } from "react";
+import { apolloClient } from "./client";
 
 const GET_HUB_MANAGER = gql`
 query GetHubManager {
@@ -28,4 +29,12 @@ export function useGetHubManager() {
     return data?.hubManagers[0];
   }, [data])
   return { data: manager, ...res }
+}
+
+export async function fetchHubManager() {
+  const client = apolloClient();
+  const data = await client.query<{ hubManagers: AssetHubManagerInfo[] }>({
+    query: GET_HUB_MANAGER
+  });
+  return data.data.hubManagers[0];
 }

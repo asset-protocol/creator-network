@@ -4,3 +4,4 @@ export * from "./collect";
 export * from "./blob";
 export * from "./manager";
 export * from "./curation";
+export * from "./client";

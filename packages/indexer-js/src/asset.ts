@@ -3,6 +3,7 @@ import { WatchQueryFetchPolicy, gql, useApolloClient, useQuery } from '@apollo/c
 import { ASSET_FIELDS } from './fragments'
 import { Asset } from '@creator-network/core';
 import { useState } from 'react';
+import { apolloClient } from './client';
 
 export type GqlAssetList<T> = {
   assetsConnection: {
@@ -145,7 +146,7 @@ export function useGetAssetById(assetId: bigint, hub: string) {
 }
 
 export async function fetchAssetById(hub: string, assetId: string) {
-  const client = useApolloClient();
+  const client = apolloClient();
   const res = await client.query<GqlAssetList<Asset>>({
     query: GET_HUb_ASSETS_BY_ID,
     fetchPolicy: "no-cache",
