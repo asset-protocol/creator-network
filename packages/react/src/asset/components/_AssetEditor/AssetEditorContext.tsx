@@ -1,0 +1,125 @@
+import {
+  ReactNode,
+  createContext,
+  useCallback,
+  useContext,
+  useState,
+} from "react";
+import { AssetMetadata, AssetModule, Asset } from "@creator-network/core";
+
+export type AssetMetadataEditData = Omit<AssetMetadata, "type" | "content">;
+
+export type AssetEditorContextData = {
+  asset?: Asset;
+
+  type: string;
+  setType: (t: string) => void;
+
+  hub?: string;
+  setHub(h: string): void;
+
+  metadata?: AssetMetadataEditData;
+  setMetadata(m?: AssetMetadataEditData): void;
+
+  content?: string;
+  setContent: (c?: string) => void;
+
+  collectModule?: AssetModule;
+  setCollectModule(m?: AssetModule): void;
+
+  gatedModule?: AssetModule;
+  setGatedModule(m?: AssetModule): void;
+
+  publishedAssetId: false | bigint;
+  setPublished(assetId: bigint): void;
+};
+
+const AssetEditorContext = createContext<AssetEditorContextData>(
+  {} as AssetEditorContextData
+);
+
+export type AssetEditorProviderProps = {
+  asset?: Asset;
+  children?: ReactNode;
+  defaultType?: string;
+};
+
+function useAsetMeataData(asset?: Asset) {
+  return useState<AssetMetadataEditData | undefined>(() => {
+    return asset && asset.metadata;
+  });
+}
+
+export function AssetEditorProvider(props: AssetEditorProviderProps) {
+  const { children, asset } = props;
+  const [type, setType] = useState<string>(
+    asset?.type ?? props.defaultType ?? "default"
+  );
+  const [hub, setHub] = useState<string | undefined>(asset?.hub);
+  const [metadata, setMetadata] = useAsetMeataData(asset);
+  const [content, setContent] = useState<string | undefined>(asset?.content);
+  const [collectModule, setCollectModule] = useState<AssetModule | undefined>(
+    () => {
+      if (asset?.collectModule) {
+        return {
+          module: asset.collectModule,
+          initData: asset.collectModuleInitData,
+        };
+      }
+      return undefined;
+    }
+  );
+  const [gatedModule, setGatedModule] = useState<AssetModule | undefined>(
+    () => {
+      if (asset?.gatedModule) {
+        return {
+          module: asset.gatedModule,
+          initData: asset.gatedModuleInitData,
+        };
+      }
+      return undefined;
+    }
+  );
+  const [publishedAssetId, setPublished] = useState<bigint | false>(false);
+
+  const value: AssetEditorContextData = {
+    asset: asset,
+    type,
+    setType: useCallback(
+      (t) => {
+        const cachedContent = localStorage.getItem("asset:conent:" + t);
+        if (cachedContent) {
+          setContent(cachedContent);
+        } else {
+          setContent(undefined);
+        }
+        setType(t);
+      },
+      [setType, setContent]
+    ),
+    hub,
+    setHub,
+    metadata,
+    setMetadata,
+    content,
+    setContent,
+    collectModule,
+    setCollectModule,
+    gatedModule,
+    setGatedModule,
+    publishedAssetId: publishedAssetId,
+    setPublished: setPublished,
+  };
+
+  return (
+    <AssetEditorContext.Provider
+      value={value}
+      children={children}
+    ></AssetEditorContext.Provider>
+  );
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export function useAssetEditor() {
+  return useContext(AssetEditorContext);
+}

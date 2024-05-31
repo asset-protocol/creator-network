@@ -1,0 +1,16 @@
+.ql-toolbar.ql-snow {
+  border-width: 0px;
+}
+.ql-container.ql-snow {
+  border-width: 0px;
+  font-size: 18px;
+}
+
+.ql-editor {
+  padding: 0px;
+}
+
+.ql-editor p {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
