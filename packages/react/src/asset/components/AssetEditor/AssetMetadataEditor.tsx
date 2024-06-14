@@ -27,5 +27,7 @@ export function AssetMetadataEditor(props: AssetContentEditorProps) {
     }
   }, [editorProvider]);
 
+  console.log(type, Editor);
+
   return Editor ? <Editor {...props.editorProps} /> : null;
 }

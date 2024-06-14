@@ -48,7 +48,7 @@ export function CollectModal(props: CollectModalProps) {
       const options = {};
       if (collectModule?.beforeCollect) {
         const success = await collectModule.beforeCollect(
-          asset.assetId,
+          BigInt(asset.assetId),
           options
         );
         if (!success) return;
@@ -59,7 +59,7 @@ export function CollectModal(props: CollectModalProps) {
       }
       const tokenId = await collect(
         asset.hub,
-        asset.assetId,
+        BigInt(asset.assetId),
         {
           collectData: ZERO_BYTES,
         },

@@ -1,5 +1,3 @@
-'use client';
-
 import { useEffect } from 'react';
 
 const Content = (): JSX.Element => {

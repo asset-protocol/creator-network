@@ -9,4 +9,7 @@ export type AssetHubInfo = {
   timestamp: bigint
   version: string
   hash: string
+
+  image: string
+  description: string
 }

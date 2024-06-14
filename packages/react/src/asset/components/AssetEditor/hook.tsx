@@ -10,21 +10,19 @@ import { tokenGlobalModule } from '@creator-network/web3';
 export type PublishFromDataType = {
   // storage: StorageScheme;
   useCollect: boolean;
-  hub?: string;
   collectModule?: AssetModule;
   gatedModule?: AssetModule;
 };
 
 export function usePublishFormValues() {
-  const { collectModule, hub } = useAssetEditor();
+  const { collectModule } = useAssetEditor();
   const initialValues: PublishFromDataType = useMemo(() => {
     return {
       useCollect:
         (collectModule && collectModule.module !== ZeroAddress) ?? false,
       collectModule,
-      hub,
     };
-  }, [collectModule, hub]);
+  }, [collectModule]);
   return initialValues;
 }
 
@@ -42,15 +40,13 @@ export function useAssetPublish() {
   const [tip, setTip] = useState<string>();
 
   const publish = async (
+    hub: string,
     values: PublishFromDataType,
     config?: tokenGlobalModule.AssetTokenConfigStructOutput
   ) => {
     setLoading(true);
     let assetId = asset?.assetId;
     try {
-      if (!values.hub) {
-        throw new Error("Please select a hub");
-      }
       const newData: UpdateAssetInput = {};
       let newConent = content;
       setTip("Saving content...");
@@ -101,16 +97,16 @@ export function useAssetPublish() {
         if (config) {
           await approve(config.token, config.updateFee);
         }
-        await update(values.hub, asset.assetId, newData);
+        await update(hub, BigInt(asset.assetId), newData);
       } else {
         setTip("Ceating asset...");
         if (config) {
           await approve(config.token, config.createFee);
         }
-        assetId = await create(values.hub, {
+        assetId = (await create(hub, {
           ...newData,
           assetCreateModuleData: ZERO_BYTES,
-        });
+        }))?.toString();
       }
       setCollectModule(values.collectModule);
       setGatedModule(values.gatedModule);

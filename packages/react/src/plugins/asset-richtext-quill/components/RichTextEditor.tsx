@@ -1,8 +1,8 @@
 import { useRef } from "react";
 import QuillEditor from "./QuillEditor";
-import { selectFile } from "../utils/file";
+import { selectFile } from "../../../utils/file";
 import Quill from "quill";
-import { useAssetEditor } from "../../../asset";
+import { useAssetEditor } from "../../../asset/components/AssetEditor";
 export type RichTextEditorProps = {
   className?: string;
   [key: string]: any;

@@ -7,4 +7,5 @@ export default function tokenCollectModulePlugin(opts: TokenCollectModuleOptions
   });
 }
 export * from './TokenCollectModule';
-export * from './components/TokenCollectModuleItem'
+export * from './components/TokenCollectModuleItem';
+export * from './parsedata';

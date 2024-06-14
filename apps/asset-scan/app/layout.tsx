@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Plugins } from "./_components/_layout/_creatornetwork/plugins";
+import { indexerClient, useStorage } from "./_creatornetwork";
+import { AppHeader } from "./_components/_layout/AppHeader";
+import clsx from "clsx";
+import { AppProviders } from "./_components/_layout/AppRoot";
+import { Layout } from "antd";
+import { Content } from "antd/es/layout/layout";
+import { AntdRegistry } from '@ant-design/nextjs-registry';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -10,16 +16,26 @@ export const metadata: Metadata = {
   description: "Asset Scan",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  useStorage();
+  const manager = await indexerClient.manager.fetchHubManager();
   return (
-    <html lang="en" title="111">
-      <body className={inter.className}>
-        <Plugins />
-        {children}
+    <html lang="en">
+      <body className={clsx(inter.className)}>
+        <AppProviders manager={manager}>
+          <AntdRegistry>
+            <Layout>
+              <AppHeader />
+              <Content className="w-full bg-base-100">
+                {children}
+              </Content>
+            </Layout>
+          </AntdRegistry>
+        </AppProviders>
       </body>
     </html>
   );

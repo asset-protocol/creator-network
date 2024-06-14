@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import Vditor from "deschool-vditor";
 import React from "react";
 import { Asset, replaceUri } from "@creator-network/core";
-import { AssetViewerHeader } from "../../../asset";
 
 export default function MarkdownViewer({ value }: { value: Asset }) {
   const editorRef = React.useRef<HTMLDivElement>(null);

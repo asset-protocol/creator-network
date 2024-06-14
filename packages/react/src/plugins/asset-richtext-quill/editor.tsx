@@ -22,7 +22,6 @@ const richtextEditor = (config: AssetConfig) => {
       const { storage } = useAssetHub();
       return async (cur) => {
         const content = new Delta(JSON.parse(cur));
-        console.log("useBeforePublish", content);
         for (const op of content.ops) {
           if (op.insert && typeof op.insert === "object") {
             if (

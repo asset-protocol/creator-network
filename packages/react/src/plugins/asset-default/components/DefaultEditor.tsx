@@ -1,4 +1,4 @@
-import { useAssetEditor } from "../../../asset/components/_AssetEditor/AssetEditorContext";
+import { useAssetEditor } from "../../../asset/components/AssetEditor";
 
 export default function ContentEditor() {
   const { content, setContent } = useAssetEditor();

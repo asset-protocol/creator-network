@@ -1,10 +1,9 @@
 import { DeleteOutlined, InboxOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
-import { useAssetEditor } from "../../../asset";
 import { replaceUri } from "@creator-network/core";
 import { Button, Upload } from "../../../ui";
+import { useAssetEditor } from "../../../asset/components/AssetEditor";
 import { uuidV4 } from "ethers";
-import { randomUUID } from "crypto";
 
 export type ImageFileInfo = {
   uid: string;
@@ -29,7 +28,7 @@ export default function ImageEditor() {
     if (!fileList) {
       return;
     }
-    const newFiles = value?.map(v => ({ uid: randomUUID().toString(), url: v }));
+    const newFiles = value?.map(v => ({ uid: new Date().getTime().toString(), url: v }));
     if (newFiles) {
       setFiles([...files, ...newFiles]);
     }

@@ -7,8 +7,9 @@ import { parseTokenCollectInitData } from "./parsedata";
 import { TokenCollectView, NoBalanceText } from "./components/TokenCollectView";
 import { formatEther } from "ethers";
 import { Asset, AssetModule, EtherAddress } from "@creator-network/core";
-import { ICollectModule, UseCollectModule } from "../../collect";
+import { CollectModuleInputProps, ICollectModule, UseCollectModule } from "../../collect";
 import { NewERC20 } from "@creator-network/web3";
+import { ReactElement } from "react";
 
 function useTokenCollect(
   asset: Asset,
@@ -46,6 +47,7 @@ function useTokenCollect(
 export type TokenCollectModuleOptions = {
   moduleContract: EtherAddress;
   tokens: Erc20Token[];
+  input?: ReactElement<CollectModuleInputProps>;
 };
 
 export function TokenCollectModule(
@@ -54,7 +56,7 @@ export function TokenCollectModule(
   return {
     moduleContract: opts.moduleContract,
     label: "Collect for Token",
-    inputNode: (
+    inputNode: (opts.input ??
       <TokenCollectModuleItem
         module={opts.moduleContract}
         tokens={opts.tokens}

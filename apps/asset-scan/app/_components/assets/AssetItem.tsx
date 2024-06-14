@@ -1,4 +1,3 @@
-`use client`
 import { Avatar, Image, Skeleton, Tag } from "antd";
 import { Asset, replaceUri } from '@creator-network/core';
 import { PresetColors } from "antd/es/theme/interface";

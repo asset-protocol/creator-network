@@ -26,9 +26,11 @@ export class ArwaveStorage implements IStorage {
     await window.arweaveWallet.connect(["SIGN_TRANSACTION"]);
 
     const tx = await this.ar.createTransaction({ data });
+    if (args.contentType) {
+      tx.addTag('Content-Type', args.contentType);
+    }
     await this.ar.transactions.sign(tx);
     const uploader = await this.ar.transactions.getUploader(tx);
-
     while (!uploader.isComplete) {
       await uploader.uploadChunk();
       console.log(`${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`);

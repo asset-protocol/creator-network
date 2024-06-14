@@ -4,8 +4,9 @@ import { ZeroAddress, formatEther } from "ethers";
 import { useAssetHub } from "../../context";
 import { AddressLink } from "../../components";
 import { Asset, AssetModule, EtherAddress } from "@creator-network/core";
-import { ICollectModule, UseCollectModule } from "../../collect";
+import { CollectModuleInputProps, ICollectModule, UseCollectModule } from "../../collect";
 import { PayableOverrides } from "@creator-network/web3";
+import { ReactElement, ReactNode } from "react";
 
 export type FeeCollectViewProps = {
   config?: FeeConfig;
@@ -42,11 +43,11 @@ function useFeeCollect(asset: Asset, collectModule: AssetModule): UseCollectModu
   };
 }
 
-export function FeeCollectModule(contract: EtherAddress): ICollectModule {
+export function FeeCollectModule(contract: EtherAddress, inputNode?: ReactElement<CollectModuleInputProps>): ICollectModule {
   return {
     moduleContract: contract,
     label: "Fee Collect",
-    inputNode: <FeeCollectModuleItem module={contract} />,
+    inputNode: inputNode ?? <FeeCollectModuleItem module={contract} />,
     useCollect: useFeeCollect,
   };
 }

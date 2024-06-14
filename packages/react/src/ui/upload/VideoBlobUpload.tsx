@@ -27,7 +27,7 @@ export function VideoBlobUpload(props: VideoBlobUploadProps) {
         onChange={handleOnChange}
       >
         {props.children ? props.children :
-          <p className="ant-upload-text">
+          <p className="bg-gray-400 w-full aspect-video m-auto">
             Click or drag video file to this area to upload
           </p>}
       </Upload>

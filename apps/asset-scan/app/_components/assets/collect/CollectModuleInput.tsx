@@ -51,7 +51,7 @@ export function CollectModuleInput() {
                 {({ getFieldValue, setFieldValue }) => {
                   const module = getFieldValue(["collectModule", "module"]);
                   if (!module || module === ZeroAddress) {
-                    setFieldValue(["collectModule", "module"], opts[0].value);
+                    setFieldValue(["collectModule", "module"], opts[0]?.value);
                     return;
                   }
                   const content = collectModules().find(

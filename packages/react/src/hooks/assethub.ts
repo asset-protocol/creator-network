@@ -1,11 +1,11 @@
-import { HubCreateDataStruct, NewAssetHub, NewTokenGlobalModule, PayableOverrides, assethub, tokenGlobalModule } from "@creator-network/web3";
+import { HubCreateDataStruct, NewAssetHub, NewAssetHubManager, NewTokenGlobalModule, PayableOverrides, assethub, tokenGlobalModule } from "@creator-network/web3";
 import { useAssetHub } from "../context/provider";
 import { BytesLike, ZeroAddress } from 'ethers';
 import { useEffect, useState } from "react";
 import { INGORED_ADDRESS, ZERO_BYTES } from "@creator-network/core";
 
 export function useDeployNewAssetHub() {
-  const { assetHubManager, contractRunner } = useAssetHub();
+  const { manager, contractRunner } = useAssetHub();
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<string>();
   const zeroAssetHubCreateData: Partial<HubCreateDataStruct> = {
@@ -14,8 +14,8 @@ export function useDeployNewAssetHub() {
     createModule: ZeroAddress,
   }
   const deploy = async (data: HubCreateDataStruct) => {
-    if (!assetHubManager) {
-      throw new Error("AssetHubManager not found");
+    if (!contractRunner || !manager) {
+      throw new Error("contractRunner not found");
     }
     setIsLoading(true);
     try {
@@ -27,6 +27,7 @@ export function useDeployNewAssetHub() {
         ...data,
       };
       let hub: string | undefined;
+      const assetHubManager = NewAssetHubManager(contractRunner, manager.id)
       if (!contractRunner?.isMulti) {
         hub = await assetHubManager.deploy.staticCall(createData);
       }
@@ -43,14 +44,15 @@ export function useDeployNewAssetHub() {
 }
 
 export function useHasNamedHub() {
-  const { assetHubManager } = useAssetHub();
+  const { manager, contractRunner } = useAssetHub();
   const [loading, setLoading] = useState(false);
   const hasNamedHub = async (hubId: string) => {
-    if (!assetHubManager) {
-      throw new Error("AssetHubManager not found");
+    if (!contractRunner || !manager) {
+      throw new Error("ContractRunner is not set");
     }
     setLoading(true);
     try {
+      const assetHubManager = NewAssetHubManager(contractRunner, manager.id)
       const exists = await assetHubManager.assetHubInfoByName(hubId);
       return exists.feeCollectModule !== ZeroAddress;
     } finally {
@@ -155,7 +157,6 @@ export function useCollectAsset() {
       const res = await assetHub.collect(assetId, collectData.collectData, options ?? {});
       await res.wait();
       return tokeNftId;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } finally {
       setIsLoading(false);
     }
@@ -163,8 +164,8 @@ export function useCollectAsset() {
   return { collect, isLoading };
 }
 
-export function useGetHubGlobalModuleConfig(hub?: string) {
-  const { hubManagerInfo, contractRunner } = useAssetHub();
+export function useGetHubGlobalModuleConfig(globalModule: string, hub?: string) {
+  const { contractRunner } = useAssetHub();
   const [loading, setLoading] = useState(false);
   const [config, setConfig] = useState<tokenGlobalModule.AssetTokenConfigStructOutput>();
 
@@ -172,21 +173,19 @@ export function useGetHubGlobalModuleConfig(hub?: string) {
     getConfig(hub).then((res) => {
       setConfig(res);
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hub]);
 
   const getConfig = async (hub?: string) => {
-    if (!hubManagerInfo || !hub) {
+    if (!hub) {
       return;
     }
-    if (hubManagerInfo.globalModule === ZeroAddress) {
+    if (globalModule === ZeroAddress) {
       return;
     }
     try {
       setLoading(true);
-      const module = NewTokenGlobalModule(contractRunner!, hubManagerInfo.globalModule);
+      const module = NewTokenGlobalModule(contractRunner!, globalModule);
       const res = await module.assetHubConfig(hub);
-      console.log("config", res);
       return res;
     } finally {
       setLoading(false);

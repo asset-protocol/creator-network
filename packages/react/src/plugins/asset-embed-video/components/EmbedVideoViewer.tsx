@@ -1,6 +1,5 @@
 import { Asset, replaceUri } from "@creator-network/core";
 import { VideoPlayer } from "../../../ui/VideoPlayer/VideoPalyer";
-import { AssetViewerHeader } from "../../../asset";
 
 export default function EmbedVideoViewer({
   value,

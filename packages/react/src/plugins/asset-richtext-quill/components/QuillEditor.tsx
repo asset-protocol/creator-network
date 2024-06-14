@@ -69,7 +69,7 @@ const QuillEditor = forwardRef<QuillEdtorInstance, QuillEditorProps>(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    return <div ref={containerRef}></div>;
+    return <div ref={containerRef} className={props.className}></div>;
   }
 );
 QuillEditor.displayName = "QuillEditor";

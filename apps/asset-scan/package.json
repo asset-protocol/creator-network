@@ -10,17 +10,21 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.3.7",
+    "@ant-design/nextjs-registry": "^1.0.0",
     "@apollo/client": "^3.10.4",
-    "@rainbow-me/rainbowkit": "^2.0.4",
+    "@rainbow-me/rainbowkit": "^2.1.2",
+    "@safe-global/api-kit": "^2.4.1",
+    "@safe-global/protocol-kit": "^4.0.1",
     "@tanstack/react-query": "^5.40.0",
     "antd": "^5.17.4",
     "clsx": "^2.1.0",
     "ethers": "^6.11.1",
+    "lucide-react": "^0.394.0",
     "next": "14.2.3",
     "react": "^18",
     "react-dom": "^18",
-    "viem": "^2.9.5",
-    "wagmi": "^2.5.16"
+    "viem": "^2.13.3",
+    "wagmi": "^2.9.8"
   },
   "devDependencies": {
     "@creator-network/core": "workspace:^",
@@ -30,6 +34,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "daisyui": "^4.11.1",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
     "postcss": "^8",

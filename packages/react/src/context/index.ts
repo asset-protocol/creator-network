@@ -1,2 +1,1 @@
-export * from './provider'
-export * from './hub-info'
+export * from './provider';

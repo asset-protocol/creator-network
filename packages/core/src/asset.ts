@@ -21,7 +21,7 @@ export type AssetModule = {
 
 export type Asset = {
   id: string;
-  assetId: bigint;
+  assetId: string;
   hub: string;
   hubName: string;
   type: AssetType;
@@ -32,15 +32,15 @@ export type Asset = {
   contractAddress: string;
   publisher: string;
   contentUri?: string;
-  timestamp: bigint;
-  lastUpdatedAt: bigint;
+  timestamp: string;
+  lastUpdatedAt: string;
   hash: string;
   tags?: { name: string }[];
   metadata?: AssetMetadata;
   collectModule?: string;
   collectModuleInitData?: string;
   collectNft?: string;
-  collectCount?: bigint;
+  collectCount?: string;
   gatedModule?: string
   gatedModuleInitData?: string
   query1?: string;

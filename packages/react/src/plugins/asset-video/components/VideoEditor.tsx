@@ -1,4 +1,4 @@
-import { useAssetEditor } from "../../../asset";
+import { useAssetEditor } from "../../../asset/components/AssetEditor";
 import { VideoBlobUpload } from "../../../ui";
 
 export default function VideoEditor() {

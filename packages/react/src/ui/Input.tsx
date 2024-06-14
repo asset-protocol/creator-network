@@ -9,7 +9,7 @@ export function NumberInput(props: NumberInputProps) {
   const { before, after, className, ...res } = props;
   return <label className={clsx("input input-bordered flex items-center gap-2", className)}>
     {before}
-    <input type="number" className="grow" {...res} />
+    <input type="number" className="grow max-w-[120px]" {...res} />
     {after}
   </label>
 }

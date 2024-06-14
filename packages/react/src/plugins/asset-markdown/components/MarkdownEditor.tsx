@@ -3,17 +3,18 @@ import "deschool-vditor/dist/index.css";
 import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import { useFetchBlob } from "@creator-network/indexer-js";
-import { useAssetEditor } from "../../../asset";
 import { replaceUri } from "@creator-network/core";
+import { useAssetEditor } from "../../../asset/components/AssetEditor";
+import { useAssetHub } from "../../../context";
 export type MarkdownEditorProps = {
   className?: string;
 };
 
 export default function MarkdownEditor(props: MarkdownEditorProps) {
+  const { apiClient } = useAssetHub();
   const { content, setContent } = useAssetEditor();
   const editorRef = React.useRef<HTMLDivElement>(null);
   const [vd, setVd] = useState<Vditor>();
-  const fetchBlob = useFetchBlob();
 
   useEffect(() => {
     if (!editorRef.current) {
@@ -50,7 +51,7 @@ export default function MarkdownEditor(props: MarkdownEditorProps) {
           return res.map((r) => r.uri).join("\n");
         },
         linkToImgHandler: async (url) => {
-          const data = await fetchBlob(url);
+          const data = await apiClient.blobs.fetchBlob(url);
           if (data) {
             return URL.createObjectURL(data);
           }

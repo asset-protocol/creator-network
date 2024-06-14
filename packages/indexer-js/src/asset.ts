@@ -1,9 +1,6 @@
-"use client"
-import { WatchQueryFetchPolicy, gql, useApolloClient, useQuery } from '@apollo/client'
+import { ApolloClient, FetchPolicy, WatchQueryFetchPolicy, gql, useApolloClient, useQuery } from '@apollo/client'
 import { ASSET_FIELDS } from './fragments'
 import { Asset } from '@creator-network/core';
-import { useState } from 'react';
-import { apolloClient } from './client';
 
 export type GqlAssetList<T> = {
   assetsConnection: {
@@ -50,7 +47,7 @@ export type GetAssetHubAssetsInput = {
   first?: number,
   after?: string,
   orderBy?: AssetsOrderBy[]
-  fetchPolicy?: WatchQueryFetchPolicy
+  fetchPolicy?: FetchPolicy
   skipFunc?: (args: GetAssetHubAssetsInput) => boolean
 }
 
@@ -145,15 +142,6 @@ export function useGetAssetById(assetId: bigint, hub: string) {
   return { ...res, asset: data?.assetsConnection.edges?.[0]?.node }
 }
 
-export async function fetchAssetById(hub: string, assetId: string) {
-  const client = apolloClient();
-  const res = await client.query<GqlAssetList<Asset>>({
-    query: GET_HUb_ASSETS_BY_ID,
-    fetchPolicy: "no-cache",
-    variables: { assetId: assetId.toString(), hub: hub, orderBy: "timestamp_DESC" },
-  })
-  return res.data.assetsConnection.edges?.[0]?.node;
-}
 
 const REFRESH_ASSET_METADATA = gql`
 query RefreshMetatData($assetId:String!, $hub:String!){
@@ -162,11 +150,9 @@ query RefreshMetatData($assetId:String!, $hub:String!){
 `
 export function useRefreshAssetMetadata() {
   const client = useApolloClient();
-  const [loading, setLoading] = useState(false);
 
   const refresh = async (assetId: bigint, hub: string) => {
     try {
-      setLoading(true)
       const res = await client.query<{ refreshMetatData: boolean }>({
         query: REFRESH_ASSET_METADATA,
         variables: { assetId: assetId.toString(), hub },
@@ -174,10 +160,9 @@ export function useRefreshAssetMetadata() {
       });
       return res.data.refreshMetatData;
     } finally {
-      setLoading(false);
     }
   }
-  return { refresh, loading }
+  return { refresh }
 }
 
 const GET_ASSET_TAG_NAMES = gql`
@@ -188,10 +173,53 @@ query GetAssetTagNames($keyword: String, $limit: Float){
   }
 }
 `;
+
+
 export function useGetAssetTagNames(keyword?: string, limit?: number) {
   const { data, ...res } = useQuery<{ assetTagNames: { name: string, count: number }[] }>(GET_ASSET_TAG_NAMES, {
     variables: { keyword, limit },
     fetchPolicy: "no-cache",
   })
   return { ...res, data: data?.assetTagNames }
+}
+
+export class AssetsAPI {
+  constructor(private client: ApolloClient<unknown>) {
+
+  }
+
+  async fetchAssetTags(keyword?: string, limit?: number) {
+    const { data } = await this.client.query<{ assetTagNames: { name: string, count: number }[] }>(
+      {
+        query: GET_ASSET_TAG_NAMES,
+        variables: { keyword, limit },
+        fetchPolicy: "no-cache",
+      }
+    )
+    return data.assetTagNames;
+  }
+
+  async fetchAssetById(hub: string, assetId: string) {
+    const res = await this.client.query<GqlAssetList<Asset>>({
+      query: GET_HUb_ASSETS_BY_ID,
+      fetchPolicy: "no-cache",
+      variables: { assetId: assetId.toString(), hub: hub, orderBy: "timestamp_DESC" },
+    })
+    return res.data.assetsConnection.edges?.[0]?.node;
+  }
+
+  async fetchAssets(args?: GetAssetHubAssetsInput) {
+    const { data } = await this.client.query<GqlAssetList<Asset>>({
+      query: GET_HUb_ASSETS(args?.tags),
+      variables: { ...defaultInput, ...args },
+      fetchPolicy: args?.fetchPolicy,
+    });
+    return {
+      assets: data?.assetsConnection.edges.map(a => {
+        return a.node;
+      }),
+      pageInfo: data?.assetsConnection.pageInfo
+    }
+  }
+
 }

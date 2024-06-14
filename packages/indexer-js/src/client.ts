@@ -1,53 +1,36 @@
-import { CreatorNetwork, creatorNetwork } from "@creator-network/core";
 import { ApolloClient, InMemoryCache, InMemoryCacheConfig } from '@apollo/client';
+import { AssetsAPI } from "./asset";
+import { AssetHubAPI } from "./assethub";
+import { ManagerAPI } from "./manager";
+import { CurationAPI } from "./curation";
+import { BlobAPI } from "./blob";
 
-export class IndexerClientConfig {
-  private _apolloClient?: ApolloClient<unknown>;
+export class IndexerClient {
+  private _apolloClient: ApolloClient<unknown>;
 
-  get apolloClient() {
-    return this._apolloClient;
+  get assets() {
+    return new AssetsAPI(this._apolloClient);
   }
 
-  constructor() { }
-
-  setApolloClient<TCache>(client: ApolloClient<TCache>) {
-    this._apolloClient = client;
-    return this;
+  get assetHubs() {
+    return new AssetHubAPI(this._apolloClient);
   }
 
-  useApolloClientWithCache(uri: string, options?: InMemoryCacheConfig) {
+  get manager() {
+    return new ManagerAPI(this._apolloClient);
+  }
+
+  get curations() {
+    return new CurationAPI(this._apolloClient);
+  }
+  get blobs() {
+    return new BlobAPI(this._apolloClient);
+  }
+
+  constructor(uri: string, options?: InMemoryCacheConfig) {
     this._apolloClient = new ApolloClient({
       uri: uri,
       cache: new InMemoryCache(options)
     })
-    return this;
   }
-
-  static config(cn: CreatorNetwork) {
-    let config = cn.get<IndexerClientConfig>(INDEXER_CLIENT);
-    if (!config) {
-      config = new IndexerClientConfig();
-      cn.set(INDEXER_CLIENT, config);
-    }
-    return config;
-  }
-}
-
-const INDEXER_CLIENT = "__indexer_client"
-export function configureIndexerClient(configure: (config: IndexerClientConfig) => void) {
-  return (cn: CreatorNetwork) => {
-    return configure(IndexerClientConfig.config(cn));
-  }
-}
-
-export function clientConfig() {
-  return IndexerClientConfig.config(creatorNetwork);
-}
-
-export function apolloClient() {
-  const c = IndexerClientConfig.config(creatorNetwork).apolloClient;
-  if (c === undefined) {
-    throw new Error("apolloClient is not set");
-  }
-  return c;
 }

@@ -1,6 +1,5 @@
-import { gql, useQuery } from "@apollo/client";
+import { ApolloClient, gql, useQuery } from "@apollo/client";
 import { useMemo } from "react";
-import { apolloClient } from "./client";
 
 const GET_HUB_MANAGER = gql`
 query GetHubManager {
@@ -31,10 +30,13 @@ export function useGetHubManager() {
   return { data: manager, ...res }
 }
 
-export async function fetchHubManager() {
-  const client = apolloClient();
-  const data = await client.query<{ hubManagers: AssetHubManagerInfo[] }>({
-    query: GET_HUB_MANAGER
-  });
-  return data.data.hubManagers[0];
+export class ManagerAPI {
+  constructor(private client: ApolloClient<unknown>) { }
+
+  async fetchHubManager() {
+    const data = await this.client.query<{ hubManagers: AssetHubManagerInfo[] }>({
+      query: GET_HUB_MANAGER
+    });
+    return data.data.hubManagers[0];
+  }
 }

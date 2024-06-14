@@ -15,9 +15,6 @@ export type AssetEditorContextData = {
   type: string;
   setType: (t: string) => void;
 
-  hub?: string;
-  setHub(h: string): void;
-
   metadata?: AssetMetadataEditData;
   setMetadata(m?: AssetMetadataEditData): void;
 
@@ -55,7 +52,6 @@ export function AssetEditorProvider(props: AssetEditorProviderProps) {
   const [type, setType] = useState<string>(
     asset?.type ?? props.defaultType ?? "default"
   );
-  const [hub, setHub] = useState<string | undefined>(asset?.hub);
   const [metadata, setMetadata] = useAsetMeataData(asset);
   const [content, setContent] = useState<string | undefined>(asset?.content);
   const [collectModule, setCollectModule] = useState<AssetModule | undefined>(
@@ -97,8 +93,6 @@ export function AssetEditorProvider(props: AssetEditorProviderProps) {
       },
       [setType, setContent]
     ),
-    hub,
-    setHub,
     metadata,
     setMetadata,
     content,

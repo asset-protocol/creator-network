@@ -1,5 +1,5 @@
-import { gql, useQuery } from "@apollo/client";
-import { Asset } from "../core";
+import { ApolloClient, gql, useQuery } from "@apollo/client";
+import { Asset } from "@creator-network/core";
 
 export enum CurationStatus {
   Private = 0,
@@ -22,7 +22,7 @@ export type Curation = {
   expiry: number;
   publisher: string;
   tokenURI: string;
-  timestamp: number;
+  timestamp: string;
   lastUpdatedAt: number;
   hash: string;
   assets: { asset: Asset; status: AssetApprovalStatus }[];
@@ -227,4 +227,15 @@ export function useGetCurationAssetsStatus(
     skip: !assets || assets.length === 0,
   });
   return { ...res, data: data?.curationAssetStatus };
+}
+
+export class CurationAPI {
+  constructor(private client: ApolloClient<unknown>) { }
+
+  async fetchCurations() {
+    const { data } = await this.client.query<GqlCurationList<Curation>>({
+      query: GET_CURATIONS,
+    })
+    return data.curationsConnection.edges.map((edge) => edge.node);
+  }
 }

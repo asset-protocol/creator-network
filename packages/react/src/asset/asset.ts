@@ -49,7 +49,7 @@ export function configureAsset(configure: (config: AssetConfig) => void | (() =>
 
 export function editorProviders() {
   const config = creatorNetwork.get<AssetConfig>(ASSET_MODULE);
-  return config?.editorProviders;
+  return config?.editorProviders ?? {};
 }
 
 export function viewerProviders() {

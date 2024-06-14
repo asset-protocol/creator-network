@@ -1,14 +1,26 @@
 import { useContext, useState, createContext, useMemo } from "react";
-import { Signer } from "ethers";
 import { StorageScheme, creatorNetwork, getStorage } from "@creator-network/core";
-import { HubInfoContext, HubInfoProvider } from "./hub-info";
 import { getInjectedProviders } from "./provider-inject";
-import { ApolloClient, ApolloProvider } from "@apollo/client";
+import { ContractRunner } from "ethers";
+import { AssetHubManagerInfo, IndexerClient } from "@creator-network/indexer-js";
+
+
+export type ChainInfo = {
+  id: number,
+  name: string
+  nativeCurrency: { name: string, symbol: string, decimals: number },
+}
+
+export interface AssetContractRunner extends ContractRunner {
+  isMulti?: boolean
+  getAddress(): Promise<string>;
+}
 
 export type AccountInfo = {
   address: string;
-  name?: string;
-  avatar?: string;
+  channel?: string;
+  channelName?: string;
+  channelAvatar?: string;
 };
 
 export type AssetContextData = {
@@ -17,16 +29,22 @@ export type AssetContextData = {
 
   account?: AccountInfo;
   requireLogin: () => void;
+  contractRunner?: AssetContractRunner;
+  chain: ChainInfo;
+
+  apiClient: IndexerClient;
+  manager?: AssetHubManagerInfo;
 };
 
 const AssetContext = createContext<AssetContextData>({} as never);
 export type AssetProviderProps = {
+  manager?: AssetHubManagerInfo;
   storage?: StorageScheme;
-  signer: Signer;
+  contractRunner?: AssetContractRunner;
   account?: AccountInfo;
   requireLogin: () => void;
-  grapqlClient: ApolloClient<unknown>;
-
+  chain: ChainInfo;
+  apiClient: IndexerClient;
   children?: React.ReactNode;
 };
 
@@ -36,28 +54,25 @@ export function AssetProvider(props: AssetProviderProps) {
     storage,
     setStorage,
     account: props.account,
+    manager: props.manager,
     requireLogin: props.requireLogin,
+    contractRunner: props.contractRunner,
+    chain: props.chain,
+    apiClient: props.apiClient
   };
   let children = props.children;
   getInjectedProviders()?.forEach(
     (p) => (children = p({ children: props.children }))
   );
   return (
-    <AssetContext.Provider value={value}>
-      <ApolloProvider client={props.grapqlClient}>
-        <HubInfoProvider
-          signer={props.signer}
-          children={children}
-        />
-      </ApolloProvider>
+    <AssetContext.Provider value={value} children={children}>
     </AssetContext.Provider>
   );
 }
 
 export function useAssetHub() {
   const ctx = useContext(AssetContext);
-  const infoCtx = useContext(HubInfoContext);
-  return { ...ctx, ...infoCtx };
+  return { ...ctx };
 }
 
 export function useAssetStorage() {

@@ -6,15 +6,11 @@ import { useAssetHub } from "../../../context";
 import { CollectModuleContentProps } from "../../../collect";
 
 export function FeeCollectModuleItem(props: CollectModuleContentProps) {
-  const { account, contractRunner } = useAssetHub();
+  const { account, contractRunner, chain } = useAssetHub();
   const data = useMemo(() => parseFeeInitData(props.value), [props.value]);
   const [amount, setAmount] = useState<string | null>(
     data?.amount ? formatEther(data.amount) : null
   );
-  contractRunner?.provider?.getNetwork().then((network) => {
-    console.log(network);
-    network.name;
-  });
   useEffect(() => {
     const recipient = data?.recipient ?? ZeroAddress;
     if (amount) {
@@ -26,7 +22,6 @@ export function FeeCollectModuleItem(props: CollectModuleContentProps) {
     } else {
       props.onChange?.(undefined);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [amount]);
 
   return (
@@ -36,13 +31,13 @@ export function FeeCollectModuleItem(props: CollectModuleContentProps) {
           <span className="w-[64px]">Token</span>
           <input
             type="number"
-            className="grow"
+            className="grow max-w-[120px]"
             placeholder="Amount"
             min={"0"}
             defaultValue={amount ?? ""}
             onChange={(e) => setAmount(e.target.value)}
           />
-          <span className="w-[64px]">MATIC</span>
+          <span className="w-[64px]">{chain.nativeCurrency.symbol}</span>
         </label>
       </div>
       Funds will be sent to

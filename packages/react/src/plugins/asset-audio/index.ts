@@ -1,4 +1,3 @@
-import { CreatorNetwork } from "@creator-network/core";
 import audioViewer from "./viewer";
 import { configureAsset } from "../../asset";
 

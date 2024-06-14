@@ -4,6 +4,7 @@ export type UploadObject = {
   name?: string
   data: string | Blob;
   onProgress?: (percent: number) => void;
+  contentType?: string;
 }
 
 export type StorageScheme = string;
@@ -54,15 +55,25 @@ export function getStorage(scheme: StorageScheme) {
   }
 }
 
-export function replaceUri(uri?: string) {
+export function replaceUri(uri?: string, options?: { search?: Record<string, string> }) {
   if (!uri) return uri;
+  let res = uri;
   const paths = uri.split("://");
   if (paths[0] && paths[0].length < 16) {
     const storage = getStorage(paths[0]);
     if (storage) {
-      return storage.getUrl(uri);
+      res = storage.getUrl(uri);
     }
   }
-  return uri;
+  if (options?.search) {
+    const url = new URL(res);
+    Object.keys(options.search).forEach(k => {
+      if (options.search?.[k] !== undefined) {
+        url.searchParams.append(k, options.search[k]!);
+      }
+    })
+    res = url.toString();
+  }
+  return res;
 }
 
