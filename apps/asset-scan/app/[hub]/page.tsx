@@ -31,7 +31,7 @@ const Home = function Home({ params }: { params: { hub: string } }) {
   }, [data, hub]);
 
   const hanldeClickAsset = (asset: Asset) => {
-    goViewer(asset.hub, asset.assetId.toString());
+    goViewer(asset.hub.id, asset.assetId.toString());
   };
 
   if (loading) {

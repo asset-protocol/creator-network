@@ -1,11 +1,11 @@
-import { AssetHubConfig } from "../../core";
-import { Suspense, lazy } from "react";
-import { TYPE_IMAGE } from "./consts";
-import { Asset } from "../../client/core";
+import { Suspense, lazy } from 'react';
+import { TYPE_IMAGE } from './consts';
+import { Asset } from '@creator-network/core';
+import { AssetConfig } from "../../asset";
 
-const ImageViewer = lazy(() => import("./components/ImageViewer"));
+const ImageViewer = lazy(() => import('./components/ImageViewer'));
 
-const imageViewer = (config: AssetHubConfig) => {
+const imageViewer = (config: AssetConfig) => {
   config.registerViewer(TYPE_IMAGE, {
     selector: (v: Asset) => v.type === TYPE_IMAGE,
     viewer: (props) => (

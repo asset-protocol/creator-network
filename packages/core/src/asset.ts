@@ -1,8 +1,9 @@
-import { EtherAddress } from "./common";
+import { EtherAddress } from './common';
+import { AssetHubInfo, AssetHubMetadata } from './hub';
 
 export type BytesLike = string | Uint8Array;
 
-export type AssetType = "image" | "video" | "audio" | "markdown" | string;
+export type AssetType = 'image' | 'video' | 'audio' | 'markdown' | string;
 
 export type AssetMetadata = {
   type: AssetType;
@@ -12,7 +13,7 @@ export type AssetMetadata = {
   image?: string;
   tags?: string[];
   properties?: { [key in string]: any };
-}
+};
 
 export type AssetModule = {
   module: EtherAddress;
@@ -22,8 +23,7 @@ export type AssetModule = {
 export type Asset = {
   id: string;
   assetId: string;
-  hub: string;
-  hubName: string;
+  hub: AssetHubInfo;
   type: AssetType;
   name: string;
   image: string;
@@ -41,21 +41,21 @@ export type Asset = {
   collectModuleInitData?: string;
   collectNft?: string;
   collectCount?: string;
-  gatedModule?: string
-  gatedModuleInitData?: string
+  gatedModule?: string;
+  gatedModuleInitData?: string;
   query1?: string;
   query2?: string;
-}
+};
 
 export type StudioInfo = {
-  id: string
-  name: string
-  admin: string
-  nftGatedModule: string
-  feeCollectModule: string
-  tokenCollectModule: string
-  implementation: string
-  timestamp: bigint
-  version: string
-  hash: string
-}
+  id: string;
+  name: string;
+  admin: string;
+  nftGatedModule: string;
+  feeCollectModule: string;
+  tokenCollectModule: string;
+  implementation: string;
+  timestamp: bigint;
+  version: string;
+  hash: string;
+};

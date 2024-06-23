@@ -1,20 +1,19 @@
-'use client'
-import { useConnectModal } from "@rainbow-me/rainbowkit";
-import { useAccount } from "wagmi";
-import { useEffect, useMemo, useState } from "react";
-import { AssetProvider, ChainInfo, useAssetHub } from "@creator-network/react";
-import { publicEthProvider, useEthersSigner } from "./ether";
+'use client';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { useEffect, useState } from 'react';
+import { AssetProvider, ChainInfo, useAssetHub } from '@creator-network/react';
+import { publicEthProvider } from './ether';
 import '@rainbow-me/rainbowkit/styles.css';
-import { NewAssetHubManager } from "@creator-network/web3";
-import { creatorNetwork } from "@creator-network/core";
-import feeCollectModulePlugin from "@creator-network/react/plugins/module-fee-collect";
-import tokenCollectModulePlugin from "@creator-network/react/plugins/module-token-collect";
-import { AssetHubManagerInfo } from "@creator-network/indexer-js";
-import { useApp } from "../_components/_layout/AppContext";
-import { FeeCollectModuleItem } from "./components/FeeCollectModuleItem";
-import { TokenCollectModuleItem } from "./components/TokenCollectModuleItem";
-import { useStorage } from "./storage";
-import { indexerClient } from "./indexer";
+import { NewAssetHubManager } from '@creator-network/web3';
+import { creatorNetwork } from '@creator-network/core';
+import feeCollectModulePlugin from '@creator-network/react/plugins/module-fee-collect';
+import tokenCollectModulePlugin from '@creator-network/react/plugins/module-token-collect';
+import { AssetHubManagerInfo } from '@creator-network/indexer-js';
+import { useApp } from '../_components/_layout/AppContext';
+import { FeeCollectModuleItem } from './components/FeeCollectModuleItem';
+import { TokenCollectModuleItem } from './components/TokenCollectModuleItem';
+import { useStorage } from './storage';
+import { indexerClient } from './indexer';
 
 export type HubModulesData = {
   tokenCreateModule: string;
@@ -30,7 +29,7 @@ type ModulesData = {
   feeCollectModule: string;
   tokenCollectModule: string;
   nftGatedModule: string;
-}
+};
 
 const Plugins = () => {
   const { manager } = useAssetHub();
@@ -44,35 +43,47 @@ const Plugins = () => {
         setModules(res);
       }
     })();
-  }, [manager])
+  }, [manager]);
 
   useEffect(() => {
     return useStorage();
-  },)
+  });
 
   useEffect(() => {
     if (modules) {
       const tokens = [
         {
-          label: "TestToken",
-          name: "TST",
-          contract: "0x36536674237634Dd5e1F4C32804567F611e88602",
+          label: 'TestToken',
+          name: 'TST',
+          contract: '0x36536674237634Dd5e1F4C32804567F611e88602',
         },
-      ]
+      ];
       return creatorNetwork.use(
-        feeCollectModulePlugin(modules.feeCollectModule, <FeeCollectModuleItem module={modules.feeCollectModule} />),
+        feeCollectModulePlugin(
+          modules.feeCollectModule,
+          <FeeCollectModuleItem module={modules.feeCollectModule} />
+        ),
         tokenCollectModulePlugin({
           moduleContract: modules.tokenCollectModule,
           tokens,
-          input: <TokenCollectModuleItem tokens={tokens} module={modules.tokenCollectModule} />
+          input: (
+            <TokenCollectModuleItem
+              tokens={tokens}
+              module={modules.tokenCollectModule}
+            />
+          ),
         })
       );
     }
-  }, [modules])
+  }, [modules]);
   return <></>;
-}
+};
 
-export function CreatorNetworkProvider(props: { children: React.ReactNode, chain: ChainInfo, manager: AssetHubManagerInfo }) {
+export function CreatorNetworkProvider(props: {
+  children: React.ReactNode;
+  chain: ChainInfo;
+  manager: AssetHubManagerInfo;
+}) {
   const { account, contractRunner } = useApp();
   const { openConnectModal } = useConnectModal();
 
@@ -80,7 +91,7 @@ export function CreatorNetworkProvider(props: { children: React.ReactNode, chain
     <AssetProvider
       contractRunner={contractRunner}
       manager={props.manager}
-      storage={"ipfs"}
+      storage={'ipfs'}
       account={account}
       requireLogin={() => openConnectModal?.()}
       chain={props.chain}

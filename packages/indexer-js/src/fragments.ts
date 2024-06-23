@@ -1,10 +1,14 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const ASSET_FIELDS = gql`
   fragment AssetFields on Asset {
+    id
     assetId
-    hub
-    hubName
+    hub {
+      id
+      name
+      metadata
+    }
     type
     name
     image

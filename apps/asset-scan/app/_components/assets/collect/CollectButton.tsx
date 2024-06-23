@@ -6,13 +6,13 @@ import { Asset } from "@creator-network/core";
 import { User } from "lucide-react";
 import clsx from "clsx";
 
-export type MintButtonType = {
+export type CollectButtonType = {
   asset: Asset;
   className?: string;
   onCollected?: (assetId: bigint) => void;
 }
 
-export function MintButton(props: MintButtonType) {
+export function CollectButton(props: CollectButtonType) {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
@@ -21,7 +21,7 @@ export function MintButton(props: MintButtonType) {
         className={clsx("flex items-center px-2", props.className)}
         onClick={() => setIsOpen(true)}
       >
-        Mint
+        Collect
         <User size={14} className="ml-2" />
         <span className="text-sm">{props.asset.collectCount?.toString() ?? "-"}</span>
       </Button>

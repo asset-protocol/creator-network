@@ -1,14 +1,14 @@
-import { Suspense, lazy } from "react";
-import { TYPE_MARKDOWN } from "./consts";
-import { useAssetHub } from "../../context";
-import { getStorage } from "@creator-network/core";
-import { AssetConfig } from "../../asset";
+import { Suspense, lazy } from 'react';
+import { TYPE_MARKDOWN } from './consts';
+import { useAssetHub } from '../../context';
+import { getStorage } from '@creator-network/core';
+import { AssetConfig } from '../../asset';
 
-const Editor = lazy(() => import("./components/MarkdownEditor"));
+const Editor = lazy(() => import('./components/MarkdownEditor'));
 
 const markdownEditor = (config: AssetConfig) => {
   config.registerEditor({
-    types: [{ value: TYPE_MARKDOWN, label: "Markdown" }],
+    types: [{ value: TYPE_MARKDOWN, label: 'Markdown' }],
     selector: (t) => t === TYPE_MARKDOWN,
     editor: (props) => (
       <Suspense>
@@ -24,7 +24,7 @@ const markdownEditor = (config: AssetConfig) => {
         if (links) {
           for (const l of links) {
             try {
-              const blobUrl = l[0].replace("(", "").replace(")", "");
+              const blobUrl = l[0].replace('(', '').replace(')', '');
               const data = await fetch(blobUrl).then((b) => b.blob());
               const url = await getStorage(storage!)!.upload({ data });
               res = res.replace(blobUrl, url);
@@ -33,7 +33,6 @@ const markdownEditor = (config: AssetConfig) => {
             }
           }
         }
-        console.log("md", res);
         return res;
       };
     },

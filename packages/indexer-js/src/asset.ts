@@ -1,27 +1,34 @@
-import { ApolloClient, FetchPolicy, WatchQueryFetchPolicy, gql, useApolloClient, useQuery } from '@apollo/client'
-import { ASSET_FIELDS } from './fragments'
+import {
+  ApolloClient,
+  FetchPolicy,
+  WatchQueryFetchPolicy,
+  gql,
+  useApolloClient,
+  useQuery,
+} from '@apollo/client';
+import { ASSET_FIELDS } from './fragments';
 import { Asset } from '@creator-network/core';
 
 export type GqlAssetList<T> = {
   assetsConnection: {
-    edges: { node: T }[],
+    edges: { node: T }[];
     pageInfo: {
-      hasNextPage: boolean,
-      hasPreviousPage: boolean,
-      startCursor: string
-      endCursor: string
-    }
-  }
-}
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor: string;
+      endCursor: string;
+    };
+  };
+};
 
 const GET_HUb_ASSETS = (tags?: string[]) => gql`
 ${ASSET_FIELDS}
-query GetAssets($hub: String, $publisher: String, $assetId: BigInt${tags?.length ? ", $tags: [String!]" : ""}, $first: Int, $after: String, $orderBy: [AssetOrderByInput!]!){
+query GetAssets($hub: String, $publisher: String, $assetId: BigInt${tags?.length ? ', $tags: [String!]' : ''}, $first: Int, $after: String, $orderBy: [AssetOrderByInput!]!){
   assetsConnection(
     first: $first,
     after: $after,
     orderBy: $orderBy,
-    where: { hub_eq: $hub, publisher_eq: $publisher, assetId_eq: $assetId${tags?.length ? ", tags_some: {normalizedName_in: $tags}" : ""} }){
+    where: { hub:{id_eq: $hub}, publisher_eq: $publisher, assetId_eq: $assetId${tags?.length ? ', tags_some: {normalizedName_in: $tags}' : ''} }){
       edges {
         node {
           ...AssetFields
@@ -37,84 +44,108 @@ query GetAssets($hub: String, $publisher: String, $assetId: BigInt${tags?.length
 }
 `;
 
-export type AssetsOrderBy = "timestamp_ASC" | "timestamp_DESC" | "collectCount_ASC" | "collectCount_DESC" | 'type_DESC' | "type_ASC";
+export type AssetsOrderBy =
+  | 'timestamp_ASC'
+  | 'timestamp_DESC'
+  | 'collectCount_ASC'
+  | 'collectCount_DESC'
+  | 'type_DESC'
+  | 'type_ASC';
 
 export type GetAssetHubAssetsInput = {
-  hub?: string,
-  publisher?: string,
-  assetId?: string,
-  tags?: string[],
-  first?: number,
-  after?: string,
-  orderBy?: AssetsOrderBy[]
-  fetchPolicy?: FetchPolicy
-  skipFunc?: (args: GetAssetHubAssetsInput) => boolean
-}
+  hub?: string;
+  publisher?: string;
+  assetId?: string;
+  tags?: string[];
+  first?: number;
+  after?: string;
+  orderBy?: AssetsOrderBy[];
+  fetchPolicy?: FetchPolicy;
+  skipFunc?: (args: GetAssetHubAssetsInput) => boolean;
+};
 
 const defaultInput: GetAssetHubAssetsInput = {
-  orderBy: ["timestamp_DESC"]
-}
+  orderBy: ['timestamp_DESC'],
+};
 
 export function useGetAssets(args?: GetAssetHubAssetsInput) {
   const gqlText = GET_HUb_ASSETS(args?.tags);
   const { data, ...res } = useQuery<GqlAssetList<Asset>>(gqlText, {
     variables: { ...defaultInput, ...args },
     fetchPolicy: args?.fetchPolicy,
-    skip: args?.skipFunc?.(args)
-  })
+    skip: args?.skipFunc?.(args),
+  });
   const newData = {
-    assets: data?.assetsConnection.edges.map(a => {
+    assets: data?.assetsConnection.edges.map((a) => {
       return a.node;
     }),
-    pageInfo: data?.assetsConnection.pageInfo
-  }
-  return { ...res, data: newData }
+    pageInfo: data?.assetsConnection.pageInfo,
+  };
+  return { ...res, data: newData };
 }
 
 export function useGetAssetsByWallet(publisher: string, hub: string) {
   return useGetAssets({
     hub: hub,
-    publisher: publisher
-  })
+    publisher: publisher,
+  });
 }
 
 const SEARCH_ASSETS = gql`
-query SearchAssets($query: String!){
-  assets(where: {name_containsInsensitive: $query}){
-    id
-    assetId
-    hub
-    type
-    name
-    image
-    description
-    tags {
+  query SearchAssets($query: String!) {
+    assets(where: { name_containsInsensitive: $query }) {
+      id
+      assetId
+      hub {
+        id
+        name
+        metadata {
+          description
+          image
+        }
+      }
+      type
       name
+      image
+      description
+      tags {
+        name
+      }
+      publisher
+      timestamp
+      hash
     }
-    publisher
-    timestamp
-    hash
   }
-}
-`
+`;
 export function useSearchAssets(keyword: string) {
   const { data, ...res } = useQuery<{ assets: Asset[] }>(SEARCH_ASSETS, {
     variables: { query: keyword },
-    fetchPolicy: "no-cache",
-    skip: !keyword
-  })
-  return { ...res, data: data?.assets }
+    fetchPolicy: 'no-cache',
+    skip: !keyword,
+  });
+  return { ...res, data: data?.assets };
 }
 
-
 const GET_HUb_ASSETS_BY_ID = gql`
-${ASSET_FIELDS}
-query GetAssets($hub: String, $publisher: String, $assetId: BigInt, $first: Int, $after: String, $orderBy: [AssetOrderByInput!]!){
-  assetsConnection(
-    first: $first,
-    after: $after,
-    orderBy: $orderBy,
-    where: { hub_eq: $hub, publisher_eq: $publisher, assetId_eq: $assetId }){
+  ${ASSET_FIELDS}
+  query GetAssets(
+    $hub: String
+    $publisher: String
+    $assetId: BigInt
+    $first: Int
+    $after: String
+    $orderBy: [AssetOrderByInput!]!
+  ) {
+    assetsConnection(
+      first: $first
+      after: $after
+      orderBy: $orderBy
+      where: {
+        hub: { id_eq: $hub }
+        publisher_eq: $publisher
+        assetId_eq: $assetId
+      }
+    ) {
       edges {
         node {
           content
@@ -129,82 +160,81 @@ query GetAssets($hub: String, $publisher: String, $assetId: BigInt, $first: Int,
         hasPreviousPage
       }
     }
-}
+  }
 `;
 
 export function useGetAssetById(assetId: bigint, hub: string) {
   const tokenId = assetId.toString();
   const { data, ...res } = useQuery<GqlAssetList<Asset>>(GET_HUb_ASSETS_BY_ID, {
-    variables: { assetId: tokenId, hub: hub, orderBy: "timestamp_DESC" },
-    fetchPolicy: "no-cache",
-    skip: !hub
-  })
-  return { ...res, asset: data?.assetsConnection.edges?.[0]?.node }
+    variables: { assetId: tokenId, hub: hub, orderBy: 'timestamp_DESC' },
+    fetchPolicy: 'no-cache',
+    skip: !hub,
+  });
+  return { ...res, asset: data?.assetsConnection.edges?.[0]?.node };
 }
-
 
 const REFRESH_ASSET_METADATA = gql`
-query RefreshMetatData($assetId:String!, $hub:String!){
-  refreshMetatData(assetId: $assetId, hub: $hub)
-}
-`
+  query RefreshMetatData($assetId: String!, $hub: String!) {
+    refreshMetatData(assetId: $assetId, hub: $hub)
+  }
+`;
 export function useRefreshAssetMetadata() {
   const client = useApolloClient();
 
   const refresh = async (assetId: bigint, hub: string) => {
-    try {
-      const res = await client.query<{ refreshMetatData: boolean }>({
-        query: REFRESH_ASSET_METADATA,
-        variables: { assetId: assetId.toString(), hub },
-        fetchPolicy: "no-cache"
-      });
-      return res.data.refreshMetatData;
-    } finally {
-    }
-  }
-  return { refresh }
+    const res = await client.query<{ refreshMetatData: boolean }>({
+      query: REFRESH_ASSET_METADATA,
+      variables: { assetId: assetId.toString(), hub },
+      fetchPolicy: 'no-cache',
+    });
+    return res.data.refreshMetatData;
+  };
+  return { refresh };
 }
 
 const GET_ASSET_TAG_NAMES = gql`
-query GetAssetTagNames($keyword: String, $limit: Float){
-  assetTagNames(keyword: $keyword, limit: $limit) {
-    name
-    count
+  query GetAssetTagNames($keyword: String, $limit: Float) {
+    assetTagNames(keyword: $keyword, limit: $limit) {
+      name
+      count
+    }
   }
-}
 `;
 
-
 export function useGetAssetTagNames(keyword?: string, limit?: number) {
-  const { data, ...res } = useQuery<{ assetTagNames: { name: string, count: number }[] }>(GET_ASSET_TAG_NAMES, {
+  const { data, ...res } = useQuery<{
+    assetTagNames: { name: string; count: number }[];
+  }>(GET_ASSET_TAG_NAMES, {
     variables: { keyword, limit },
-    fetchPolicy: "no-cache",
-  })
-  return { ...res, data: data?.assetTagNames }
+    fetchPolicy: 'no-cache',
+  });
+  return { ...res, data: data?.assetTagNames };
 }
 
 export class AssetsAPI {
-  constructor(private client: ApolloClient<unknown>) {
-
-  }
+  constructor(private client: ApolloClient<unknown>) {}
 
   async fetchAssetTags(keyword?: string, limit?: number) {
-    const { data } = await this.client.query<{ assetTagNames: { name: string, count: number }[] }>(
-      {
-        query: GET_ASSET_TAG_NAMES,
-        variables: { keyword, limit },
-        fetchPolicy: "no-cache",
-      }
-    )
+    const { data } = await this.client.query<{
+      assetTagNames: { name: string; count: number }[];
+    }>({
+      query: GET_ASSET_TAG_NAMES,
+      variables: { keyword, limit },
+      fetchPolicy: 'no-cache',
+    });
     return data.assetTagNames;
   }
 
   async fetchAssetById(hub: string, assetId: string) {
     const res = await this.client.query<GqlAssetList<Asset>>({
       query: GET_HUb_ASSETS_BY_ID,
-      fetchPolicy: "no-cache",
-      variables: { assetId: assetId.toString(), hub: hub, orderBy: "timestamp_DESC" },
-    })
+      fetchPolicy: 'no-cache',
+      variables: {
+        assetId: assetId.toString(),
+        hub: hub,
+        orderBy: 'timestamp_DESC',
+      },
+    });
     return res.data.assetsConnection.edges?.[0]?.node;
   }
 
@@ -215,11 +245,10 @@ export class AssetsAPI {
       fetchPolicy: args?.fetchPolicy,
     });
     return {
-      assets: data?.assetsConnection.edges.map(a => {
+      assets: data?.assetsConnection.edges.map((a) => {
         return a.node;
       }),
-      pageInfo: data?.assetsConnection.pageInfo
-    }
+      pageInfo: data?.assetsConnection.pageInfo,
+    };
   }
-
 }

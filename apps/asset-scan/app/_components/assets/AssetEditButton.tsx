@@ -1,14 +1,19 @@
-'use client'
-import { Asset } from "@creator-network/core";
-import { useAssetHub } from "@creator-network/react";
-import { Button } from "antd";
-import Link from "next/link";
+'use client';
+import { Asset } from '@creator-network/core';
+import { useAssetHub } from '@creator-network/react';
+import { Button } from 'antd';
+import Link from 'next/link';
 
 export function AssetEditButton({ asset }: { asset: Asset }) {
   const { account } = useAssetHub();
-  return account?.address === asset.publisher &&
-    <Link className="mx-2" href={`/${asset.hub}/assets/${asset.assetId}/edit`}>
-      <Button>Edit</Button>
-    </Link>
-
+  return (
+    account?.address === asset.publisher && (
+      <Link
+        className="mx-2"
+        href={`/${asset.hub.id}/assets/${asset.assetId}/edit`}
+      >
+        <Button>Edit</Button>
+      </Link>
+    )
+  );
 }

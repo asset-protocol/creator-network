@@ -1,7 +1,7 @@
-import { Avatar, Image, Skeleton, Tag } from "antd";
+import { Avatar, Image, Skeleton, Tag } from 'antd';
 import { Asset, replaceUri } from '@creator-network/core';
-import { PresetColors } from "antd/es/theme/interface";
-import { fromNow } from "@creator-network/react/utils";
+import { PresetColors } from 'antd/es/theme/interface';
+import { fromNow } from '@creator-network/react/utils';
 
 export function AssetItem(props: {
   value: Asset;
@@ -15,9 +15,7 @@ export function AssetItem(props: {
   };
 
   return (
-    <div
-      className="shadow-md rounded overflow-hidden flex flex-col w-full h-full"
-    >
+    <div className="shadow-md rounded overflow-hidden flex flex-col w-full h-full">
       {
         <Image
           title="asset image"
@@ -49,7 +47,7 @@ export function AssetItem(props: {
             title={value.name}
             onClick={viewAsset}
           >
-            {value.name ?? "---"}
+            {value.name ?? '---'}
           </div>
         </div>
         <div className="line-clamp-1">{value.description}</div>
@@ -78,14 +76,14 @@ export function AssetItem(props: {
             <Avatar
               size="small"
               style={{
-                backgroundColor: "#94a3af",
-                marginRight: "4px",
+                backgroundColor: '#94a3af',
+                marginRight: '4px',
               }}
             >
-              {value.hubName[0]}
+              {value.hub.name[0]}
             </Avatar>
             <span className="text-gray-500 flex-1 line-clamp-1">
-              {value.hubName}
+              {value.hub.name}
               <span className="font-bold">#</span>
               {value.assetId.toString()}
             </span>

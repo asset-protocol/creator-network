@@ -1,5 +1,4 @@
 import { ChannelCreateForm } from "./_components/ChannelCreateForm";
-import { redirect } from "next/navigation";
 
 export default function Page() {
   return (

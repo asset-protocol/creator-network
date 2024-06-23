@@ -1,21 +1,21 @@
-import "quill/dist/quill.snow.css";
-import "../styles/snow.css";
+import 'quill/dist/quill.snow.css';
+import '../styles/snow.css';
 import {
   forwardRef,
   useEffect,
   useImperativeHandle,
   useLayoutEffect,
   useRef,
-} from "react";
-import Image from "../formats/image";
-import Quill, { QuillOptions } from "quill";
-import { Delta, EmitterSource } from "quill/core";
-import Video from "../formats/video";
-import hljs from "highlight.js";
-import "highlight.js/styles/github-dark.min.css";
+} from 'react';
+import ImageNode from '../formats/image';
+import Quill, { QuillOptions } from 'quill';
+import { Delta, EmitterSource } from 'quill/core';
+import Video from '../formats/video';
+import hljs from 'highlight.js';
+import 'highlight.js/styles/github-dark.min.css';
 
-Quill.register("formats/image", Image, true);
-Quill.register("formats/video", Video, true);
+Quill.register('formats/image', ImageNode, true);
+Quill.register('formats/video', Video, true);
 
 export type QuillEditorProps = QuillOptions & {
   value?: string | Delta;
@@ -61,8 +61,8 @@ const QuillEditor = forwardRef<QuillEdtorInstance, QuillEditorProps>(
             onChange(JSON.stringify(_quill.getContents()));
           }
         });
-        if (typeof value === "string") {
-          _quill.setContents(new Delta(JSON.parse(value ? value : "[]")));
+        if (typeof value === 'string') {
+          _quill.setContents(new Delta(JSON.parse(value ? value : '[]')));
         }
         quill.current = _quill;
       }
@@ -72,5 +72,5 @@ const QuillEditor = forwardRef<QuillEdtorInstance, QuillEditorProps>(
     return <div ref={containerRef} className={props.className}></div>;
   }
 );
-QuillEditor.displayName = "QuillEditor";
+QuillEditor.displayName = 'QuillEditor';
 export default QuillEditor;

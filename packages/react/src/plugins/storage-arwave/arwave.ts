@@ -1,9 +1,9 @@
 import { IStorage, UploadObject } from '@creator-network/core';
 import Arweave from 'arweave';
-
+import mime from 'mime';
 
 export class ArwaveStorage implements IStorage {
-  private ar: Arweave
+  private ar: Arweave;
   constructor() {
     // Since v1.5.1 you're now able to call the init function for the web version without options. The current URL path will be used by default. This is recommended when running from a gateway.
     this.ar = Arweave.init({});
@@ -11,8 +11,8 @@ export class ArwaveStorage implements IStorage {
 
   public readonly scheme = {
     name: 'ar',
-    label: 'Arweave'
-  }
+    label: 'Arweave',
+  };
 
   async upload(args: UploadObject): Promise<string> {
     let data: string | ArrayBuffer;
@@ -23,19 +23,22 @@ export class ArwaveStorage implements IStorage {
     }
 
     // connect to the extension
-    await window.arweaveWallet.connect(["SIGN_TRANSACTION"]);
-
+    await window.arweaveWallet.connect(['SIGN_TRANSACTION']);
     const tx = await this.ar.createTransaction({ data });
     if (args.contentType) {
       tx.addTag('Content-Type', args.contentType);
+    } else if (args.data instanceof Blob) {
+      tx.addTag('Content-Type', args.data.type);
     }
     await this.ar.transactions.sign(tx);
     const uploader = await this.ar.transactions.getUploader(tx);
     while (!uploader.isComplete) {
       await uploader.uploadChunk();
-      console.log(`${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`);
+      console.log(
+        `${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`
+      );
       if (args.onProgress) {
-        args.onProgress(uploader.uploadedChunks / uploader.totalChunks * 100);
+        args.onProgress((uploader.uploadedChunks / uploader.totalChunks) * 100);
       }
     }
     return `ar://${tx.id}`;
@@ -46,4 +49,3 @@ export class ArwaveStorage implements IStorage {
     return `https://arweave.net/${id}`;
   }
 }
-

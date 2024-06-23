@@ -1,25 +1,24 @@
-import { AssetClientViewer } from "@/app/_components/assets/AssetViewer";
-import { AssetViewerProps } from "@creator-network/react/asset/viewer";
-import { replaceUri } from "@creator-network/core";
-import { Metadata, ResolvingMetadata } from "next";
-import { fromNow } from "@creator-network/react/utils";
-import { fetchAssetById } from "@/app/_creatornetwork";
-import { AssetWeb3Info } from "@/app/_components/assets/AssetInfo";
-import { MintButton } from "@/app/_components/assets/collect/MintButton";
-import { AssetEditButton } from "@/app/_components/assets/AssetEditButton";
+import { AssetClientViewer } from '@/app/_components/assets/AssetViewer';
+import { AssetViewerProps } from '@creator-network/react/asset/viewer';
+import { replaceUri } from '@creator-network/core';
+import { Metadata } from 'next';
+import { fromNow } from '@creator-network/react/utils';
+import { fetchAssetById } from '@/app/_creatornetwork';
+import { AssetWeb3Info } from '@/app/_components/assets/AssetInfo';
+import { CollectButton } from '@/app/_components/assets/collect/CollectButton';
+import { AssetEditButton } from '@/app/_components/assets/AssetEditButton';
+import { SeeAlsoAssetList } from './_components/SeeAlsoAssetList';
+import { Avatar } from 'antd';
 
 // export const dynamic = 'force-dynamic';
 // export const revalidate = 0;
 
 type Props = {
-  params: { hub: string, assetId: string }
-  searchParams: { [key: string]: string | string[] | undefined }
-}
+  params: { hub: string; assetId: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
 
-export async function generateMetadata(
-  { params, searchParams }: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { hub, assetId } = params;
   const asset = await fetchAssetById(hub, assetId);
   return {
@@ -27,43 +26,47 @@ export async function generateMetadata(
     openGraph: {
       images: [replaceUri(asset.image)!],
       title: asset.name,
-      description: asset.description
+      description: asset.description,
     },
-    description: asset.description
-  }
+    description: asset.description,
+  };
 }
 
-export default async function AssetViewPage({ params }: { params: { hub: string, assetId: string } }) {
+export default async function AssetViewPage({
+  params,
+}: {
+  params: { hub: string; assetId: string };
+}) {
   const { hub, assetId } = params;
   const asset = await fetchAssetById(hub, assetId);
   const config: AssetViewerProps | undefined = asset
     ? {
-      asset,
-    }
+        asset,
+      }
     : undefined;
 
   return (
     <div className="flex flex-col m-auto w-full">
-      {assetId !== "" ? (
+      {assetId !== '' ? (
         <div className="w-full lg:max-w-[1080px] mt-8 mx-auto">
-          {config &&
+          {config && (
             <div className="w-full flex flex-row gap-16">
               <div className="flex-1 overflow-auto">
-                <div className="badge bg-[#DFF1F0] rounded-md px-3 py-3 text-gray-800">{asset.type}</div>
-                <div className="text-3xl font-semibold py-4">
-                  {asset.name}
+                <div className="badge bg-[#DFF1F0] rounded-md px-3 py-3 text-gray-800">
+                  {asset.type}
                 </div>
+                <div className="text-3xl font-semibold py-4">{asset.name}</div>
                 <div className="text-gray-500 text-sm flex items-center py-2">
-                  <div className="avatar placeholder">
-                    <div className="bg-neutral text-neutral-content rounded-full w-5">
-                      <span className="text-xs">{asset.hubName[0]}</span>
-                    </div>
-                  </div>
-                  <span className="ml-1">{asset.hubName}</span>
+                  <Avatar size={26} src={replaceUri(asset.hub.metadata?.image)}>
+                    {asset.hub.name[0]}
+                  </Avatar>
+                  <span className="ml-1">{asset.hub.name}</span>
                   <div className="divider divider-horizontal mx-1"></div>
-                  <div>{fromNow(Number.parseInt(asset.timestamp.toString()))}</div>
+                  <div>
+                    {fromNow(Number.parseInt(asset.timestamp.toString()))}
+                  </div>
                   <div className="flex-1"></div>
-                  <MintButton asset={asset} />
+                  <CollectButton asset={asset} />
                   {<AssetEditButton asset={asset} />}
                 </div>
                 {/* <Image
@@ -76,14 +79,24 @@ export default async function AssetViewPage({ params }: { params: { hub: string,
                 <AssetClientViewer {...config} />
               </div>
               <div>
-                <div className="text-xl font-bold mt-[20px] mb-[20px] max-w-[300px]">
-                  <span className="bg-[#00AAA1] text-white mr-1">Asset</span>
-                  Info
+                <div>
+                  <div className="text-xl font-bold mt-[20px] mb-[20px] max-w-[300px]">
+                    <span className="bg-[#00AAA1] text-white mr-1">Asset</span>
+                    Info
+                  </div>
+                  <AssetWeb3Info asset={asset} className="ml-1" />
                 </div>
-                <AssetWeb3Info asset={asset} className="ml-1" />
+
+                <div className="mt-12">
+                  <div className="text-xl font-bold mt-[20px] mb-[12px] max-w-[300px]">
+                    <span className="bg-[#00AAA1] text-white mr-1">See</span>
+                    Related Assets
+                  </div>
+                  <SeeAlsoAssetList asset={asset} className="ml-1 w-[320px]" />
+                </div>
               </div>
             </div>
-          }
+          )}
         </div>
       ) : (
         <div>Loading...</div>

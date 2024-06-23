@@ -21,11 +21,6 @@ export const assethubAbi = [
     "type": "error"
   },
   {
-    "inputs": [],
-    "name": "CollectModuleNotWhitelisted",
-    "type": "error"
-  },
-  {
     "inputs": [
       {
         "internalType": "address",
@@ -361,6 +356,25 @@ export const assethubAbi = [
   },
   {
     "anonymous": false,
+    "inputs": [],
+    "name": "ContractURIUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "uri",
+        "type": "string"
+      }
+    ],
+    "name": "InfoURIChanged",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
     "inputs": [
       {
         "indexed": false,
@@ -370,6 +384,19 @@ export const assethubAbi = [
       }
     ],
     "name": "Initialized",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "isOpen",
+        "type": "bool"
+      }
+    ],
+    "name": "IsOpenChanged",
     "type": "event"
   },
   {
@@ -627,18 +654,32 @@ export const assethubAbi = [
     "inputs": [
       {
         "internalType": "address",
-        "name": "collectModule",
+        "name": "followModule",
         "type": "address"
-      },
+      }
+    ],
+    "name": "collectModuleWhitelisted",
+    "outputs": [
       {
         "internalType": "bool",
-        "name": "whitelist",
+        "name": "",
         "type": "bool"
       }
     ],
-    "name": "collectModuleWhitelist",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "contractURI",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -713,7 +754,7 @@ export const assethubAbi = [
         "type": "uint256"
       }
     ],
-    "stateMutability": "nonpayable",
+    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -791,7 +832,7 @@ export const assethubAbi = [
         "type": "address"
       }
     ],
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -838,6 +879,11 @@ export const assethubAbi = [
         "internalType": "address[]",
         "name": "whitelistedCollectModules",
         "type": "address[]"
+      },
+      {
+        "internalType": "string",
+        "name": "contractURI",
+        "type": "string"
       }
     ],
     "name": "initialize",
@@ -859,25 +905,6 @@ export const assethubAbi = [
       }
     ],
     "name": "isApprovedForAll",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "followModule",
-        "type": "address"
-      }
-    ],
-    "name": "isCollectModuleWhitelisted",
     "outputs": [
       {
         "internalType": "bool",
@@ -1039,11 +1066,55 @@ export const assethubAbi = [
     "inputs": [
       {
         "internalType": "address",
+        "name": "collectModule",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "whitelist",
+        "type": "bool"
+      }
+    ],
+    "name": "setCollectModuleWhitelist",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "uri",
+        "type": "string"
+      }
+    ],
+    "name": "setContractURI",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
         "name": "assetModule",
         "type": "address"
       }
     ],
     "name": "setCreateAssetModule",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bool",
+        "name": "isOpen",
+        "type": "bool"
+      }
+    ],
+    "name": "setIsOpen",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1177,7 +1248,7 @@ export const assethubAbi = [
     ],
     "name": "update",
     "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -1236,6 +1307,7 @@ export const assethubAbi = [
     "type": "function"
   }
 ]
+
 
 export const assethubManagerAbi = [
   {
@@ -1414,10 +1486,15 @@ export const assethubManagerAbi = [
             "internalType": "address",
             "name": "nftGatedModule",
             "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "contractURI",
+            "type": "string"
           }
         ],
         "indexed": false,
-        "internalType": "struct LiteHubInfo",
+        "internalType": "struct AssetHubInfo",
         "name": "data",
         "type": "tuple"
       }
@@ -1475,6 +1552,51 @@ export const assethubManagerAbi = [
       }
     ],
     "name": "Initialized",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "assetHubImpl",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "tokenCreateModule",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "collectNFT",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "feeCollectModule",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "tokenCollectModule",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "nftGatedModule",
+            "type": "address"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct MangerInitData",
+        "name": "modules",
+        "type": "tuple"
+      }
+    ],
+    "name": "ModulesInitialized",
     "type": "event"
   },
   {
@@ -1585,9 +1707,14 @@ export const assethubManagerAbi = [
             "internalType": "address",
             "name": "nftGatedModule",
             "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "contractURI",
+            "type": "string"
           }
         ],
-        "internalType": "struct LiteHubInfo",
+        "internalType": "struct AssetHubInfo",
         "name": "",
         "type": "tuple"
       }
@@ -1626,9 +1753,14 @@ export const assethubManagerAbi = [
             "internalType": "address",
             "name": "nftGatedModule",
             "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "contractURI",
+            "type": "string"
           }
         ],
-        "internalType": "struct LiteHubInfo",
+        "internalType": "struct AssetHubInfo",
         "name": "",
         "type": "tuple"
       }
@@ -1704,6 +1836,11 @@ export const assethubManagerAbi = [
             "internalType": "address",
             "name": "createModule",
             "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "contractURI",
+            "type": "string"
           }
         ],
         "internalType": "struct HubCreateData",
@@ -1786,7 +1923,7 @@ export const assethubManagerAbi = [
             "type": "address"
           }
         ],
-        "internalType": "struct LiteHubManagerBase.HubModulesStorage",
+        "internalType": "struct HubManagerBase.HubModulesStorage",
         "name": "",
         "type": "tuple"
       }
@@ -2009,6 +2146,7 @@ export const assethubManagerAbi = [
     "type": "function"
   }
 ]
+
 
 export const IERC20Abi = [
   {

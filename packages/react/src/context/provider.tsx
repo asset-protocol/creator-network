@@ -1,26 +1,31 @@
-import { useContext, useState, createContext, useMemo } from "react";
-import { StorageScheme, creatorNetwork, getStorage } from "@creator-network/core";
-import { getInjectedProviders } from "./provider-inject";
-import { ContractRunner } from "ethers";
-import { AssetHubManagerInfo, IndexerClient } from "@creator-network/indexer-js";
-
+import { useContext, useState, createContext, useMemo } from 'react';
+import {
+  StorageScheme,
+  getStorage,
+} from '@creator-network/core';
+import { getInjectedProviders } from './provider-inject';
+import { ContractRunner } from 'ethers';
+import {
+  AssetHubManagerInfo,
+  IndexerClient,
+} from '@creator-network/indexer-js';
 
 export type ChainInfo = {
-  id: number,
-  name: string
-  nativeCurrency: { name: string, symbol: string, decimals: number },
-}
+  id: number;
+  name: string;
+  nativeCurrency: { name: string; symbol: string; decimals: number };
+};
 
 export interface AssetContractRunner extends ContractRunner {
-  isMulti?: boolean
+  isMulti?: boolean;
   getAddress(): Promise<string>;
 }
 
 export type AccountInfo = {
   address: string;
-  channel?: string;
-  channelName?: string;
-  channelAvatar?: string;
+  studio?: string;
+  studioName?: string;
+  studioAvatar?: string;
 };
 
 export type AssetContextData = {
@@ -49,7 +54,9 @@ export type AssetProviderProps = {
 };
 
 export function AssetProvider(props: AssetProviderProps) {
-  const [storage, setStorage] = useState<StorageScheme | undefined>(props.storage);
+  const [storage, setStorage] = useState<StorageScheme | undefined>(
+    props.storage
+  );
   const value = {
     storage,
     setStorage,
@@ -58,15 +65,17 @@ export function AssetProvider(props: AssetProviderProps) {
     requireLogin: props.requireLogin,
     contractRunner: props.contractRunner,
     chain: props.chain,
-    apiClient: props.apiClient
+    apiClient: props.apiClient,
   };
   let children = props.children;
   getInjectedProviders()?.forEach(
     (p) => (children = p({ children: props.children }))
   );
   return (
-    <AssetContext.Provider value={value} children={children}>
-    </AssetContext.Provider>
+    <AssetContext.Provider
+      value={value}
+      children={children}
+    ></AssetContext.Provider>
   );
 }
 
@@ -79,8 +88,8 @@ export function useAssetStorage() {
   const { storage } = useAssetHub();
   return useMemo(() => {
     if (!storage) {
-      return
+      return;
     }
     return getStorage(storage);
-  }, [storage])
+  }, [storage]);
 }

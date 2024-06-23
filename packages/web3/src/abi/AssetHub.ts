@@ -24,28 +24,6 @@ import type {
 } from "./common";
 
 export declare namespace DataTypes {
-  export type AssetUpdateDataStruct = {
-    collectModule: AddressLike;
-    collectModuleInitData: BytesLike;
-    gatedModule: AddressLike;
-    gatedModuleInitData: BytesLike;
-    contentURI: string;
-  };
-
-  export type AssetUpdateDataStructOutput = [
-    collectModule: string,
-    collectModuleInitData: string,
-    gatedModule: string,
-    gatedModuleInitData: string,
-    contentURI: string
-  ] & {
-    collectModule: string;
-    collectModuleInitData: string;
-    gatedModule: string;
-    gatedModuleInitData: string;
-    contentURI: string;
-  };
-
   export type AssetCreateDataStruct = {
     publisher: AddressLike;
     contentURI: string;
@@ -73,6 +51,28 @@ export declare namespace DataTypes {
     gatedModule: string;
     gatedModuleInitData: string;
   };
+
+  export type AssetUpdateDataStruct = {
+    collectModule: AddressLike;
+    collectModuleInitData: BytesLike;
+    gatedModule: AddressLike;
+    gatedModuleInitData: BytesLike;
+    contentURI: string;
+  };
+
+  export type AssetUpdateDataStructOutput = [
+    collectModule: string,
+    collectModuleInitData: string,
+    gatedModule: string,
+    gatedModuleInitData: string,
+    contentURI: string
+  ] & {
+    collectModule: string;
+    collectModuleInitData: string;
+    gatedModule: string;
+    gatedModuleInitData: string;
+    contentURI: string;
+  };
 }
 
 export interface AssetHubInterface extends Interface {
@@ -86,16 +86,17 @@ export interface AssetHubInterface extends Interface {
       | "assetPublisher"
       | "balanceOf"
       | "collect"
-      | "collectModuleWhitelist"
+      | "collectModuleWhitelisted"
+      | "contractURI"
       | "count"
       | "create"
       | "emitCollectNFTTransferEvent"
       | "getApproved"
       | "getCreateAssetModule"
+      | "globalModule"
       | "hubOwner"
       | "initialize"
       | "isApprovedForAll"
-      | "isCollectModuleWhitelisted"
       | "name"
       | "owner"
       | "ownerOf"
@@ -105,8 +106,10 @@ export interface AssetHubInterface extends Interface {
       | "safeTransferFrom(address,address,uint256)"
       | "safeTransferFrom(address,address,uint256,bytes)"
       | "setApprovalForAll"
+      | "setCollectModuleWhitelist"
+      | "setContractURI"
       | "setCreateAssetModule"
-      | "setTokenURI"
+      | "setIsOpen"
       | "supportsInterface"
       | "symbol"
       | "tokenURI"
@@ -122,11 +125,13 @@ export interface AssetHubInterface extends Interface {
     nameOrSignatureOrTopic:
       | "Approval"
       | "ApprovalForAll"
-      | "AssetUpdated"
       | "BatchMetadataUpdate"
       | "CollectModuleWhitelisted"
       | "CollectNFTTransfered"
+      | "ContractURIUpdated"
+      | "InfoURIChanged"
       | "Initialized"
+      | "IsOpenChanged"
       | "MetadataUpdate"
       | "OwnershipTransferred"
       | "Paused"
@@ -168,8 +173,12 @@ export interface AssetHubInterface extends Interface {
     values: [BigNumberish, BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: "collectModuleWhitelist",
-    values: [AddressLike, boolean]
+    functionFragment: "collectModuleWhitelisted",
+    values: [AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "contractURI",
+    values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "count", values: [AddressLike]): string;
   encodeFunctionData(
@@ -188,25 +197,26 @@ export interface AssetHubInterface extends Interface {
     functionFragment: "getCreateAssetModule",
     values?: undefined
   ): string;
+  encodeFunctionData(
+    functionFragment: "globalModule",
+    values?: undefined
+  ): string;
   encodeFunctionData(functionFragment: "hubOwner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "initialize",
     values: [
       string,
-      string,
       AddressLike,
       AddressLike,
       AddressLike,
-      AddressLike[]
+      AddressLike,
+      AddressLike[],
+      string
     ]
   ): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [AddressLike, AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "isCollectModuleWhitelisted",
-    values: [AddressLike]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
@@ -236,13 +246,18 @@ export interface AssetHubInterface extends Interface {
     values: [AddressLike, boolean]
   ): string;
   encodeFunctionData(
+    functionFragment: "setCollectModuleWhitelist",
+    values: [AddressLike, boolean]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setContractURI",
+    values: [string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setCreateAssetModule",
     values: [AddressLike]
   ): string;
-  encodeFunctionData(
-    functionFragment: "setTokenURI",
-    values: [BigNumberish, string]
-  ): string;
+  encodeFunctionData(functionFragment: "setIsOpen", values: [boolean]): string;
   encodeFunctionData(
     functionFragment: "supportsInterface",
     values: [BytesLike]
@@ -295,7 +310,11 @@ export interface AssetHubInterface extends Interface {
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "collect", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "collectModuleWhitelist",
+    functionFragment: "collectModuleWhitelisted",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "contractURI",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "count", data: BytesLike): Result;
@@ -312,14 +331,14 @@ export interface AssetHubInterface extends Interface {
     functionFragment: "getCreateAssetModule",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "globalModule",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "hubOwner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "isCollectModuleWhitelisted",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
@@ -347,13 +366,18 @@ export interface AssetHubInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setCreateAssetModule",
+    functionFragment: "setCollectModuleWhitelist",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setTokenURI",
+    functionFragment: "setContractURI",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "setCreateAssetModule",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "setIsOpen", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "supportsInterface",
     data: BytesLike
@@ -413,25 +437,6 @@ export namespace ApprovalForAllEvent {
     owner: string;
     operator: string;
     approved: boolean;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
-}
-
-export namespace AssetUpdatedEvent {
-  export type InputTuple = [
-    assetId: BigNumberish,
-    data: DataTypes.AssetUpdateDataStruct
-  ];
-  export type OutputTuple = [
-    assetId: bigint,
-    data: DataTypes.AssetUpdateDataStructOutput
-  ];
-  export interface OutputObject {
-    assetId: bigint;
-    data: DataTypes.AssetUpdateDataStructOutput;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -508,11 +513,45 @@ export namespace CollectNFTTransferedEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
+export namespace ContractURIUpdatedEvent {
+  export type InputTuple = [];
+  export type OutputTuple = [];
+  export interface OutputObject {}
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace InfoURIChangedEvent {
+  export type InputTuple = [uri: string];
+  export type OutputTuple = [uri: string];
+  export interface OutputObject {
+    uri: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
 export namespace InitializedEvent {
   export type InputTuple = [version: BigNumberish];
   export type OutputTuple = [version: bigint];
   export interface OutputObject {
     version: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace IsOpenChangedEvent {
+  export type InputTuple = [isOpen: boolean];
+  export type OutputTuple = [isOpen: boolean];
+  export interface OutputObject {
+    isOpen: boolean;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -682,18 +721,20 @@ export interface AssetHub extends BaseContract {
     "payable"
   >;
 
-  collectModuleWhitelist: TypedContractMethod<
-    [collectModule: AddressLike, whitelist: boolean],
-    [void],
-    "nonpayable"
+  collectModuleWhitelisted: TypedContractMethod<
+    [followModule: AddressLike],
+    [boolean],
+    "view"
   >;
+
+  contractURI: TypedContractMethod<[], [string], "view">;
 
   count: TypedContractMethod<[publisher: AddressLike], [bigint], "view">;
 
   create: TypedContractMethod<
     [data: DataTypes.AssetCreateDataStruct],
     [bigint],
-    "nonpayable"
+    "payable"
   >;
 
   emitCollectNFTTransferEvent: TypedContractMethod<
@@ -712,16 +753,19 @@ export interface AssetHub extends BaseContract {
 
   getCreateAssetModule: TypedContractMethod<[], [string], "view">;
 
+  globalModule: TypedContractMethod<[], [string], "view">;
+
   hubOwner: TypedContractMethod<[], [string], "view">;
 
   initialize: TypedContractMethod<
     [
       name: string,
-      symbol: string,
+      manager: AddressLike,
       admin: AddressLike,
       collectNFT: AddressLike,
       createAssetModule: AddressLike,
-      whitelistedCollectModules: AddressLike[]
+      whitelistedCollectModules: AddressLike[],
+      contractURI: string
     ],
     [void],
     "nonpayable"
@@ -729,12 +773,6 @@ export interface AssetHub extends BaseContract {
 
   isApprovedForAll: TypedContractMethod<
     [owner: AddressLike, operator: AddressLike],
-    [boolean],
-    "view"
-  >;
-
-  isCollectModuleWhitelisted: TypedContractMethod<
-    [followModule: AddressLike],
     [boolean],
     "view"
   >;
@@ -774,17 +812,21 @@ export interface AssetHub extends BaseContract {
     "nonpayable"
   >;
 
+  setCollectModuleWhitelist: TypedContractMethod<
+    [collectModule: AddressLike, whitelist: boolean],
+    [void],
+    "nonpayable"
+  >;
+
+  setContractURI: TypedContractMethod<[uri: string], [void], "nonpayable">;
+
   setCreateAssetModule: TypedContractMethod<
     [assetModule: AddressLike],
     [void],
     "nonpayable"
   >;
 
-  setTokenURI: TypedContractMethod<
-    [assetId: BigNumberish, contentURI: string],
-    [void],
-    "nonpayable"
-  >;
+  setIsOpen: TypedContractMethod<[isOpen: boolean], [void], "nonpayable">;
 
   supportsInterface: TypedContractMethod<
     [interfaceId: BytesLike],
@@ -811,7 +853,7 @@ export interface AssetHub extends BaseContract {
   update: TypedContractMethod<
     [assetId: BigNumberish, data: DataTypes.AssetUpdateDataStruct],
     [void],
-    "nonpayable"
+    "payable"
   >;
 
   upgradeToAndCall: TypedContractMethod<
@@ -869,12 +911,11 @@ export interface AssetHub extends BaseContract {
     "payable"
   >;
   getFunction(
-    nameOrSignature: "collectModuleWhitelist"
-  ): TypedContractMethod<
-    [collectModule: AddressLike, whitelist: boolean],
-    [void],
-    "nonpayable"
-  >;
+    nameOrSignature: "collectModuleWhitelisted"
+  ): TypedContractMethod<[followModule: AddressLike], [boolean], "view">;
+  getFunction(
+    nameOrSignature: "contractURI"
+  ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "count"
   ): TypedContractMethod<[publisher: AddressLike], [bigint], "view">;
@@ -883,7 +924,7 @@ export interface AssetHub extends BaseContract {
   ): TypedContractMethod<
     [data: DataTypes.AssetCreateDataStruct],
     [bigint],
-    "nonpayable"
+    "payable"
   >;
   getFunction(
     nameOrSignature: "emitCollectNFTTransferEvent"
@@ -905,6 +946,9 @@ export interface AssetHub extends BaseContract {
     nameOrSignature: "getCreateAssetModule"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
+    nameOrSignature: "globalModule"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
     nameOrSignature: "hubOwner"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
@@ -912,11 +956,12 @@ export interface AssetHub extends BaseContract {
   ): TypedContractMethod<
     [
       name: string,
-      symbol: string,
+      manager: AddressLike,
       admin: AddressLike,
       collectNFT: AddressLike,
       createAssetModule: AddressLike,
-      whitelistedCollectModules: AddressLike[]
+      whitelistedCollectModules: AddressLike[],
+      contractURI: string
     ],
     [void],
     "nonpayable"
@@ -928,9 +973,6 @@ export interface AssetHub extends BaseContract {
     [boolean],
     "view"
   >;
-  getFunction(
-    nameOrSignature: "isCollectModuleWhitelisted"
-  ): TypedContractMethod<[followModule: AddressLike], [boolean], "view">;
   getFunction(
     nameOrSignature: "name"
   ): TypedContractMethod<[], [string], "view">;
@@ -976,15 +1018,21 @@ export interface AssetHub extends BaseContract {
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "setCreateAssetModule"
-  ): TypedContractMethod<[assetModule: AddressLike], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "setTokenURI"
+    nameOrSignature: "setCollectModuleWhitelist"
   ): TypedContractMethod<
-    [assetId: BigNumberish, contentURI: string],
+    [collectModule: AddressLike, whitelist: boolean],
     [void],
     "nonpayable"
   >;
+  getFunction(
+    nameOrSignature: "setContractURI"
+  ): TypedContractMethod<[uri: string], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "setCreateAssetModule"
+  ): TypedContractMethod<[assetModule: AddressLike], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "setIsOpen"
+  ): TypedContractMethod<[isOpen: boolean], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "supportsInterface"
   ): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
@@ -1009,7 +1057,7 @@ export interface AssetHub extends BaseContract {
   ): TypedContractMethod<
     [assetId: BigNumberish, data: DataTypes.AssetUpdateDataStruct],
     [void],
-    "nonpayable"
+    "payable"
   >;
   getFunction(
     nameOrSignature: "upgradeToAndCall"
@@ -1044,13 +1092,6 @@ export interface AssetHub extends BaseContract {
     ApprovalForAllEvent.OutputObject
   >;
   getEvent(
-    key: "AssetUpdated"
-  ): TypedContractEvent<
-    AssetUpdatedEvent.InputTuple,
-    AssetUpdatedEvent.OutputTuple,
-    AssetUpdatedEvent.OutputObject
-  >;
-  getEvent(
     key: "BatchMetadataUpdate"
   ): TypedContractEvent<
     BatchMetadataUpdateEvent.InputTuple,
@@ -1072,11 +1113,32 @@ export interface AssetHub extends BaseContract {
     CollectNFTTransferedEvent.OutputObject
   >;
   getEvent(
+    key: "ContractURIUpdated"
+  ): TypedContractEvent<
+    ContractURIUpdatedEvent.InputTuple,
+    ContractURIUpdatedEvent.OutputTuple,
+    ContractURIUpdatedEvent.OutputObject
+  >;
+  getEvent(
+    key: "InfoURIChanged"
+  ): TypedContractEvent<
+    InfoURIChangedEvent.InputTuple,
+    InfoURIChangedEvent.OutputTuple,
+    InfoURIChangedEvent.OutputObject
+  >;
+  getEvent(
     key: "Initialized"
   ): TypedContractEvent<
     InitializedEvent.InputTuple,
     InitializedEvent.OutputTuple,
     InitializedEvent.OutputObject
+  >;
+  getEvent(
+    key: "IsOpenChanged"
+  ): TypedContractEvent<
+    IsOpenChangedEvent.InputTuple,
+    IsOpenChangedEvent.OutputTuple,
+    IsOpenChangedEvent.OutputObject
   >;
   getEvent(
     key: "MetadataUpdate"
@@ -1144,17 +1206,6 @@ export interface AssetHub extends BaseContract {
       ApprovalForAllEvent.OutputObject
     >;
 
-    "AssetUpdated(uint256,tuple)": TypedContractEvent<
-      AssetUpdatedEvent.InputTuple,
-      AssetUpdatedEvent.OutputTuple,
-      AssetUpdatedEvent.OutputObject
-    >;
-    AssetUpdated: TypedContractEvent<
-      AssetUpdatedEvent.InputTuple,
-      AssetUpdatedEvent.OutputTuple,
-      AssetUpdatedEvent.OutputObject
-    >;
-
     "BatchMetadataUpdate(uint256,uint256)": TypedContractEvent<
       BatchMetadataUpdateEvent.InputTuple,
       BatchMetadataUpdateEvent.OutputTuple,
@@ -1188,6 +1239,28 @@ export interface AssetHub extends BaseContract {
       CollectNFTTransferedEvent.OutputObject
     >;
 
+    "ContractURIUpdated()": TypedContractEvent<
+      ContractURIUpdatedEvent.InputTuple,
+      ContractURIUpdatedEvent.OutputTuple,
+      ContractURIUpdatedEvent.OutputObject
+    >;
+    ContractURIUpdated: TypedContractEvent<
+      ContractURIUpdatedEvent.InputTuple,
+      ContractURIUpdatedEvent.OutputTuple,
+      ContractURIUpdatedEvent.OutputObject
+    >;
+
+    "InfoURIChanged(string)": TypedContractEvent<
+      InfoURIChangedEvent.InputTuple,
+      InfoURIChangedEvent.OutputTuple,
+      InfoURIChangedEvent.OutputObject
+    >;
+    InfoURIChanged: TypedContractEvent<
+      InfoURIChangedEvent.InputTuple,
+      InfoURIChangedEvent.OutputTuple,
+      InfoURIChangedEvent.OutputObject
+    >;
+
     "Initialized(uint64)": TypedContractEvent<
       InitializedEvent.InputTuple,
       InitializedEvent.OutputTuple,
@@ -1197,6 +1270,17 @@ export interface AssetHub extends BaseContract {
       InitializedEvent.InputTuple,
       InitializedEvent.OutputTuple,
       InitializedEvent.OutputObject
+    >;
+
+    "IsOpenChanged(bool)": TypedContractEvent<
+      IsOpenChangedEvent.InputTuple,
+      IsOpenChangedEvent.OutputTuple,
+      IsOpenChangedEvent.OutputObject
+    >;
+    IsOpenChanged: TypedContractEvent<
+      IsOpenChangedEvent.InputTuple,
+      IsOpenChangedEvent.OutputTuple,
+      IsOpenChangedEvent.OutputObject
     >;
 
     "MetadataUpdate(uint256)": TypedContractEvent<

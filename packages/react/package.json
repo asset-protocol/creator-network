@@ -53,6 +53,7 @@
     "deschool-vditor": "^3.10.2",
     "ethers": "^6.11.1",
     "highlight.js": "^11.9.0",
+    "mime": "^4.0.3",
     "parchment": "^3.0.0",
     "quill": "^2.0.1",
     "react-player": "^2.13.0"

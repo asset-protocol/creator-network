@@ -1,1 +1,1 @@
-export const TYPE_RICH_TEXT = "richtext-quill";
+export const TYPE_RICH_TEXT = "post";

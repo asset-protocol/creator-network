@@ -1,13 +1,13 @@
-import { Suspense, lazy } from "react";
-import { TYPE_IMAGE } from "./consts";
-import { AssetConfig } from "../../asset";
-import { useAssetHub } from "../../context";
-import { getStorage } from "@creator-network/core";
+import { Suspense, lazy } from 'react';
+import { TYPE_IMAGE } from './consts';
+import { AssetConfig } from '../../asset';
+import { useAssetHub } from '../../context';
+import { getStorage } from '@creator-network/core';
 
-const Editor = lazy(() => import("./components/ImageEditor"));
+const Editor = lazy(() => import('./components/ImageEditor'));
 export default function imageEditor(config: AssetConfig) {
   config.registerEditor({
-    types: [{ value: TYPE_IMAGE, label: "Image" }],
+    types: [{ value: TYPE_IMAGE, label: 'Image' }],
     selector: (t) => t === TYPE_IMAGE,
     editor: (props) => (
       <Suspense>
@@ -20,7 +20,7 @@ export default function imageEditor(config: AssetConfig) {
         const files = cur ? JSON.parse(cur) : [];
         const resFiles: string[] = [];
         for (const file of files) {
-          if (file.startsWith("blob:")) {
+          if (file.startsWith('blob:')) {
             const b = await fetch(file).then((res) => res.blob());
             const url = await getStorage(storage!)!.upload({
               data: b,

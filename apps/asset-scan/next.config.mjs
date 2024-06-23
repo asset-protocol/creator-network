@@ -7,7 +7,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "lavender-okay-xerinae-416.mypinata.cloud",
+        hostname: "ipfs.io",
         port: "",
         pathname: "/ipfs/**",
       },

@@ -1,13 +1,18 @@
-import { Button, Form, Modal, ModalProps, Select } from "antd";
+import { Button, Form, Modal, ModalProps, Select } from 'antd';
 
-import { CollectModuleInput } from "./collect/CollectModuleInput";
-import { ZeroAddress, formatEther } from "ethers";
-import { PublishFromDataType, useAssetEditor, useAssetPublish, usePublishFormValues } from "@creator-network/react/asset/editor";
-import { useGetHubGlobalModuleConfig } from "@creator-network/react/hooks";
-import { ZERO_BYTES } from "@creator-network/core";
-import { AssetCard } from "./AssetCard";
-import { useAssetHub } from "@creator-network/react";
-import { revalidateAssets } from "@/app/_creatornetwork/indexer-actions";
+import { CollectModuleInput } from './collect/CollectModuleInput';
+import { ZeroAddress, formatEther } from 'ethers';
+import {
+  PublishFromDataType,
+  useAssetEditor,
+  useAssetPublish,
+  usePublishFormValues,
+} from '@creator-network/react/asset/editor';
+import { useGetHubGlobalModuleConfig } from '@creator-network/react/hooks';
+import { ZERO_BYTES } from '@creator-network/core';
+import { AssetCard } from './AssetCard';
+import { useAssetHub } from '@creator-network/react';
+import { revalidateAssets } from '@/app/_creatornetwork/indexer-actions';
 
 export function AssetPublishForm({ onClose }: { onClose?: () => void }) {
   const { manager, account } = useAssetHub();
@@ -16,19 +21,22 @@ export function AssetPublishForm({ onClose }: { onClose?: () => void }) {
   const initialValues = usePublishFormValues();
 
   if (!manager) {
-    throw new Error("manager is undefined");
+    throw new Error('manager is undefined');
   }
-  if (!account || !account.channel) {
-    throw new Error("account or channel is undefined");
+  if (!account || !account.studio) {
+    throw new Error('account or channel is undefined');
   }
-  const channel = account.channel;
-  const { config: globalTokenConfig } = useGetHubGlobalModuleConfig(manager.globalModule, channel);
+  const channel = account.studio;
+  const { config: globalTokenConfig } = useGetHubGlobalModuleConfig(
+    manager.globalModule,
+    channel
+  );
   const { publish, loading, tip } = useAssetPublish();
 
   const canSubmit = metadata && metadata.name && content && metadata.image;
 
   const handleSubmit = (values: PublishFromDataType) => {
-    console.log("values", values);
+    console.log('values', values);
     if (!values.useCollect) {
       values.collectModule = {
         module: ZeroAddress,
@@ -46,7 +54,11 @@ export function AssetPublishForm({ onClose }: { onClose?: () => void }) {
   return (
     metadata && (
       <div className="flex flex-wrap flex-col gap-6 text-base w-[300px]">
-        <AssetCard name={metadata.name} image={metadata.image} />
+        <AssetCard
+          name={metadata.name}
+          image={metadata.image}
+          hubName={account.studioName}
+        />
         <Form<PublishFromDataType>
           className="items-start flex flex-col justify-between"
           onFinish={handleSubmit}
@@ -76,7 +88,7 @@ export function AssetPublishForm({ onClose }: { onClose?: () => void }) {
           {<span className="text-gray-400">{tip}</span>}
           <Form.Item className="w-full my-2">
             <div className="flex items-center w-full">
-              <Button type="link" onClick={() => onClose?.()} >
+              <Button type="link" onClick={() => onClose?.()}>
                 Cancel
               </Button>
               <Button
@@ -89,7 +101,6 @@ export function AssetPublishForm({ onClose }: { onClose?: () => void }) {
               >
                 Submit
               </Button>
-
             </div>
           </Form.Item>
         </Form>
@@ -98,7 +109,7 @@ export function AssetPublishForm({ onClose }: { onClose?: () => void }) {
   );
 }
 
-export type { ModalProps } from "antd";
+export type { ModalProps } from 'antd';
 export type AssetPublishModalProps = ModalProps & {
   open?: boolean;
   onCancel?: () => void;

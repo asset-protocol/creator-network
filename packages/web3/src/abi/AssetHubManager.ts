@@ -23,36 +23,27 @@ import type {
   TypedContractMethod,
 } from "./common";
 
-export type LiteHubInfoStruct = {
+export type AssetHubInfoStruct = {
   createModule: AddressLike;
   tokenCollectModule: AddressLike;
   feeCollectModule: AddressLike;
   nftGatedModule: AddressLike;
+  contractURI: string;
 };
 
-export type LiteHubInfoStructOutput = [
+export type AssetHubInfoStructOutput = [
   createModule: string,
   tokenCollectModule: string,
   feeCollectModule: string,
-  nftGatedModule: string
+  nftGatedModule: string,
+  contractURI: string
 ] & {
   createModule: string;
   tokenCollectModule: string;
   feeCollectModule: string;
   nftGatedModule: string;
+  contractURI: string;
 };
-
-export type HubCreateDataStruct = {
-  admin: AddressLike;
-  name: string;
-  createModule: AddressLike;
-};
-
-export type HubCreateDataStructOutput = [
-  admin: string,
-  name: string,
-  createModule: string
-] & { admin: string; name: string; createModule: string };
 
 export type MangerInitDataStruct = {
   assetHubImpl: AddressLike;
@@ -79,7 +70,21 @@ export type MangerInitDataStructOutput = [
   nftGatedModule: string;
 };
 
-export declare namespace LiteHubManagerBase {
+export type HubCreateDataStruct = {
+  admin: AddressLike;
+  name: string;
+  createModule: AddressLike;
+  contractURI: string;
+};
+
+export type HubCreateDataStructOutput = [
+  admin: string,
+  name: string,
+  createModule: string,
+  contractURI: string
+] & { admin: string; name: string; createModule: string; contractURI: string };
+
+export declare namespace HubManagerBase {
   export type HubModulesStorageStruct = {
     tokenCreateModule: AddressLike;
     collectNFT: AddressLike;
@@ -103,7 +108,7 @@ export declare namespace LiteHubManagerBase {
   };
 }
 
-export interface LiteAssetHubManagerInterface extends Interface {
+export interface AssetHubManagerInterface extends Interface {
   getFunction(
     nameOrSignature:
       | "UPGRADE_INTERFACE_VERSION"
@@ -138,6 +143,7 @@ export interface LiteAssetHubManagerInterface extends Interface {
       | "GlobalModuleChanged"
       | "HubCreatorNFTChanged"
       | "Initialized"
+      | "ModulesInitialized"
       | "MultipleUpgraded"
       | "OwnershipTransferred"
       | "Upgraded"
@@ -299,19 +305,19 @@ export namespace AssetHubDeployedEvent {
     admin: AddressLike,
     name: string,
     assetHub: AddressLike,
-    data: LiteHubInfoStruct
+    data: AssetHubInfoStruct
   ];
   export type OutputTuple = [
     admin: string,
     name: string,
     assetHub: string,
-    data: LiteHubInfoStructOutput
+    data: AssetHubInfoStructOutput
   ];
   export interface OutputObject {
     admin: string;
     name: string;
     assetHub: string;
-    data: LiteHubInfoStructOutput;
+    data: AssetHubInfoStructOutput;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -367,6 +373,18 @@ export namespace InitializedEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
+export namespace ModulesInitializedEvent {
+  export type InputTuple = [modules: MangerInitDataStruct];
+  export type OutputTuple = [modules: MangerInitDataStructOutput];
+  export interface OutputObject {
+    modules: MangerInitDataStructOutput;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
 export namespace MultipleUpgradedEvent {
   export type InputTuple = [index: BigNumberish, implementation: AddressLike];
   export type OutputTuple = [index: bigint, implementation: string];
@@ -405,11 +423,11 @@ export namespace UpgradedEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
-export interface LiteAssetHubManager extends BaseContract {
-  connect(runner?: ContractRunner | null): LiteAssetHubManager;
+export interface AssetHubManager extends BaseContract {
+  connect(runner?: ContractRunner | null): AssetHubManager;
   waitForDeployment(): Promise<this>;
 
-  interface: LiteAssetHubManagerInterface;
+  interface: AssetHubManagerInterface;
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
@@ -454,13 +472,13 @@ export interface LiteAssetHubManager extends BaseContract {
 
   assetHubInfo: TypedContractMethod<
     [hub: AddressLike],
-    [LiteHubInfoStructOutput],
+    [AssetHubInfoStructOutput],
     "view"
   >;
 
   assetHubInfoByName: TypedContractMethod<
     [name: string],
-    [LiteHubInfoStructOutput],
+    [AssetHubInfoStructOutput],
     "view"
   >;
 
@@ -486,7 +504,7 @@ export interface LiteAssetHubManager extends BaseContract {
 
   hubDefaultModules: TypedContractMethod<
     [],
-    [LiteHubManagerBase.HubModulesStorageStructOutput],
+    [HubManagerBase.HubModulesStorageStructOutput],
     "view"
   >;
 
@@ -551,10 +569,14 @@ export interface LiteAssetHubManager extends BaseContract {
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "assetHubInfo"
-  ): TypedContractMethod<[hub: AddressLike], [LiteHubInfoStructOutput], "view">;
+  ): TypedContractMethod<
+    [hub: AddressLike],
+    [AssetHubInfoStructOutput],
+    "view"
+  >;
   getFunction(
     nameOrSignature: "assetHubInfoByName"
-  ): TypedContractMethod<[name: string], [LiteHubInfoStructOutput], "view">;
+  ): TypedContractMethod<[name: string], [AssetHubInfoStructOutput], "view">;
   getFunction(
     nameOrSignature: "canCreateHub"
   ): TypedContractMethod<[account: AddressLike], [[boolean, string]], "view">;
@@ -577,7 +599,7 @@ export interface LiteAssetHubManager extends BaseContract {
     nameOrSignature: "hubDefaultModules"
   ): TypedContractMethod<
     [],
-    [LiteHubManagerBase.HubModulesStorageStructOutput],
+    [HubManagerBase.HubModulesStorageStructOutput],
     "view"
   >;
   getFunction(
@@ -666,6 +688,13 @@ export interface LiteAssetHubManager extends BaseContract {
     InitializedEvent.OutputObject
   >;
   getEvent(
+    key: "ModulesInitialized"
+  ): TypedContractEvent<
+    ModulesInitializedEvent.InputTuple,
+    ModulesInitializedEvent.OutputTuple,
+    ModulesInitializedEvent.OutputObject
+  >;
+  getEvent(
     key: "MultipleUpgraded"
   ): TypedContractEvent<
     MultipleUpgradedEvent.InputTuple,
@@ -741,6 +770,17 @@ export interface LiteAssetHubManager extends BaseContract {
       InitializedEvent.InputTuple,
       InitializedEvent.OutputTuple,
       InitializedEvent.OutputObject
+    >;
+
+    "ModulesInitialized(tuple)": TypedContractEvent<
+      ModulesInitializedEvent.InputTuple,
+      ModulesInitializedEvent.OutputTuple,
+      ModulesInitializedEvent.OutputObject
+    >;
+    ModulesInitialized: TypedContractEvent<
+      ModulesInitializedEvent.InputTuple,
+      ModulesInitializedEvent.OutputTuple,
+      ModulesInitializedEvent.OutputObject
     >;
 
     "MultipleUpgraded(uint256,address)": TypedContractEvent<

@@ -1,7 +1,10 @@
-import { GetAssetHubAssetsInput, useGetAssets } from "@creator-network/indexer-js";
-import { AssetItem } from "./AssetItem";
-import List, { ListGridType } from "antd/es/list";
-import { Asset } from "@creator-network/core";
+import {
+  GetAssetHubAssetsInput,
+  useGetAssets,
+} from '@creator-network/indexer-js';
+import { AssetItem } from './AssetItem';
+import List, { ListGridType } from 'antd/es/list';
+import { Asset } from '@creator-network/core';
 
 export type AssetListProps = {
   query?: GetAssetHubAssetsInput;
@@ -24,13 +27,10 @@ export function AssetList(props: AssetListProps) {
       rowKey={(item) => item.id}
       renderItem={(item) => (
         <List.Item
-          colStyle={{ display: "flex", height: "100%" }}
+          colStyle={{ display: 'flex', height: '100%' }}
           className="w-full"
         >
-          <AssetItem
-            value={item}
-            onClick={(a) => props.onAssetClick?.(a)}
-          />
+          <AssetItem value={item} onClick={(a) => props.onAssetClick?.(a)} />
         </List.Item>
       )}
     ></List>

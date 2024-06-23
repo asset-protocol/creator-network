@@ -1,19 +1,19 @@
-import { indexerClient } from "@/app/_creatornetwork";
-import { replaceUri } from "@creator-network/core";
-import { Curation } from "@creator-network/indexer-js";
-import { fromNow } from "@creator-network/react/utils";
-import { Avatar, Divider } from "antd";
-import Image from "next/image";
+import { indexerClient } from '@/app/_creatornetwork';
+import { replaceUri } from '@creator-network/core';
+import { Curation } from '@creator-network/indexer-js';
+import { fromNow } from '@creator-network/react/utils';
+import { Avatar, Divider } from 'antd';
+import Image from 'next/image';
 
 export async function CurationList() {
   const curations = await indexerClient.curations.fetchCurations();
   return (
     <div className="flex flex-col gap-4">
-      {curations.map(c => (
+      {curations.map((c) => (
         <CurationListItem curation={c} />
       ))}
     </div>
-  )
+  );
 }
 
 export function CurationListItem({ curation }: { curation: Curation }) {
@@ -42,5 +42,5 @@ export function CurationListItem({ curation }: { curation: Curation }) {
         ></Image>
       </div>
     </div>
-  )
+  );
 }

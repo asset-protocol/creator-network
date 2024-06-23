@@ -1,7 +1,10 @@
-import { useCallback, useState } from "react";
-import { useAssetHub } from "../context";
-import { NewCuration,curation } from "@creator-network/web3";
-import { AssetApprovalStatus, CurationStatus } from "@creator-network/indexer-js";
+import { useCallback, useState } from 'react';
+import { useAssetHub } from '../context';
+import { NewCuration, curation } from '@creator-network/web3';
+import {
+  AssetApprovalStatus,
+  CurationStatus,
+} from '@creator-network/indexer-js';
 
 export type CreateCurationInput = {
   contentURI: string;
@@ -11,16 +14,16 @@ export type CreateCurationInput = {
 };
 
 export function useCreateCuration() {
-  const { hubManagerInfo, contractRunner } = useAssetHub();
+  const { manager, contractRunner } = useAssetHub();
   const [loading, setLoading] = useState(false);
 
   const create = useCallback(
     async (args: CreateCurationInput) => {
       setLoading(true);
       try {
-        if (hubManagerInfo && contractRunner) {
-          const curation = NewCuration(contractRunner, hubManagerInfo.curation);
-          console.log("creage args", args);
+        if (manager && contractRunner) {
+          const curation = NewCuration(contractRunner, manager.curation);
+          console.log('creage args', args);
           let curationId: bigint | undefined;
           if (!contractRunner.isMulti) {
             curationId = await curation.create.staticCall(
@@ -43,13 +46,13 @@ export function useCreateCuration() {
         setLoading(false);
       }
     },
-    [hubManagerInfo, contractRunner]
+    [manager, contractRunner]
   );
   return { create, loading };
 }
 
 export function useCurationAddAssets() {
-  const { hubManagerInfo, contractRunner } = useAssetHub();
+  const { manager, contractRunner } = useAssetHub();
   const [loading, setLoading] = useState(false);
 
   const addAssets = useCallback(
@@ -59,8 +62,8 @@ export function useCurationAddAssets() {
       }
       setLoading(true);
       try {
-        if (hubManagerInfo && contractRunner) {
-          const curation = NewCuration(contractRunner, hubManagerInfo.curation);
+        if (manager && contractRunner) {
+          const curation = NewCuration(contractRunner, manager.curation);
           const tx = await curation.addAssets(curationId, assets);
           await tx.wait();
         }
@@ -68,26 +71,26 @@ export function useCurationAddAssets() {
         setLoading(false);
       }
     },
-    [hubManagerInfo, contractRunner]
+    [manager, contractRunner]
   );
   return { addAssets, loading };
 }
 
 export function useCurationRemoveAssets() {
-  const { hubManagerInfo, contractRunner } = useAssetHub();
+  const { manager, contractRunner } = useAssetHub();
   const [loading, setLoading] = useState(false);
 
   const removeAssets = useCallback(
     async (curationId: bigint, assets: { hub: string; assetId: bigint }[]) => {
       setLoading(true);
       try {
-        if (hubManagerInfo && contractRunner) {
+        if (manager && contractRunner) {
           const hubs = assets.map((a) => a.hub);
           const assetIds = assets.map((a) => a.assetId);
           if (hubs.length === 0) {
             return;
           }
-          const curation = NewCuration(contractRunner, hubManagerInfo.curation);
+          const curation = NewCuration(contractRunner, manager.curation);
           const tx = await curation.removeAssets(curationId, hubs, assetIds);
           await tx.wait();
         }
@@ -95,13 +98,13 @@ export function useCurationRemoveAssets() {
         setLoading(false);
       }
     },
-    [hubManagerInfo, contractRunner]
+    [manager, contractRunner]
   );
   return { removeAssets, loading };
 }
 
 export function useCurationApproveAssets() {
-  const { hubManagerInfo, contractRunner } = useAssetHub();
+  const { manager, contractRunner } = useAssetHub();
   const [loading, setLoading] = useState(false);
 
   const approveAssets = useCallback(
@@ -115,14 +118,14 @@ export function useCurationApproveAssets() {
     ) => {
       setLoading(true);
       try {
-        if (hubManagerInfo && contractRunner) {
+        if (manager && contractRunner) {
           const statuses = assets.map((a) => a.status);
           const assetIds = assets.map((a) => a.assetId);
           const hubs = assets.map((a) => a.hub);
           if (assets.length === 0) {
             return;
           }
-          const curation = NewCuration(contractRunner, hubManagerInfo.curation);
+          const curation = NewCuration(contractRunner, manager.curation);
           const tx = await curation.approveAssetBatch(
             curationId,
             hubs,
@@ -135,7 +138,7 @@ export function useCurationApproveAssets() {
         setLoading(false);
       }
     },
-    [hubManagerInfo, contractRunner]
+    [manager, contractRunner]
   );
   return { approveAssets, loading };
 }

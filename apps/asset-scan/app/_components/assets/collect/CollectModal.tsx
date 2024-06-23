@@ -1,17 +1,20 @@
-'use client'
-import { Avatar, Button, Modal, ModalProps } from "antd";
-import { UserOutlined } from "@ant-design/icons";
-import { ZeroAddress, formatEther } from "ethers";
-import { useState } from "react";
-import { Asset, ZERO_BYTES, replaceUri } from "@creator-network/core";
-import { useAssetHub } from "@creator-network/react";
-import { useCollectAsset, useGetHubGlobalModuleConfig, useHubERC20Approve } from "@creator-network/react/hooks";
-import { AddressLink } from "../../address/AddressLink";
-import { collectModules } from "@creator-network/react/collect";
-import { revalidateAssetById } from "@/app/_creatornetwork/indexer-actions";
+'use client';
+import { Avatar, Button, Modal, ModalProps } from 'antd';
+import { ZeroAddress, formatEther } from 'ethers';
+import { useState } from 'react';
+import { Asset, ZERO_BYTES, replaceUri } from '@creator-network/core';
+import { useAssetHub } from '@creator-network/react';
+import {
+  useCollectAsset,
+  useGetHubGlobalModuleConfig,
+  useHubERC20Approve,
+} from '@creator-network/react/hooks';
+import { AddressLink } from '../../address/AddressLink';
+import { collectModules } from '@creator-network/react/collect';
+import { revalidateAssetById } from '@/app/_creatornetwork/indexer-actions';
+import { User } from 'lucide-react';
 
-
-export type CollectModalProps = Omit<ModalProps, "onOk"> & {
+export type CollectModalProps = Omit<ModalProps, 'onOk'> & {
   asset: Asset;
   onCollected?: (tokenId: bigint) => void;
 };
@@ -27,17 +30,19 @@ export function CollectModal(props: CollectModalProps) {
   const { collect } = useCollectAsset();
 
   const [loading, setLoading] = useState(false);
-  const { config: globalTokenConfig } = useGetHubGlobalModuleConfig(manager!.globalModule);
+  const { config: globalTokenConfig } = useGetHubGlobalModuleConfig(
+    manager!.globalModule
+  );
   const { approve } = useHubERC20Approve();
 
   const collectModule =
     asset.collectModule !== undefined
       ? collectModules()
-        .find((m) => m.moduleContract === asset.collectModule)
-        ?.useCollect(asset, {
-          module: asset.collectModule,
-          initData: asset.collectModuleInitData,
-        })
+          .find((m) => m.moduleContract === asset.collectModule)
+          ?.useCollect(asset, {
+            module: asset.collectModule,
+            initData: asset.collectModuleInitData,
+          })
       : undefined;
 
   const handleCollect = async () => {
@@ -56,7 +61,7 @@ export function CollectModal(props: CollectModalProps) {
         if (!success) return;
       }
       if (globalTokenConfig) {
-        console.log("globalTokenConfig", globalTokenConfig);
+        console.log('globalTokenConfig', globalTokenConfig);
         await approve(globalTokenConfig.token, globalTokenConfig.collectFee);
       }
       const tokenId = await collect(
@@ -68,7 +73,7 @@ export function CollectModal(props: CollectModalProps) {
         options
       );
       const res = await revalidateAssetById(asset.hub, asset.assetId);
-      console.log(res)
+      console.log(res);
       if (tokenId) {
         onCollected?.(tokenId);
       }
@@ -101,11 +106,7 @@ export function CollectModal(props: CollectModalProps) {
               {props.asset.name}
             </div>
             <div className="px-4 pt-4 text-lg">
-              <Avatar
-                className="mr-2 bg-[#87d068]"
-                size={32}
-                icon={<UserOutlined />}
-              />
+              <Avatar className="mr-2 bg-[#87d068]" size={32} icon={<User />} />
               <AddressLink address={asset.publisher} />
             </div>
             <div className="mt-4"></div>
@@ -142,13 +143,13 @@ export function CollectModal(props: CollectModalProps) {
             size="large"
             loading={loading}
             onClick={handleCollect}
-          // disabled={!!collectModule?.errorText}
+            // disabled={!!collectModule?.errorText}
           >
-            {(collectModule && collectModule.collectButtonText) || "Collect"}
+            {(collectModule && collectModule.collectButtonText) || 'Collect'}
           </Button>
           {collectModule?.errorText || (
             <div className="text-gray-500">
-              Mint this asset as an NFT to add it to your collection.
+              Collect this asset as an NFT to add it to your collection.
             </div>
           )}
         </div>

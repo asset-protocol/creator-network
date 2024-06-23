@@ -1,10 +1,15 @@
-import { useAssetEditor } from "./AssetEditorContext";
-import { useMemo, useState } from "react";
-import { ZeroAddress } from "ethers";
-import { AssetModule, ZERO_BYTES, getStorage } from "@creator-network/core";
-import { useAssetHub } from "../../../context";
-import { UpdateAssetInput, useCreateAsset, useHubERC20Approve, useUpdateAsset } from "../../../hooks";
-import { getAssetEditor } from "../../asset";
+import { useAssetEditor } from './AssetEditorContext';
+import { useMemo, useState } from 'react';
+import { ZeroAddress } from 'ethers';
+import { AssetModule, ZERO_BYTES, getStorage } from '@creator-network/core';
+import { useAssetHub } from '../../../context';
+import {
+  UpdateAssetInput,
+  useCreateAsset,
+  useHubERC20Approve,
+  useUpdateAsset,
+} from '../../../hooks';
+import { getAssetEditor } from '../../asset';
 import { tokenGlobalModule } from '@creator-network/web3';
 
 export type PublishFromDataType = {
@@ -49,21 +54,22 @@ export function useAssetPublish() {
     try {
       const newData: UpdateAssetInput = {};
       let newConent = content;
-      setTip("Saving content...");
+      setTip('Saving content...');
       if (content && beforePublish) {
         newConent = await beforePublish(content, asset?.content, (p) => {
           setTip(`Saving content(${p})...`);
         });
       }
       const data = { ...metadata, type, content: newConent };
-      setTip("Saving image...");
-      if (metadata?.image?.startsWith("blob:")) {
+      setTip('Saving image...');
+      if (metadata?.image?.startsWith('blob:')) {
         const image = await fetch(metadata.image).then((res) => res.blob());
+        console.log(`fetch iamge: ${image.type}`);
         data.image = await getStorage(storage!)!.upload({
           data: image,
         });
       }
-      setTip("Saving metadata...");
+      setTip('Saving metadata...');
       if (data.description !== asset?.description) {
         data.tags =
           data.description?.match(/#\w+/g)?.map((t) => t.slice(1)) || undefined;
@@ -93,24 +99,26 @@ export function useAssetPublish() {
 
       if (asset) {
         assetId = asset.assetId;
-        setTip("Updating asset...");
+        setTip('Updating asset...');
         if (config) {
           await approve(config.token, config.updateFee);
         }
         await update(hub, BigInt(asset.assetId), newData);
       } else {
-        setTip("Ceating asset...");
+        setTip('Ceating asset...');
         if (config) {
           await approve(config.token, config.createFee);
         }
-        assetId = (await create(hub, {
-          ...newData,
-          assetCreateModuleData: ZERO_BYTES,
-        }))?.toString();
+        assetId = (
+          await create(hub, {
+            ...newData,
+            assetCreateModuleData: ZERO_BYTES,
+          })
+        )?.toString();
       }
       setCollectModule(values.collectModule);
       setGatedModule(values.gatedModule);
-      setTip("Asset Published");
+      setTip('Asset Published');
     } finally {
       setLoading(false);
       setTip(undefined);
