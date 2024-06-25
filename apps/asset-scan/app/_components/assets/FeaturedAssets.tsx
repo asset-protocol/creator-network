@@ -58,7 +58,7 @@ export function PopularAssetItem(props: AssetItemProps) {
   const { asset, className } = props;
   return (
     <div className={clsx('grid grid-cols-2 w-full py-4 gap-4', className)}>
-      <Link href={`/${asset.hub.id}/assets/${asset.assetId}`}>
+      <Link href={`/${asset.id}`}>
         <Image
           src={replaceUri(asset.image)!}
           alt={asset.name}
@@ -72,9 +72,24 @@ export function PopularAssetItem(props: AssetItemProps) {
           <div className="badge bg-[#DFF1F0] rounded-md px-3 py-3 text-gray-800">
             {asset.type}
           </div>
+          {asset.tags ? (
+            asset.tags.slice(0, 2).map((t, i) => (
+              <Tag
+                className="mr-0"
+                key={t.name + i}
+                color={
+                  PresetColors[Math.floor(Math.random() * PresetColors.length)]
+                }
+              >
+                {t.name}
+              </Tag>
+            ))
+          ) : (
+            <></>
+          )}
         </div>
         <Link
-          href={`/${asset.hub.id}/assets/${asset.assetId}`}
+          href={`/${asset.id}`}
           className="text-base font-semibold mt-4 line-clamp-2 text-black"
         >
           {asset.name}
@@ -118,7 +133,7 @@ export function AssetItem(props: AssetItemProps) {
   const { asset, className } = props;
   return (
     <div className={clsx('grid grid-cols-2 w-full p-4 gap-4', className)}>
-      <Link href={`/${asset.hub.id}/assets/${asset.assetId}`}>
+      <Link href={`/${asset.id}`}>
         <Image
           src={replaceUri(asset.image)!}
           alt={asset.name}
@@ -133,7 +148,7 @@ export function AssetItem(props: AssetItemProps) {
             {asset.type}
           </div>
           {asset.tags ? (
-            asset.tags.map((t, i) => (
+            asset.tags.slice(0, 3).map((t, i) => (
               <Tag
                 className="mr-0"
                 key={t.name + i}
@@ -149,7 +164,7 @@ export function AssetItem(props: AssetItemProps) {
           )}
         </div>
         <Link
-          href={`/${asset.hub.id}/assets/${asset.assetId}`}
+          href={`/${asset.id}`}
           className="text-xl font-bold mt-4 line-clamp-2 text-black"
         >
           {asset.name}

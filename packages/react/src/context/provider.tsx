@@ -1,5 +1,6 @@
 import { useContext, useState, createContext, useMemo } from 'react';
 import {
+  CreatorNetwork,
   StorageScheme,
   getStorage,
 } from '@creator-network/core';
@@ -29,11 +30,11 @@ export type AccountInfo = {
 };
 
 export type AssetContextData = {
+  services: CreatorNetwork;
   storage?: StorageScheme;
   setStorage: (storage: string | undefined) => void;
 
   account?: AccountInfo;
-  requireLogin: () => void;
   contractRunner?: AssetContractRunner;
   chain: ChainInfo;
 
@@ -43,11 +44,11 @@ export type AssetContextData = {
 
 const AssetContext = createContext<AssetContextData>({} as never);
 export type AssetProviderProps = {
+  services: CreatorNetwork;
   manager?: AssetHubManagerInfo;
   storage?: StorageScheme;
   contractRunner?: AssetContractRunner;
   account?: AccountInfo;
-  requireLogin: () => void;
   chain: ChainInfo;
   apiClient: IndexerClient;
   children?: React.ReactNode;
@@ -58,11 +59,11 @@ export function AssetProvider(props: AssetProviderProps) {
     props.storage
   );
   const value = {
+    services: props.services,
     storage,
     setStorage,
     account: props.account,
     manager: props.manager,
-    requireLogin: props.requireLogin,
     contractRunner: props.contractRunner,
     chain: props.chain,
     apiClient: props.apiClient,

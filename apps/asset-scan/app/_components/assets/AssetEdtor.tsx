@@ -1,27 +1,36 @@
 'use client';
-import { Asset } from '@creator-network/core';
+import { Asset, creatorNetwork } from '@creator-network/core';
 import {
   AssetEditorProvider,
   AssetMetadataEditor,
   useAssetEditor,
 } from '@creator-network/react/asset/editor';
-import { TYPE_RICH_TEXT } from '@creator-network/react/plugins/asset-richtext';
+import {
+  TYPE_RICH_TEXT,
+  richtextEditor,
+} from '@creator-network/react/plugins/asset-richtext';
 import { Button, Image, Popover, Select } from 'antd';
 import { selectFile } from '@creator-network/react/utils';
 import { AssetPublishForm } from './AssetPublishModal';
 import { useEffect, useState } from 'react';
 import { useAssetTypes } from '@creator-network/react/hooks';
 import { useAssetHub } from '@creator-network/react';
+import { useAccountModal } from '@rainbow-me/rainbowkit';
+import { TagInput } from '../ui';
+
+creatorNetwork.use(richtextEditor());
 
 export type AssetEditorProps = {
   asset?: Asset;
+  children?: React.ReactNode;
 };
 
 export function AssetEditor(props: AssetEditorProps) {
-  const { account, requireLogin } = useAssetHub();
+  const { account } = useAssetHub();
+  const { openAccountModal } = useAccountModal();
   useEffect(() => {
     if (!account) {
-      requireLogin?.();
+      openAccountModal?.();
     }
   }, []);
   return (
@@ -35,21 +44,26 @@ export function AssetEditor(props: AssetEditorProps) {
 }
 
 export function AssetEditorHeader() {
-  const { type, setType, metadata, content } = useAssetEditor();
+  const { type, setType, metadata, setMetadata, content } = useAssetEditor();
   const [open, setOpen] = useState(false);
-  const { account, requireLogin } = useAssetHub();
+  const { openAccountModal } = useAccountModal();
+  const { account } = useAssetHub();
 
   const assetTypes = useAssetTypes()();
 
   const canPublish = metadata && metadata.name && content && account?.studio;
   return (
-    <div className="flex justify-end items-center gap-4">
+    <div className="flex items-center gap-4">
+      <TagInput
+        value={metadata?.tags}
+        onChange={(v) => setMetadata({ ...metadata, tags: v })}
+      />
+      <div className="flex-1"></div>
       <Select
         options={assetTypes}
         value={type}
         onChange={(e) => setType(e)}
         className="w-[120px]"
-        size="large"
       />
       <Popover
         content={<AssetPublishForm onClose={() => setOpen(false)} />}
@@ -58,12 +72,11 @@ export function AssetEditorHeader() {
         open={open}
       >
         <Button
-          size="large"
           type="primary"
           disabled={!canPublish}
           onClick={() => {
             if (!account?.address) {
-              requireLogin?.();
+              openAccountModal?.();
             } else {
               setOpen(true);
             }

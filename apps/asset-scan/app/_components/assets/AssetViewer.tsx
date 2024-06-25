@@ -1,13 +1,24 @@
 'use client';
+import { creatorNetwork } from '@creator-network/core';
+import { getAssetViewer } from '@creator-network/react/asset';
 import {
-  AssetViewer,
   AssetViewerProps,
 } from '@creator-network/react/asset/viewer';
+import { richtextViewer } from '@creator-network/react/plugins/asset-richtext';
+
+creatorNetwork.use(richtextViewer());
 
 export function AssetClientViewer(props: AssetViewerProps) {
+  const { asset, viewerAttributes } = props;
+
+  const ViewerSelector = asset && getAssetViewer(asset)?.viewer;
   return (
-    <div className="pt-6 flex w-full">
-      <AssetViewer {...props} />
+    <div className="pt-2 flex w-full">
+      {asset
+        ? ViewerSelector && (
+            <ViewerSelector {...viewerAttributes} value={asset} />
+          )
+        : null}
     </div>
   );
 }

@@ -12,7 +12,11 @@ import { useGetHubGlobalModuleConfig } from '@creator-network/react/hooks';
 import { ZERO_BYTES } from '@creator-network/core';
 import { AssetCard } from './AssetCard';
 import { useAssetHub } from '@creator-network/react';
-import { revalidateAssets } from '@/app/_creatornetwork/indexer-actions';
+import {
+  revalidateAssetById,
+  revalidateAssets,
+} from '@/app/_creatornetwork/indexer-actions';
+import { redirect } from 'next/navigation';
 
 export function AssetPublishForm({ onClose }: { onClose?: () => void }) {
   const { manager, account } = useAssetHub();
@@ -46,8 +50,12 @@ export function AssetPublishForm({ onClose }: { onClose?: () => void }) {
     publish(channel, values, globalTokenConfig).then((assetId) => {
       if (assetId) {
         setPublished(BigInt(assetId));
+        redirect("")
       }
       revalidateAssets();
+      if (asset) {
+        revalidateAssetById(asset.id);
+      }
     });
   };
 
@@ -55,7 +63,7 @@ export function AssetPublishForm({ onClose }: { onClose?: () => void }) {
     metadata && (
       <div className="flex flex-wrap flex-col gap-6 text-base w-[300px]">
         <AssetCard
-          name={metadata.name}
+          name={metadata.name!}
           image={metadata.image}
           hubName={account.studioName}
         />

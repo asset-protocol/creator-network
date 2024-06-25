@@ -13,6 +13,8 @@ import { AddressLink } from '../../address/AddressLink';
 import { collectModules } from '@creator-network/react/collect';
 import { revalidateAssetById } from '@/app/_creatornetwork/indexer-actions';
 import { User } from 'lucide-react';
+import { useAccountModal } from '@rainbow-me/rainbowkit';
+import Link from 'next/link';
 
 export type CollectModalProps = Omit<ModalProps, 'onOk'> & {
   asset: Asset;
@@ -26,8 +28,9 @@ export function hasCollectModule(asset: Asset) {
 
 export function CollectModal(props: CollectModalProps) {
   const { asset, onCollected, ...resProps } = props;
-  const { account, requireLogin, chain, manager } = useAssetHub();
+  const { account, chain, manager } = useAssetHub();
   const { collect } = useCollectAsset();
+  const { openAccountModal } = useAccountModal();
 
   const [loading, setLoading] = useState(false);
   const { config: globalTokenConfig } = useGetHubGlobalModuleConfig(
@@ -47,7 +50,7 @@ export function CollectModal(props: CollectModalProps) {
 
   const handleCollect = async () => {
     if (!account) {
-      requireLogin?.();
+      openAccountModal?.();
       return;
     }
     setLoading(true);
@@ -65,14 +68,14 @@ export function CollectModal(props: CollectModalProps) {
         await approve(globalTokenConfig.token, globalTokenConfig.collectFee);
       }
       const tokenId = await collect(
-        asset.hub,
+        asset.hub.id,
         BigInt(asset.assetId),
         {
           collectData: ZERO_BYTES,
         },
         options
       );
-      const res = await revalidateAssetById(asset.hub, asset.assetId);
+      const res = await revalidateAssetById(asset.id);
       console.log(res);
       if (tokenId) {
         onCollected?.(tokenId);
@@ -105,9 +108,15 @@ export function CollectModal(props: CollectModalProps) {
             <div className="line-clamp-2 text-xl flex-1 px-4 py-1 font-bold">
               {props.asset.name}
             </div>
-            <div className="px-4 pt-4 text-lg">
-              <Avatar className="mr-2 bg-[#87d068]" size={32} icon={<User />} />
-              <AddressLink address={asset.publisher} />
+            <div className="px-4 pt-4 text-lg flex items-center">
+              <Avatar
+                className="mr-2 bg-[#87d068]"
+                src={replaceUri(asset.hub.metadata?.image)}
+                size={32}
+              />
+              <Link href={''} className="line-clamp-1">
+                {asset.hub.name}
+              </Link>
             </div>
             <div className="mt-4"></div>
           </div>

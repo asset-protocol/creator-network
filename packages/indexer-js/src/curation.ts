@@ -55,7 +55,7 @@ const GET_CURATIONS = gql`
           expiry
           timestamp
           tokenURI
-          assets(limit: 10) {
+          assets(limit: 4) {
             status
             asset {
               name

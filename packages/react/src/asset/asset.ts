@@ -1,10 +1,15 @@
-import { Asset, AssetType, CreatorNetwork, creatorNetwork } from "@creator-network/core"
-import { ASSET_TYPE_UNKNOW, IEditorProvider } from "./editor"
-import { IViewerProvider } from "./viewer"
+import {
+  Asset,
+  AssetType,
+  CreatorNetwork,
+  creatorNetwork,
+} from '@creator-network/core';
+import { ASSET_TYPE_UNKNOW, IEditorProvider } from './editor';
+import { IViewerProvider } from './viewer';
 
 export class AssetConfig {
-  private _editorProviders: { [key: AssetType]: IEditorProvider[] } = {}
-  private _viewerProviders: { [key: AssetType]: IViewerProvider[] } = {}
+  private _editorProviders: { [key: AssetType]: IEditorProvider[] } = {};
+  private _viewerProviders: { [key: AssetType]: IViewerProvider[] } = {};
 
   public get editorProviders() {
     return this._editorProviders;
@@ -15,13 +20,21 @@ export class AssetConfig {
   }
 
   public registerEditor(provider: IEditorProvider): void | (() => void) {
-    provider.types.forEach(t => {
+    provider.types.forEach((t) => {
       if (this._editorProviders[t.value]) {
         this._editorProviders[t.value]!.push(provider);
       } else {
         this._editorProviders[t.value] = [provider];
       }
-    })
+    });
+    return () => {
+      provider.types.forEach((t) => {
+        this._editorProviders[t.value]?.splice(
+          this._editorProviders[t.value]!.indexOf(provider),
+          1
+        );
+      });
+    };
   }
 
   public registerViewer(type: string, provider: IViewerProvider) {
@@ -31,12 +44,16 @@ export class AssetConfig {
     } else {
       providers[type] = [provider];
     }
-    return () => { providers[type]?.splice(providers[type]!.indexOf(provider), 1) };
+    return () => {
+      providers[type]?.splice(providers[type]!.indexOf(provider), 1);
+    };
   }
 }
 
-const ASSET_MODULE = "__asset_module"
-export function configureAsset(configure: (config: AssetConfig) => void | (() => void)) {
+const ASSET_MODULE = '__asset_module';
+export function configureAsset(
+  configure: (config: AssetConfig) => void | (() => void)
+) {
   return (cn: CreatorNetwork) => {
     let config = cn.get<AssetConfig>(ASSET_MODULE);
     if (!config) {
@@ -44,7 +61,7 @@ export function configureAsset(configure: (config: AssetConfig) => void | (() =>
       cn.set(ASSET_MODULE, config);
     }
     return configure(config);
-  }
+  };
 }
 
 export function editorProviders() {
@@ -60,27 +77,27 @@ export function viewerProviders() {
 export function getAssetViewer(asset: Asset) {
   const providers = viewerProviders();
   if (providers) {
-    let p = providers[asset.type]?.find(p => p.selector(asset));
+    let p = providers[asset.type]?.find((p) => p.selector(asset));
     if (!p) {
-      p = providers[ASSET_TYPE_UNKNOW]?.find(p => p.selector(asset));
+      p = providers[ASSET_TYPE_UNKNOW]?.find((p) => p.selector(asset));
       if (!p) {
-        throw new Error("viewer provider no found: " + asset.type);
+        throw new Error('viewer provider no found: ' + asset.type);
       }
     }
-    return p
+    return p;
   }
 }
 
 export function getAssetEditor(type: AssetType) {
   const providers = editorProviders();
   if (providers) {
-    let p = providers[type]?.find(p => p.selector(type));
+    let p = providers[type]?.find((p) => p.selector(type));
     if (!p) {
-      p = providers[ASSET_TYPE_UNKNOW]?.find(p => p.selector(type));
+      p = providers[ASSET_TYPE_UNKNOW]?.find((p) => p.selector(type));
       if (!p) {
-        throw new Error("editor provider no found: " + type);
+        throw new Error('editor provider no found: ' + type);
       }
     }
-    return p
+    return p;
   }
 }

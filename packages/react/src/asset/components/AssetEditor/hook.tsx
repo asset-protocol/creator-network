@@ -60,7 +60,9 @@ export function useAssetPublish() {
           setTip(`Saving content(${p})...`);
         });
       }
+      console.log('metadata', metadata);
       const data = { ...metadata, type, content: newConent };
+      console.log('data', data);
       setTip('Saving image...');
       if (metadata?.image?.startsWith('blob:')) {
         const image = await fetch(metadata.image).then((res) => res.blob());
@@ -69,8 +71,9 @@ export function useAssetPublish() {
           data: image,
         });
       }
+
       setTip('Saving metadata...');
-      if (data.description !== asset?.description) {
+      if (data.description !== asset?.description && !data.tags) {
         data.tags =
           data.description?.match(/#\w+/g)?.map((t) => t.slice(1)) || undefined;
       }

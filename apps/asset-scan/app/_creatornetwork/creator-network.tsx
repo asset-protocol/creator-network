@@ -1,5 +1,4 @@
 'use client';
-import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { useEffect, useState } from 'react';
 import { AssetProvider, ChainInfo, useAssetHub } from '@creator-network/react';
 import { publicEthProvider } from './ether';
@@ -47,7 +46,7 @@ const Plugins = () => {
 
   useEffect(() => {
     return useStorage();
-  });
+  }, []);
 
   useEffect(() => {
     if (modules) {
@@ -85,15 +84,13 @@ export function CreatorNetworkProvider(props: {
   manager: AssetHubManagerInfo;
 }) {
   const { account, contractRunner } = useApp();
-  const { openConnectModal } = useConnectModal();
-
   return (
     <AssetProvider
+      services={creatorNetwork}
       contractRunner={contractRunner}
       manager={props.manager}
       storage={'ipfs'}
       account={account}
-      requireLogin={() => openConnectModal?.()}
       chain={props.chain}
       apiClient={indexerClient}
     >

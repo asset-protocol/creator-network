@@ -4,10 +4,12 @@ import {
   useCallback,
   useContext,
   useState,
-} from "react";
-import { AssetMetadata, AssetModule, Asset } from "@creator-network/core";
+} from 'react';
+import { AssetMetadata, AssetModule, Asset } from '@creator-network/core';
 
-export type AssetMetadataEditData = Omit<AssetMetadata, "type" | "content">;
+export type AssetMetadataEditData = Partial<
+  Omit<AssetMetadata, 'type' | 'content'>
+>;
 
 export type AssetEditorContextData = {
   asset?: Asset;
@@ -50,7 +52,7 @@ function useAsetMeataData(asset?: Asset) {
 export function AssetEditorProvider(props: AssetEditorProviderProps) {
   const { children, asset } = props;
   const [type, setType] = useState<string>(
-    asset?.type ?? props.defaultType ?? "default"
+    asset?.type ?? props.defaultType ?? 'default'
   );
   const [metadata, setMetadata] = useAsetMeataData(asset);
   const [content, setContent] = useState<string | undefined>(asset?.content);
@@ -83,7 +85,7 @@ export function AssetEditorProvider(props: AssetEditorProviderProps) {
     type,
     setType: useCallback(
       (t) => {
-        const cachedContent = localStorage.getItem("asset:conent:" + t);
+        const cachedContent = localStorage.getItem('asset:conent:' + t);
         if (cachedContent) {
           setContent(cachedContent);
         } else {

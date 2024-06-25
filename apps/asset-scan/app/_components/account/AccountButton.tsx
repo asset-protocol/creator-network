@@ -29,10 +29,7 @@ export function AccountContent() {
       )}
       <div className={subContent ? 'hidden' : ''}>
         <div className="flex gap-2 text-sm items-center">
-          <Avatar
-            size={40}
-            src={account?.studioAvatar}
-          />
+          <Avatar size={40} src={replaceUri(account?.studioAvatar)} />
           <div>
             <span>{account?.studioName}</span>
             <AddressLink
@@ -82,7 +79,7 @@ export function LoginButton() {
 export function AccountButton({ className }: { className?: string }) {
   const [open, setOpen] = useState(false);
   const { account } = useApp();
-
+  console.log('account', account);
   return (
     <div className="mr-4">
       {account && (
@@ -92,6 +89,7 @@ export function AccountButton({ className }: { className?: string }) {
           overlayStyle={{ marginRight: '8px' }}
           content={<AccountContent />}
           open={open}
+          placement="bottomLeft"
           onOpenChange={(v) => setOpen(v)}
           destroyTooltipOnHide
           className={clsx('px-0', className)}

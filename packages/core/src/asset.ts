@@ -12,7 +12,7 @@ export type AssetMetadata = {
   description?: string;
   image?: string;
   tags?: string[];
-  properties?: { [key in string]: any };
+  attributes?: { [key in string]: any };
 };
 
 export type AssetModule = {

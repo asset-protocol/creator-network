@@ -7,38 +7,41 @@ import { fetchAssetById } from '@/app/_creatornetwork';
 import { AssetWeb3Info } from '@/app/_components/assets/AssetInfo';
 import { CollectButton } from '@/app/_components/assets/collect/CollectButton';
 import { AssetEditButton } from '@/app/_components/assets/AssetEditButton';
-import { SeeAlsoAssetList } from './_components/SeeAlsoAssetList';
-import { Avatar } from 'antd';
+import { Avatar, Tag } from 'antd';
+import { SeeAlsoAssetList } from '../_components/assets/SeeAlsoAssetList';
+import { notFound } from 'next/navigation';
+import { PresetColors } from 'antd/es/theme/internal';
 
 // export const dynamic = 'force-dynamic';
 // export const revalidate = 0;
 
 type Props = {
-  params: { hub: string; assetId: string };
+  params: { assetId: string };
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { hub, assetId } = params;
-  const asset = await fetchAssetById(hub, assetId);
+  const { assetId } = params;
+  const asset = await fetchAssetById(assetId);
   return {
-    title: asset.name,
+    title: asset?.name,
     openGraph: {
-      images: [replaceUri(asset.image)!],
-      title: asset.name,
-      description: asset.description,
+      images: [replaceUri(asset?.image)!],
+      title: asset?.name,
+      description: asset?.description,
     },
-    description: asset.description,
+    description: asset?.description,
   };
 }
 
-export default async function AssetViewPage({
-  params,
-}: {
-  params: { hub: string; assetId: string };
-}) {
-  const { hub, assetId } = params;
-  const asset = await fetchAssetById(hub, assetId);
+export default async function AssetViewPage({ params, searchParams }: Props) {
+  const { assetId } = params;
+  const asset = await fetchAssetById(assetId);
+
+  const openCollect = searchParams['collect'] === '1';
+  if (!asset) {
+    notFound();
+  }
   const config: AssetViewerProps | undefined = asset
     ? {
         asset,
@@ -52,9 +55,29 @@ export default async function AssetViewPage({
           {config && (
             <div className="w-full flex flex-row gap-16">
               <div className="flex-1 overflow-auto">
-                <div className="badge bg-[#DFF1F0] rounded-md px-3 py-3 text-gray-800">
-                  {asset.type}
+                <div className="flex items-center flex-wrap gap-2">
+                  {/* <Tag color="#DFF1F0">
+                    {asset.type}
+                  </Tag> */}
+                  {asset.tags ? (
+                    asset.tags.slice(0, 2).map((t, i) => (
+                      <Tag
+                        className="mr-0"
+                        key={t.name + i}
+                        color={
+                          PresetColors[
+                            Math.floor(Math.random() * PresetColors.length)
+                          ]
+                        }
+                      >
+                        {t.name}
+                      </Tag>
+                    ))
+                  ) : (
+                    <></>
+                  )}
                 </div>
+
                 <div className="text-3xl font-semibold py-4">{asset.name}</div>
                 <div className="text-gray-500 text-sm flex items-center py-2">
                   <Avatar size={26} src={replaceUri(asset.hub.metadata?.image)}>
@@ -66,7 +89,7 @@ export default async function AssetViewPage({
                     {fromNow(Number.parseInt(asset.timestamp.toString()))}
                   </div>
                   <div className="flex-1"></div>
-                  <CollectButton asset={asset} />
+                  <CollectButton asset={asset} open={openCollect} />
                   {<AssetEditButton asset={asset} />}
                 </div>
                 {/* <Image

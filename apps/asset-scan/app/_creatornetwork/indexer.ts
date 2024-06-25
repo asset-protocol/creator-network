@@ -8,15 +8,25 @@ export const indexerClient = new IndexerClient(
   'http://3.87.189.32:3000/graphql'
 );
 
-export const FETCH_ASSET_BY_ID_TAG = 'fetchAssetById';
-export function fetchAssetById(hub: string, assetId: string) {
+export const FETCH_ASSET_BY_BIZID_TAG = 'fetchAssetByBizId';
+export function fetchAssetByBizId(hub: string, assetId: string) {
   const action = unstable_cache(
     (hub: string, assetId: string) =>
-      indexerClient.assets.fetchAssetById(hub, assetId),
-    [FETCH_ASSET_BY_ID_TAG],
-    { tags: [`${FETCH_ASSET_BY_ID_TAG}_${hub}_${assetId}`] }
+      indexerClient.assets.fetchAssetByBizId(hub, assetId),
+    [FETCH_ASSET_BY_BIZID_TAG],
+    { tags: [`${FETCH_ASSET_BY_BIZID_TAG}_${hub}_${assetId}`] }
   );
   return action(hub, assetId);
+}
+
+export const FETCH_ASSET_BY_ID_TAG = 'fetchAssetById';
+export function fetchAssetById(id: string) {
+  const action = unstable_cache(
+    (id: string) => indexerClient.assets.fetchAssetById(id),
+    [FETCH_ASSET_BY_ID_TAG],
+    { tags: [`${FETCH_ASSET_BY_ID_TAG}_${id}`] }
+  );
+  return action(id);
 }
 
 export const FETCH_ASSETS_TAG = 'fetchAssets';

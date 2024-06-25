@@ -126,7 +126,7 @@ export function useSearchAssets(keyword: string) {
   return { ...res, data: data?.assets };
 }
 
-const GET_HUb_ASSETS_BY_ID = gql`
+const GET_HUb_ASSETS_BY_BIZID = gql`
   ${ASSET_FIELDS}
   query GetAssets(
     $hub: String
@@ -163,13 +163,27 @@ const GET_HUb_ASSETS_BY_ID = gql`
   }
 `;
 
+const GET_ASSET_BY_ID = gql`
+  ${ASSET_FIELDS}
+  query assetById($id: String!) {
+    assetById(id: $id) {
+    content
+    metadata
+    ...AssetFields
+  }
+  }
+`;
+
 export function useGetAssetById(assetId: bigint, hub: string) {
   const tokenId = assetId.toString();
-  const { data, ...res } = useQuery<GqlAssetList<Asset>>(GET_HUb_ASSETS_BY_ID, {
-    variables: { assetId: tokenId, hub: hub, orderBy: 'timestamp_DESC' },
-    fetchPolicy: 'no-cache',
-    skip: !hub,
-  });
+  const { data, ...res } = useQuery<GqlAssetList<Asset>>(
+    GET_HUb_ASSETS_BY_BIZID,
+    {
+      variables: { assetId: tokenId, hub: hub, orderBy: 'timestamp_DESC' },
+      fetchPolicy: 'no-cache',
+      skip: !hub,
+    }
+  );
   return { ...res, asset: data?.assetsConnection.edges?.[0]?.node };
 }
 
@@ -225,9 +239,9 @@ export class AssetsAPI {
     return data.assetTagNames;
   }
 
-  async fetchAssetById(hub: string, assetId: string) {
+  async fetchAssetByBizId(hub: string, assetId: string) {
     const res = await this.client.query<GqlAssetList<Asset>>({
-      query: GET_HUb_ASSETS_BY_ID,
+      query: GET_HUb_ASSETS_BY_BIZID,
       fetchPolicy: 'no-cache',
       variables: {
         assetId: assetId.toString(),
@@ -236,6 +250,17 @@ export class AssetsAPI {
       },
     });
     return res.data.assetsConnection.edges?.[0]?.node;
+  }
+
+  async fetchAssetById(id: string) {
+    const res = await this.client.query<{ assetById: Asset | null }>({
+      query: GET_ASSET_BY_ID,
+      fetchPolicy: 'no-cache',
+      variables: {
+        id: id,
+      },
+    });
+    return res.data.assetById;
   }
 
   async fetchAssets(args?: GetAssetHubAssetsInput) {

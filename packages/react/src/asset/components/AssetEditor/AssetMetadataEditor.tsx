@@ -1,7 +1,7 @@
-import { forwardRef, useImperativeHandle, useMemo } from "react";
-import { useAssetEditor } from "./AssetEditorContext";
-import { IEditorProps } from "../../editor";
-import { getAssetEditor } from "../../asset";
+import { forwardRef, useImperativeHandle, useMemo } from 'react';
+import { useAssetEditor } from './AssetEditorContext';
+import { IEditorProps } from '../../editor';
+import { getAssetEditor } from '../../asset';
 
 export type AssetContentEditorProps = {
   editorProps?: { [key: string]: any };
@@ -26,8 +26,5 @@ export function AssetMetadataEditor(props: AssetContentEditorProps) {
       });
     }
   }, [editorProvider]);
-
-  console.log(type, Editor);
-
   return Editor ? <Editor {...props.editorProps} /> : null;
 }

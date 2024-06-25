@@ -12,7 +12,7 @@ export function RecentlyAssetItem(props: AssetItemProps) {
   const { asset, className } = props;
   return (
     <div className={clsx('flex flex-col p-0 gap-4 w-full', className)}>
-      <Link href={`/${asset.hub.id}/assets/${asset.assetId}`}>
+      <Link href={`/${asset.id}`}>
         <Image
           src={replaceUri(asset.image)!}
           alt={asset.name}
@@ -28,7 +28,7 @@ export function RecentlyAssetItem(props: AssetItemProps) {
             {asset.type}
           </div>
           {asset.tags ? (
-            asset.tags.map((t, i) => (
+            asset.tags.slice(0, 3).map((t, i) => (
               <Tag
                 className="mr-0"
                 key={t.name + i}
@@ -40,10 +40,10 @@ export function RecentlyAssetItem(props: AssetItemProps) {
               </Tag>
             ))
           ) : (
-            <div></div>
+            <></>
           )}
         </div>
-        <Link href={`/${asset.hub.id}/assets/${asset.assetId}`}>
+        <Link href={`/${asset.id}`}>
           <div className="text-xl font-bold mt-4 line-clamp-2 cursor-pointer text-black">
             {asset.name}
           </div>
