@@ -1,10 +1,12 @@
 import { replaceUri } from '@creator-network/core';
 import { useAssetEditor } from '@creator-network/react/asset/editor';
 import { selectFile } from '@creator-network/react/utils';
+import { Avatar } from 'antd';
 
 export type AssetCardProps = {
   name: string;
   hubName?: string;
+  hubAvatar?: string;
   image?: string;
 };
 
@@ -40,12 +42,8 @@ export function AssetCard(props: AssetCardProps) {
       <div className="line-clamp-2 text-xl flex-1 px-4 py-1 font-bold">
         {props.name}
       </div>
-      <div className="px-4 pt-4 text-lg">
-        <div className="avatar placeholder">
-          <div className="bg-neutral text-neutral-content rounded-full w-5">
-            <span className="text-xs">{props.hubName?.[0]}</span>
-          </div>
-        </div>
+      <div className="px-4 pt-4 text-lg flex items-center">
+        <Avatar size={32} src={replaceUri(props.hubAvatar)} />
         <div>{props.hubName}</div>
       </div>
       <div className="mt-4"></div>

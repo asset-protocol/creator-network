@@ -22,6 +22,7 @@ creatorNetwork.use(richtextEditor());
 
 export type AssetEditorProps = {
   asset?: Asset;
+  hub?: string;
   children?: React.ReactNode;
 };
 

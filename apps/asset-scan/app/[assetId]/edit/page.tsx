@@ -1,5 +1,5 @@
 import { AssetEditor } from '@/app/_components/assets/AssetEdtor';
-import { fetchAssetByBizId, fetchAssetById } from '@/app/_creatornetwork';
+import { fetchAssetById } from '@/app/_creatornetwork';
 import { replaceUri } from '@creator-network/core';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -12,7 +12,7 @@ export async function generateMetadata({
   const { assetId } = params;
   const asset = await fetchAssetById(assetId);
   return {
-    title: asset?.name,
+    title: 'Edit: ' + asset?.name,
     openGraph: {
       images: [replaceUri(asset?.image)!],
       title: asset?.name,

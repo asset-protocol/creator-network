@@ -1,5 +1,5 @@
-import { ApolloClient, gql, useQuery } from "@apollo/client";
-import { Asset } from "@creator-network/core";
+import { ApolloClient, gql, useQuery } from '@apollo/client';
+import { Asset } from '@creator-network/core';
 
 export enum CurationStatus {
   Private = 0,
@@ -58,16 +58,14 @@ const GET_CURATIONS = gql`
           assets(limit: 4) {
             status
             asset {
+              id
               name
               publisher
               type
               timestamp
               description
               assetId
-              id
               image
-              hub
-              hubName
             }
           }
         }
@@ -78,7 +76,7 @@ const GET_CURATIONS = gql`
 
 export function useGetCurations() {
   const { data, ...res } = useQuery<GqlCurationList<Curation>>(GET_CURATIONS, {
-    fetchPolicy: "no-cache",
+    fetchPolicy: 'no-cache',
   });
   return {
     ...res,
@@ -129,7 +127,7 @@ export function useGetCurationById(id: string) {
     GET_CURATION_BY_ID,
     {
       variables: { id },
-      fetchPolicy: "no-cache",
+      fetchPolicy: 'no-cache',
       skip: !id,
     }
   );
@@ -179,7 +177,7 @@ export function useGetCurationAssets(
     GET_CURATION_ASSETS,
     {
       variables: { publisher, status },
-      fetchPolicy: "no-cache",
+      fetchPolicy: 'no-cache',
       skip: !publisher,
     }
   );
@@ -199,7 +197,7 @@ export function useGetCurationTagNames(keyword?: string, limit?: number) {
     curationTagNames: { name: string; count: number }[];
   }>(GET_CURATION_TAG_NAMES, {
     variables: { keyword, limit },
-    fetchPolicy: "no-cache",
+    fetchPolicy: 'no-cache',
   });
   return { ...res, data: data?.curationTagNames };
 }
@@ -223,19 +221,19 @@ export function useGetCurationAssetsStatus(
     curationAssetStatus: AssetApprovalStatus[];
   }>(GET_ASSET_STATUS, {
     variables: { curationId, hubs, assets: assetIds },
-    fetchPolicy: "no-cache",
+    fetchPolicy: 'no-cache',
     skip: !assets || assets.length === 0,
   });
   return { ...res, data: data?.curationAssetStatus };
 }
 
 export class CurationAPI {
-  constructor(private client: ApolloClient<unknown>) { }
+  constructor(private client: ApolloClient<unknown>) {}
 
   async fetchCurations() {
     const { data } = await this.client.query<GqlCurationList<Curation>>({
       query: GET_CURATIONS,
-    })
+    });
     return data.curationsConnection.edges.map((edge) => edge.node);
   }
 }

@@ -79,7 +79,6 @@ export function LoginButton() {
 export function AccountButton({ className }: { className?: string }) {
   const [open, setOpen] = useState(false);
   const { account } = useApp();
-  console.log('account', account);
   return (
     <div className="mr-4">
       {account && (
