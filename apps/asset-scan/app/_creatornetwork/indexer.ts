@@ -4,9 +4,7 @@ import {
 } from '@creator-network/indexer-js';
 import { revalidateTag, unstable_cache } from 'next/cache';
 
-export const indexerClient = new IndexerClient(
-  'http://3.87.189.32:3000/graphql'
-);
+export const indexerClient = new IndexerClient('/api/graphql');
 
 export const FETCH_ASSET_BY_BIZID_TAG = 'fetchAssetByBizId';
 export function fetchAssetByBizId(hub: string, assetId: string) {
