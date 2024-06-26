@@ -92,7 +92,7 @@ export function CreatorNetworkProvider(props: {
       storage={'ipfs'}
       account={account}
       chain={props.chain}
-      apiClient={indexerClient}
+      apiClient={indexerClient()}
     >
       <Plugins />
       {props.children}
