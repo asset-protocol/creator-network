@@ -6,7 +6,7 @@ import { Avatar, Divider } from 'antd';
 import Image from 'next/image';
 
 export async function CurationList() {
-  const curations = await indexerClient.curations.fetchCurations();
+  const curations = await indexerClient().curations.fetchCurations();
   return (
     <div className="flex flex-col gap-4">
       {curations.map((c) => (

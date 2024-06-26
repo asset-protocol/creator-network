@@ -104,7 +104,7 @@ export function SafeAddressList(props: SafeAddressListProps) {
       });
       const res = await apiKit.getSafesByOwner(address);
       if (res.safes.length > 0) {
-        const hubs = await indexerClient.assetHubs.fetchAssetHubs(res.safes);
+        const hubs = await indexerClient().assetHubs.fetchAssetHubs(res.safes);
         data = res.safes.map((sa) => ({
           safeAddress: sa,
           channels: hubs.filter((h) => h.admin === sa),

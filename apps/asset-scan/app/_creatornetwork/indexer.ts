@@ -4,15 +4,17 @@ import {
 } from '@creator-network/indexer-js';
 import { unstable_cache } from 'next/cache';
 
-export const indexerClient = new IndexerClient(
-  '/api/graphql'
-);
+const _clientIndexer = new IndexerClient('/api/graphql');
+const _serverIndexer = new IndexerClient('http://3.87.189.32:3000/graphql');
+
+export const indexerClient = () =>
+  typeof window !== 'undefined' ? _clientIndexer : _serverIndexer;
 
 export const FETCH_ASSET_BY_BIZID_TAG = 'fetchAssetByBizId';
 export function fetchAssetByBizId(hub: string, assetId: string) {
   const action = unstable_cache(
     (hub: string, assetId: string) =>
-      indexerClient.assets.fetchAssetByBizId(hub, assetId),
+      indexerClient().assets.fetchAssetByBizId(hub, assetId),
     [FETCH_ASSET_BY_BIZID_TAG],
     { tags: [`${FETCH_ASSET_BY_BIZID_TAG}_${hub}_${assetId}`] }
   );
@@ -22,7 +24,7 @@ export function fetchAssetByBizId(hub: string, assetId: string) {
 export const FETCH_ASSET_BY_ID_TAG = 'fetchAssetById';
 export function fetchAssetById(id: string) {
   const action = unstable_cache(
-    (id: string) => indexerClient.assets.fetchAssetById(id),
+    (id: string) => indexerClient().assets.fetchAssetById(id),
     [FETCH_ASSET_BY_ID_TAG],
     { tags: [`${FETCH_ASSET_BY_ID_TAG}_${id}`] }
   );
@@ -35,7 +37,7 @@ export function fetchAssets(
 ) {
   const action = unstable_cache(
     (args?: Omit<GetAssetHubAssetsInput, 'fetchPolicy'>) =>
-      indexerClient.assets.fetchAssets({ ...args, fetchPolicy: 'no-cache' }),
+      indexerClient().assets.fetchAssets({ ...args, fetchPolicy: 'no-cache' }),
     [FETCH_ASSETS_TAG],
     { tags: [`${FETCH_ASSETS_TAG}`] }
   );

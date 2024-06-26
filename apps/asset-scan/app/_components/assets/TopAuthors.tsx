@@ -4,7 +4,7 @@ import { replaceUri } from '@creator-network/core';
 import { Avatar } from 'antd';
 
 export async function TopAuthors() {
-  const studios = await indexerClient.assetHubs.fetchAssetHubs(undefined, 5);
+  const studios = await indexerClient().assetHubs.fetchAssetHubs(undefined, 5);
   return (
     <div className="flex flex-col gap-4">
       {studios.map((s) => {

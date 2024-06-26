@@ -1,7 +1,7 @@
 import { indexerClient } from '@/app/_creatornetwork';
 
 export async function SearchWithTags() {
-  const tags = await indexerClient.assets.fetchAssetTags(undefined, 10);
+  const tags = await indexerClient().assets.fetchAssetTags(undefined, 10);
 
   return (
     <div className="flex flex-wrap gap-2 pr-6">

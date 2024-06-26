@@ -22,7 +22,7 @@ export function SeeAlsoAssetList({
   const [hasNext, setHasNext] = useState(false);
 
   const fetchData = async () => {
-    const res = await indexerClient.assets.fetchAssets({
+    const res = await indexerClient().assets.fetchAssets({
       tags: asset.tags?.map((t) => t.name),
       after: after,
       first: 10,

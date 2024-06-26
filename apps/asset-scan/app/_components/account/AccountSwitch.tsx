@@ -96,8 +96,8 @@ export function WalletChannelList() {
 
   useEffect(() => {
     if (address) {
-      indexerClient.assetHubs
-        .fetchAssetHubs([address])
+      indexerClient()
+        .assetHubs.fetchAssetHubs([address])
         .then((res) => setChannels(res));
     } else {
       setChannels([]);

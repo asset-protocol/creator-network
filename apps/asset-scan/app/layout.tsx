@@ -21,7 +21,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   useStorage();
-  const manager = await indexerClient.manager.fetchHubManager();
+  const manager = await indexerClient().manager.fetchHubManager();
   return (
     <html lang="en">
       <body className={clsx(inter.className)}>

@@ -1,7 +1,7 @@
-import { fetchAssets, indexerClient } from '@/app/_creatornetwork';
+import { fetchAssets } from '@/app/_creatornetwork';
 import { Asset, replaceUri } from '@creator-network/core';
 import { fromNow } from '@creator-network/react/utils';
-import { Avatar, Tag } from 'antd';
+import { Tag } from 'antd';
 import { PresetColors } from 'antd/es/theme/internal';
 import clsx from 'clsx';
 import Image from 'next/image';
