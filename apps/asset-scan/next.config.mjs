@@ -1,11 +1,23 @@
 /** @type {import('next').NextConfig} */
 import * as path from "path"
+
 const __dirname = path.resolve();
+
+const rewrites = () => {
+  return [
+    {
+      source: "/api/graphql",
+      destination: "http://3.87.189.32:3000/graphql",
+    },
+  ];
+};
+
 const nextConfig = {
   output: "standalone",
   experimental: {
     outputFileTracingRoot: path.join(__dirname, "../../"),
   },
+  rewrites,
   images: {
     loader: "custom",
     loaderFile: "./imageLoader.js",
