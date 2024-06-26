@@ -1,5 +1,11 @@
 /** @type {import('next').NextConfig} */
+import * as path from "path"
+const __dirname = path.resolve();
 const nextConfig = {
+  output: "standalone",
+  experimental: {
+    outputFileTracingRoot: path.join(__dirname, "../../"),
+  },
   images: {
     loader: "custom",
     loaderFile: "./imageLoader.js",
