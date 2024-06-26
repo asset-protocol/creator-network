@@ -3,7 +3,7 @@ import * as path from "path"
 
 const __dirname = path.resolve();
 
-const rewrites = () => {
+const rewrites = async () => {
   return [
     {
       source: "/api/graphql",

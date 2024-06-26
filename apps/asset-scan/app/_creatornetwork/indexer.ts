@@ -2,7 +2,7 @@ import {
   GetAssetHubAssetsInput,
   IndexerClient,
 } from '@creator-network/indexer-js';
-import { revalidateTag, unstable_cache } from 'next/cache';
+import { unstable_cache } from 'next/cache';
 
 export const indexerClient = new IndexerClient(
   '/api/graphql'
