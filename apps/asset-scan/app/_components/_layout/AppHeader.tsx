@@ -52,8 +52,8 @@ export function AppHeader() {
       icon: <SwatchBook strokeWidth={1} />,
     },
     {
-      label: <Link href="/studio/create">Channel</Link>,
-      key: 'channel',
+      label: <Link href="/studio/create">Studio</Link>,
+      key: 'studio',
       icon: <BookText strokeWidth={1} />,
     },
   ];

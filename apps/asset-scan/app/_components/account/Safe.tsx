@@ -12,7 +12,7 @@ import { useApp } from '../_layout/AppContext';
 import { Config, useAccount, useConnectorClient } from 'wagmi';
 import { AssetHubInfo } from '@creator-network/core';
 import { indexerClient } from '@/app/_creatornetwork';
-import { ChannelSelectItem } from './AccountSwitch';
+import { StudioSelectItem } from './AccountSwitch';
 import Link from 'next/link';
 import { ArrowRightLeft, CircleCheck } from 'lucide-react';
 import useToken from 'antd/es/theme/useToken';
@@ -82,7 +82,7 @@ export type SafeAddressListProps = {};
 
 export type SafeItem = {
   safeAddress: string;
-  channels: AssetHubInfo[];
+  studios: AssetHubInfo[];
 };
 
 export function SafeAddressList(props: SafeAddressListProps) {
@@ -107,7 +107,7 @@ export function SafeAddressList(props: SafeAddressListProps) {
         const hubs = await indexerClient().assetHubs.fetchAssetHubs(res.safes);
         data = res.safes.map((sa) => ({
           safeAddress: sa,
-          channels: hubs.filter((h) => h.admin === sa),
+          studios: hubs.filter((h) => h.admin === sa),
         }));
       }
     }
@@ -141,21 +141,21 @@ export function SafeAddressList(props: SafeAddressListProps) {
     setContractRunner(rn);
   };
 
-  const handleSafeChannel = async (channel: AssetHubInfo) => {
+  const handleSafeStudio = async (studio: AssetHubInfo) => {
     if (!signer || !client) {
       throw new Error('Safe init error');
     }
     // Create Safe instance
     const protocolKit = await Safe.init({
       provider: client.transport,
-      safeAddress: channel.admin,
+      safeAddress: studio.admin,
     });
     const rn = new SafeSigner(protocolKit, chain.id, signer);
     setAccount({
-      address: channel.admin,
-      studio: channel.id,
-      studioAvatar: channel.metadata?.image,
-      studioName: channel.name,
+      address: studio.admin,
+      studio: studio.id,
+      studioAvatar: studio.metadata?.image,
+      studioName: studio.name,
     });
     setContractRunner(rn);
   };
@@ -182,13 +182,13 @@ export function SafeAddressList(props: SafeAddressListProps) {
                 )}
               </Button>
             </div>
-            {a.channels.length > 0 ? (
+            {a.studios.length > 0 ? (
               <div>
-                {a.channels.map((c) => (
-                  <ChannelSelectItem
+                {a.studios.map((c) => (
+                  <StudioSelectItem
                     key={c.id}
-                    channel={c}
-                    onSelect={handleSafeChannel}
+                    studio={c}
+                    onSelect={handleSafeStudio}
                   />
                 ))}
               </div>
@@ -196,7 +196,7 @@ export function SafeAddressList(props: SafeAddressListProps) {
               <div className="text-sm text-gray-500 ml-2">
                 暂无频道，去
                 <Button type="link" className="px-1 text-sm">
-                  <Link href="/channel/create">创建</Link>
+                  <Link href="/studio/create">创建</Link>
                 </Button>
               </div>
             )}

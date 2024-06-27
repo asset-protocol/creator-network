@@ -10,19 +10,19 @@ import { ZeroAddress } from 'ethers';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export type ChannelCreateData = {
+export type StudioCreateData = {
   name: string;
   description: string;
 };
 
-export function ChannelCreateForm() {
+export function StudioCreateForm() {
   const { deploy } = useDeployNewAssetHub();
   const { back, push } = useRouter();
   const { storage } = useAssetHub();
 
   const [loading, setLoading] = useState(false);
 
-  const handleCreateChannel = async (values: ChannelCreateData) => {
+  const handleCreateStudio = async (values: StudioCreateData) => {
     if (!storage) {
       throw new Error('storage is null');
     }
@@ -48,14 +48,14 @@ export function ChannelCreateForm() {
       const metadataUrl = await store.upload({
         data: JSON.stringify(metadata),
       });
-      const channel = await deploy({
+      const studio = await deploy({
         admin: ZeroAddress,
         name: values.name,
         createModule: ZeroAddress,
         contractURI: metadataUrl,
       });
-      if (channel) {
-        push('/' + channel);
+      if (studio) {
+        push('/' + studio);
       }
     } finally {
       setLoading(false);
@@ -63,7 +63,7 @@ export function ChannelCreateForm() {
   };
 
   return (
-    <Form size="large" layout="vertical" onFinish={handleCreateChannel}>
+    <Form size="large" layout="vertical" onFinish={handleCreateStudio}>
       <Form.Item noStyle className="flex flex-row">
         {/* <Form.Item name="image">
           <AvatarUpload />

@@ -28,7 +28,7 @@ export function AssetPublishForm({ onClose }: { onClose?: () => void }) {
     throw new Error('manager is undefined');
   }
   if (!account || !account.studio) {
-    throw new Error('account or channel is undefined');
+    throw new Error('account or studio is undefined');
   }
   const studio = account.studio;
   const { config: globalTokenConfig } = useGetHubGlobalModuleConfig(

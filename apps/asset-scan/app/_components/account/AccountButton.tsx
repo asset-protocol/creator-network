@@ -42,7 +42,7 @@ export function AccountContent() {
                 className="p-0 text-sm"
                 onClick={() => setSubContent(<AccountSwitch />)}
               >
-                Switch to channel
+                Switch to Studio
               </Button>
             )}
           </div>

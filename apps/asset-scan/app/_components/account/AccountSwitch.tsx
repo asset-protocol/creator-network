@@ -28,34 +28,34 @@ export function AccountSwitch() {
             </div>
           </div>
         ) : (
-          <span className="text-gray-500">Not Set Channel</span>
+          <span className="text-gray-500">Not Set Studio</span>
         )}
-        <WalletChannelList />
+        <WalletStudioList />
         <Divider className="bg-gray-200 my-2 py-[1px]" />
-        <div className="font-semibold py-2">{'Safe{Wallet} Channels'}</div>
+        <div className="font-semibold py-2">{'Safe{Wallet} Studios'}</div>
         <SafeAddressList />
       </div>
     )
   );
 }
 
-export type ChannelSelectItem = {
-  channel: AssetHubInfo;
-  onSelect?: (channel: AssetHubInfo) => void;
+export type StudioSelectItem = {
+  studio: AssetHubInfo;
+  onSelect?: (studio: AssetHubInfo) => void;
 };
 
-export function ChannelSelectItem({ channel, onSelect }: ChannelSelectItem) {
+export function StudioSelectItem({ studio, onSelect }: StudioSelectItem) {
   const { account, setAccount } = useApp();
 
-  const handleSelectChannel = () => {
+  const handleSelectStudio = () => {
     if (onSelect) {
-      onSelect(channel);
+      onSelect(studio);
     } else {
       setAccount({
-        address: channel.admin,
-        studio: channel.id,
-        studioAvatar: channel.metadata?.image,
-        studioName: channel.name,
+        address: studio.admin,
+        studio: studio.id,
+        studioAvatar: studio.metadata?.image,
+        studioName: studio.name,
       });
     }
   };
@@ -63,26 +63,26 @@ export function ChannelSelectItem({ channel, onSelect }: ChannelSelectItem) {
   return (
     <div
       className="flex cursor-pointer gap-2 py-2 px-2 hover:bg-gray-200 items-center"
-      onClick={handleSelectChannel}
+      onClick={handleSelectStudio}
     >
       <Avatar
-        src={replaceUri(channel.metadata?.image)}
-        icon={!channel.metadata && <BookText className="p-[2px]" />}
+        src={replaceUri(studio.metadata?.image)}
+        icon={!studio.metadata && <BookText className="p-[2px]" />}
       />
       <div className="flex flex-col gap-1 flex-1">
-        <div>{channel.name}</div>
-        <AddressLink address={channel.id} splitNum={6} splitNum2={4} />
+        <div>{studio.name}</div>
+        <AddressLink address={studio.id} splitNum={6} splitNum2={4} />
       </div>
-      {account?.studio === channel.id && <Check className="text-primary" />}
+      {account?.studio === studio.id && <Check className="text-primary" />}
     </div>
   );
 }
 
-export function WalletChannelList() {
+export function WalletStudioList() {
   const { address } = useAccount();
   const { setAccount, setContractRunner } = useApp();
   const signer = useEthersSigner();
-  const [channels, setChannels] = useState<AssetHubInfo[]>([]);
+  const [studios, setStudios] = useState<AssetHubInfo[]>([]);
 
   const handleSelect = (c: AssetHubInfo) => {
     setAccount({
@@ -98,21 +98,21 @@ export function WalletChannelList() {
     if (address) {
       indexerClient()
         .assetHubs.fetchAssetHubs([address])
-        .then((res) => setChannels(res));
+        .then((res) => setStudios(res));
     } else {
-      setChannels([]);
+      setStudios([]);
     }
   }, [address]);
 
   return (
-    channels.length > 0 && (
+    studios.length > 0 && (
       <div>
         <Divider className="bg-gray-600 my-2" />
-        <div className="font-semibold">Wallet Channels</div>
-        {channels.map((c) => (
-          <ChannelSelectItem
+        <div className="font-semibold">Wallet Studios</div>
+        {studios.map((c) => (
+          <StudioSelectItem
             key={c.id}
-            channel={c}
+            studio={c}
             onSelect={() => handleSelect(c)}
           />
         ))}
