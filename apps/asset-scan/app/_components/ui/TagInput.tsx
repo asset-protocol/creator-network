@@ -50,6 +50,7 @@ export function TagInput(props: TagInputProps) {
 
   const forMap = (tag: string) => (
     <Tag
+      key={tag}
       closable
       style={tagPlusStyle}
       onClose={(e) => {
@@ -83,7 +84,7 @@ export function TagInput(props: TagInputProps) {
           style={tagPlusStyle}
           className="border-dashed flex items-center gap-[2px]"
         >
-          <Plus size={16}/> New Tag
+          <Plus size={16} /> New Tag
         </Tag>
       )}
     </div>

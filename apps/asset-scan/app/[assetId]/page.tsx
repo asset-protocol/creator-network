@@ -80,7 +80,7 @@ export default async function AssetViewPage({ params, searchParams }: Props) {
 
                 <div className="text-3xl font-semibold py-4">{asset.name}</div>
                 <div className="text-gray-500 text-sm flex items-center py-2">
-                  <Avatar size={26} src={replaceUri(asset.hub.metadata?.image)}>
+                  <Avatar size={26} >
                     {asset.hub.name[0]}
                   </Avatar>
                   <span className="ml-1">{asset.hub.name}</span>

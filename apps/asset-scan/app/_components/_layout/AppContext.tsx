@@ -39,9 +39,11 @@ export function AppAssetProvider({
   useEffect(() => {
     if (account?.address !== wallet.address) {
       setAccount(wallet.address ? { address: wallet.address } : undefined);
+    }
+    if (runner !== signer) {
       setRunner(signer);
     }
-  }, [wallet]);
+  }, [wallet, signer]);
 
   const value: AppContextData = {
     contractRunner: runner,

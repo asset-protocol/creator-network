@@ -16,7 +16,7 @@ import {
   revalidateAssetById,
   revalidateAssets,
 } from '@/app/_creatornetwork/indexer-actions';
-import { redirect } from 'next/navigation';
+import { RedirectType, redirect } from 'next/navigation';
 
 export function AssetPublishForm({ onClose }: { onClose?: () => void }) {
   const { manager, account } = useAssetHub();
@@ -30,16 +30,16 @@ export function AssetPublishForm({ onClose }: { onClose?: () => void }) {
   if (!account || !account.studio) {
     throw new Error('account or channel is undefined');
   }
-  const channel = account.studio;
+  const studio = account.studio;
   const { config: globalTokenConfig } = useGetHubGlobalModuleConfig(
     manager.globalModule,
-    channel
+    studio
   );
   const { publish, loading, tip } = useAssetPublish();
 
   const canSubmit = metadata && metadata.name && content && metadata.image;
 
-  const handleSubmit = (values: PublishFromDataType) => {
+  const handleSubmit = async (values: PublishFromDataType) => {
     console.log('values', values);
     if (!values.useCollect) {
       values.collectModule = {
@@ -47,16 +47,20 @@ export function AssetPublishForm({ onClose }: { onClose?: () => void }) {
         initData: ZERO_BYTES,
       };
     }
-    publish(channel, values, globalTokenConfig).then((assetId) => {
-      if (assetId) {
-        setPublished(BigInt(assetId));
-        redirect("")
-      }
-      revalidateAssets();
-      if (asset) {
-        revalidateAssetById(asset.id);
-      }
-    });
+
+    const assetId = await publish(studio, values, globalTokenConfig);
+    await revalidateAssets();
+    if (asset) {
+      await revalidateAssetById(asset.id);
+    }
+    onClose?.();
+    if (assetId) {
+      setPublished(BigInt(assetId));
+      console.log('redirect to ', `/studio/${studio}/asset/${assetId}`);
+      redirect(`/studio/${studio}/asset/${assetId}`, RedirectType.replace);
+    } else {
+      redirect(`/`, RedirectType.replace);
+    }
   };
 
   return (

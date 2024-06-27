@@ -1,7 +1,6 @@
 import {
   ApolloClient,
   FetchPolicy,
-  WatchQueryFetchPolicy,
   gql,
   useApolloClient,
   useQuery,

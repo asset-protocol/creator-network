@@ -42,7 +42,7 @@ export function AppHeader() {
 
   const createMenuItems: MenuProps['items'] = [
     {
-      label: <Link href="/assets/create">Asset</Link>,
+      label: <Link href="/asset/create">Asset</Link>,
       key: 'Asset',
       icon: <FileText strokeWidth={1} />,
     },
@@ -52,7 +52,7 @@ export function AppHeader() {
       icon: <SwatchBook strokeWidth={1} />,
     },
     {
-      label: <Link href="/channel/create">Channel</Link>,
+      label: <Link href="/studio/create">Channel</Link>,
       key: 'channel',
       icon: <BookText strokeWidth={1} />,
     },
