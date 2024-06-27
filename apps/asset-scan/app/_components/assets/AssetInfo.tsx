@@ -13,7 +13,7 @@ export function AssetWeb3Info({ asset, className }: AssetWeb3InfoProps) {
     <div className={clsx('flex flex-col', className)}>
       <div className="font-semibold">Publisher: </div>
       <AddressLink address={asset.publisher} herf=""></AddressLink>
-      <div className="mt-2 font-semibold">Hub Address: </div>
+      <div className="mt-2 font-semibold">Studio Address: </div>
       <AddressLink address={asset.hub.id} herf=""></AddressLink>
       <div className="mt-2 font-semibold">Content URI: </div>
       <AddressLink
