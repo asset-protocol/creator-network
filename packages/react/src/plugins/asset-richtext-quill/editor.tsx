@@ -1,24 +1,16 @@
 import { TYPE_RICH_TEXT } from './consts';
-import { Delta } from 'quill/core';
+import Delta from 'quill-delta';
 import { configureAsset } from '../../asset';
 import { useAssetHub } from '../../context';
 import { getStorage } from '@creator-network/core';
-import { Suspense, lazy } from 'react';
+import AssetRichTextEditor from './components/RichTextEditor';
 
-export const AssetRichTextEditor = lazy(
-  () => import('./components/RichTextEditor')
-);
-
-const richtextEditor = () => {
+const richtextEditor = ({ editor }: { editor: any }) => {
   return configureAsset((config) => {
     return config.registerEditor({
       types: [{ value: TYPE_RICH_TEXT, label: 'Post' }],
       selector: (t) => t === TYPE_RICH_TEXT,
-      editor: (props) => (
-        <Suspense>
-          <AssetRichTextEditor {...props} />
-        </Suspense>
-      ),
+      editor: (props) => <AssetRichTextEditor editor={editor} {...props} />,
       useBeforePublish() {
         const { storage } = useAssetHub();
         return async (cur) => {

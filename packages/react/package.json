@@ -15,6 +15,7 @@
     "./plugins/asset-audio": "./src/plugins/asset-audio/index.ts",
     "./plugins/asset-default": "./src/plugins/asset-default/index.ts",
     "./plugins/asset-richtext": "./src/plugins/asset-richtext-quill/index.ts",
+    "./plugins/asset-richtext/QuillEditor": "./src/plugins/asset-richtext-quill/components/QuillEditor.tsx",
     "./plugins/asset-embed-video": "./src/plugins/asset-embed-video/index.ts",
     "./plugins/module-fee-collect": "./src/plugins/module-fee-collect/index.ts",
     "./plugins/module-token-collect": "./src/plugins/module-token-collect/index.ts",

@@ -66,7 +66,6 @@ const QuillEditor = forwardRef<QuillEdtorInstance, QuillEditorProps>(
         }
         quill.current = _quill;
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return <div ref={containerRef} className={props.className}></div>;

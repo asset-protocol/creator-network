@@ -1,20 +1,13 @@
-import { Suspense, lazy, useEffect } from 'react';
 import { TYPE_RICH_TEXT } from './consts';
-import { configureAsset } from '../../asset';
+import { IViewer, configureAsset } from '../../asset';
 import { Asset } from '@creator-network/core';
-import { useAssetHub } from '../../context';
+import Viewer from './components/RichTextViewer';
 
-const Viewer = lazy(() => import('./components/RichTextViewer'));
-
-const richtextViewer = () => {
+const richtextViewer = ({ viewer }: { viewer: IViewer }) => {
   return configureAsset((config) => {
     return config.registerViewer(TYPE_RICH_TEXT, {
       selector: (v: Asset) => v.type === TYPE_RICH_TEXT,
-      viewer: (props: any) => (
-        <Suspense>
-          <Viewer {...props} />
-        </Suspense>
-      ),
+      viewer: (props: any) => <Viewer editor={viewer} {...props} />,
     });
   });
 };

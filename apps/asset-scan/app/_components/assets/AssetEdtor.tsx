@@ -5,10 +5,7 @@ import {
   AssetMetadataEditor,
   useAssetEditor,
 } from '@creator-network/react/asset/editor';
-import {
-  TYPE_RICH_TEXT,
-  richtextEditor,
-} from '@creator-network/react/plugins/asset-richtext';
+import { RichtextEditor } from './RichEditor';
 import { Button, Image, Popover, Select } from 'antd';
 import { selectFile } from '@creator-network/react/utils';
 import { AssetPublishForm } from './AssetPublishModal';
@@ -17,8 +14,14 @@ import { useAssetTypes } from '@creator-network/react/hooks';
 import { useAssetHub } from '@creator-network/react';
 import { useAccountModal } from '@rainbow-me/rainbowkit';
 import { TagInput } from '../ui';
+import {
+  TYPE_RICH_TEXT,
+  richtextEditor,
+} from '@creator-network/react/plugins/asset-richtext';
 
-creatorNetwork.use(richtextEditor());
+creatorNetwork.use(
+  richtextEditor({ editor: (props: any) => <RichtextEditor {...props} /> })
+);
 
 export type AssetEditorProps = {
   asset?: Asset;

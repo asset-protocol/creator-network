@@ -1,9 +1,16 @@
-import { Asset } from "@creator-network/core";
-import QuillEditor from "./QuillEditor";
+import { Asset } from '@creator-network/core';
+import type QuillEditor from './QuillEditor';
 
-export default function RichTextViewer({ value }: { value: Asset }) {
+export default function RichTextViewer({
+  value,
+  editor,
+}: {
+  value: Asset;
+  editor: typeof QuillEditor;
+}) {
+  const Editor = editor;
   return (
-    <QuillEditor
+    <Editor
       className="w-full"
       theme="snow"
       value={value.content}
