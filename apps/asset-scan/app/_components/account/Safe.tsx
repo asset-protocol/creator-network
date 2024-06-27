@@ -166,7 +166,7 @@ export function SafeAddressList(props: SafeAddressListProps) {
         <Skeleton.Input active />
       ) : safeItems.length > 0 ? (
         safeItems.map((a) => (
-          <div>
+          <div key={a.safeAddress}>
             <div className="flex">
               <AddressLink address={a.safeAddress} className="flex-1" />
               <Button
@@ -185,7 +185,11 @@ export function SafeAddressList(props: SafeAddressListProps) {
             {a.channels.length > 0 ? (
               <div>
                 {a.channels.map((c) => (
-                  <ChannelSelectItem channel={c} onSelect={handleSafeChannel} />
+                  <ChannelSelectItem
+                    key={c.id}
+                    channel={c}
+                    onSelect={handleSafeChannel}
+                  />
                 ))}
               </div>
             ) : (

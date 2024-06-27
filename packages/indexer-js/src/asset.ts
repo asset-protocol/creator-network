@@ -166,10 +166,10 @@ const GET_ASSET_BY_ID = gql`
   ${ASSET_FIELDS}
   query assetById($id: String!) {
     assetById(id: $id) {
-    content
-    metadata
-    ...AssetFields
-  }
+      content
+      metadata
+      ...AssetFields
+    }
   }
 `;
 
@@ -263,6 +263,9 @@ export class AssetsAPI {
   }
 
   async fetchAssets(args?: GetAssetHubAssetsInput) {
+    if (args) {
+      args.tags = args.tags?.map((t) => t.toLowerCase());
+    }
     const { data } = await this.client.query<GqlAssetList<Asset>>({
       query: GET_HUb_ASSETS(args?.tags),
       variables: { ...defaultInput, ...args },

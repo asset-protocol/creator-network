@@ -28,7 +28,8 @@ export function SeeAlsoAssetList({
       first: 10,
       orderBy: ['collectCount_DESC', 'timestamp_DESC'],
     });
-    setData([...data, ...res.assets]);
+
+    setData([...data, ...res.assets.filter((a) => a.id !== asset.id)]);
     setAfter(res.pageInfo.endCursor);
     setHasNext(res.pageInfo.hasNextPage);
   };

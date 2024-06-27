@@ -17,9 +17,11 @@ const nextConfig = {
   experimental: {
     outputFileTracingRoot: path.join(__dirname, "../../"),
   },
+  transpilePackages: ['antd'],
   rewrites,
   images: {
     loader: "custom",
+    unoptimized: true,
     loaderFile: "./imageLoader.js",
     formats: ["image/webp", "image/avif"],
     remotePatterns: [

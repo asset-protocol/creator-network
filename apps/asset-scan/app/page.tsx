@@ -6,7 +6,7 @@ import { TopAuthors } from "./_components/assets/TopAuthors";
 export default function Home() {
   return (
     <main className="flex flex-col mx-auto">
-      <div className="px-[20px] w-full bg-[#F2F8F7] h-[calc(100vh-76px)] max-h-[880px]">
+      <div className="px-[20px] w-full bg-[#F2F8F7] max-h-[880px]">
         <div className=" flex mx-auto h-full max-w-[1280px]">
           <div className="flex-[2] h-full flex flex-col">
             <div className="text-xl font-bold mt-[60px] mb-[40px]">

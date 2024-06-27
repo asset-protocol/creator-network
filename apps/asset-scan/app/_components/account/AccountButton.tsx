@@ -81,7 +81,7 @@ export function AccountButton({ className }: { className?: string }) {
   const { account } = useApp();
   return (
     <div className="mr-4">
-      {account && (
+      {account ? (
         <Popover
           trigger={['click']}
           motion={{ motionName: '' }}
@@ -109,8 +109,10 @@ export function AccountButton({ className }: { className?: string }) {
             />
           </div>
         </Popover>
+      ) : (
+        <></>
       )}
-      {!account && <LoginButton />}
+      {!account ? <LoginButton /> : <></>}
     </div>
   );
 }

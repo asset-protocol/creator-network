@@ -9,7 +9,7 @@ export async function TopAuthors() {
     <div className="flex flex-col gap-4">
       {studios.map((s) => {
         return (
-          <div className="flex gap-4 items-center">
+          <div key={s.id} className="flex gap-4 items-center">
             <Avatar size={64} src={replaceUri(s.metadata?.image)}>
               {s.name[0]}
             </Avatar>

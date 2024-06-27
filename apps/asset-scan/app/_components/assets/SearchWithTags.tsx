@@ -6,7 +6,10 @@ export async function SearchWithTags() {
   return (
     <div className="flex flex-wrap gap-2 pr-6">
       {tags.map((t) => (
-        <div className="badge badge-outline rounded-sm border-gray-300 px-4 py-4 text-gray-600">
+        <div
+          key={t.name}
+          className="badge badge-outline rounded-sm border-gray-300 px-4 py-4 text-gray-600"
+        >
           {t.name}
         </div>
       ))}

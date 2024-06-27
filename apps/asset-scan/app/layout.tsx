@@ -6,7 +6,9 @@ import clsx from 'clsx';
 import { AppProviders } from './_components/_layout/AppRoot';
 import { Layout } from 'antd';
 import { Content } from 'antd/es/layout/layout';
+import { AntThmeConfigProvider } from './_components/_layout/AntConfig';
 import './globals.css';
+import { AntdRegistry } from '@ant-design/nextjs-registry';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,12 +27,16 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={clsx(inter.className)}>
-        <AppProviders manager={manager}>
-          <Layout>
-            <AppHeader />
-            <Content className="w-full bg-base-100">{children}</Content>
-          </Layout>
-        </AppProviders>
+        <AntdRegistry>
+          <AntThmeConfigProvider>
+            <AppProviders manager={manager}>
+              <Layout>
+                <AppHeader />
+                <Content className="w-full bg-base-100">{children}</Content>
+              </Layout>
+            </AppProviders>
+          </AntThmeConfigProvider>
+        </AntdRegistry>
       </body>
     </html>
   );

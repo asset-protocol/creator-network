@@ -1,10 +1,13 @@
-import { useEffect, useMemo, useState } from "react";
-import { ZeroAddress, formatEther, parseEther } from "ethers";
-import { useAssetHub } from "@creator-network/react";
-import { CollectModuleContentProps } from "@creator-network/react/collect";
-import { encodeTokenCollectInitData, parseTokenCollectInitData } from "@creator-network/react/plugins/module-token-collect";
-import { InputNumber, Select } from "antd";
-import { AddressLink } from "@/app/_components/address/AddressLink";
+import { useEffect, useMemo, useState } from 'react';
+import { ZeroAddress, formatEther, parseEther } from 'ethers';
+import { useAssetHub } from '@creator-network/react';
+import { CollectModuleContentProps } from '@creator-network/react/collect';
+import {
+  encodeTokenCollectInitData,
+  parseTokenCollectInitData,
+} from '@creator-network/react/plugins/module-token-collect';
+import { InputNumber, Select } from 'antd';
+import { AddressLink } from '@/app/_components/address/AddressLink';
 
 export type Erc20Token = {
   label: string;
@@ -22,12 +25,13 @@ export function TokenCollectModuleItem(props: TokenCollectModuleItemProps) {
   const tokenOptions = props.tokens.map((t) => ({
     label: t.label,
     value: t.contract,
+    key: t.contract,
   }));
   const [selectedToken, setSelectedToken] = useState<string | undefined>(
     data?.currency ?? tokenOptions[0]?.value
   );
   const [amount, setAmount] = useState<string | null>(
-    data?.amount ? formatEther(data.amount) : "0"
+    data?.amount ? formatEther(data.amount) : '0'
   );
 
   const recipient = useMemo(() => {
@@ -64,9 +68,11 @@ export function TokenCollectModuleItem(props: TokenCollectModuleItemProps) {
         <InputNumber
           placeholder="Amount"
           className="flex-1"
-          min={"0"}
-          addonAfter={props.tokens.find(t => t.contract === selectedToken)?.name}
-          defaultValue={amount ?? "0"}
+          min={'0'}
+          addonAfter={
+            props.tokens.find((t) => t.contract === selectedToken)?.name
+          }
+          defaultValue={amount ?? '0'}
           onChange={(v) => setAmount(v)}
         />
       </div>

@@ -11,7 +11,7 @@ export async function RecentlyAssets() {
   return (
     <div className="grid grid-cols-2 gap-4">
       {assets.assets.map((a) => {
-        return <RecentlyAssetItem asset={a} />;
+        return <RecentlyAssetItem key={a.id} asset={a} />;
       })}
     </div>
   );

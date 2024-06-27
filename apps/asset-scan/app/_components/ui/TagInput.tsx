@@ -1,8 +1,8 @@
+'use client';
 import { Input, InputRef, Tag, theme } from 'antd';
 import { Plus } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
-`use client`;
 export type TagInputProps = {
   value?: string[];
   onChange?: (value: string[]) => void;
