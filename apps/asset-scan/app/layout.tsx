@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import './globals.css';
 import { indexerClient, useStorage } from './_creatornetwork';
 import { AppHeader } from './_components/_layout/AppHeader';
 import clsx from 'clsx';
 import { AppProviders } from './_components/_layout/AppRoot';
 import { Layout } from 'antd';
 import { Content } from 'antd/es/layout/layout';
+import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
