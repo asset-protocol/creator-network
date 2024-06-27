@@ -1,12 +1,15 @@
-import { RecentlyAssets } from "./_components/assets/RecentlyAssets";
-import { FeaturedAssets, PopularAssets } from "./_components/assets/FeaturedAssets";
-import { SearchWithTags } from "./_components/assets/SearchWithTags";
-import { TopAuthors } from "./_components/assets/TopAuthors";
+import { RecentlyAssets } from './_components/assets/RecentlyAssets';
+import {
+  FeaturedAssets,
+  PopularAssets,
+} from './_components/assets/FeaturedAssets';
+import { SearchWithTags } from './_components/assets/SearchWithTags';
+import { TopAuthors } from './_components/assets/TopAuthors';
 
 export default function Home() {
   return (
     <main className="flex flex-col mx-auto">
-      <div className="px-[20px] w-full bg-[#F2F8F7] max-h-[880px]">
+      <div className="px-[20px] w-full bg-[#F2F8F7] max-h-[880px] overflow-hidden">
         <div className=" flex mx-auto h-full max-w-[1280px]">
           <div className="flex-[2] h-full flex flex-col">
             <div className="text-xl font-bold mt-[60px] mb-[40px]">
@@ -35,14 +38,14 @@ export default function Home() {
           </div>
         </div>
         <div className="flex-1">
-          <div >
+          <div>
             <div className="text-xl font-bold mt-[60px] mb-[40px]">
               <span className="bg-[#00AAA1] text-white mr-1">Top</span>
               Studios
             </div>
             <TopAuthors />
           </div>
-          <div >
+          <div>
             <div className="text-xl font-bold mt-[60px] mb-[40px]">
               <span className="bg-[#00AAA1] text-white mr-1">Search</span>
               With Tags
