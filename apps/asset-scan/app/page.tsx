@@ -10,7 +10,7 @@ import { Metadata } from 'next';
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: 'AssetScan-创作者数字资产一站式浏览与交易平台',
-    description: 'Asset Scan',
+    description: 'AssetScan 用于创建、浏览、更新和查看链上交易信息。无缝连接创作者和收藏家，发现独一无二的数字资产，体验前所未有的透明度和交易便捷性。立即加入，开启您的数字收藏之旅。',
     openGraph: {
       title: 'AssetScan-创作者数字资产一站式浏览与交易平台',
       description:
