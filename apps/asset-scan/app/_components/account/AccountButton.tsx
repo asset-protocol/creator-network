@@ -1,7 +1,8 @@
 'use client';
 
-import { Avatar, Button, Divider, Menu, Popover } from 'antd';
-import { ArrowLeft, BookText, Wallet } from 'lucide-react';
+import { Avatar, Button, Divider, Menu } from 'antd';
+import Popover from 'antd/es/popover';
+import { ArrowLeft, Wallet } from 'lucide-react';
 import { ReactNode, useState } from 'react';
 import { useDisconnect } from 'wagmi';
 import { AddressLink } from '../address/AddressLink';
@@ -10,6 +11,7 @@ import { AccountSwitch } from './AccountSwitch';
 import { useApp } from '../_layout/AppContext';
 import clsx from 'clsx';
 import { replaceUri } from '@creator-network/core';
+import { useCurrentStudio } from './hook';
 
 export function AccountContent() {
   const { account } = useApp();
@@ -42,7 +44,7 @@ export function AccountContent() {
                 className="p-0 text-sm"
                 onClick={() => setSubContent(<AccountSwitch />)}
               >
-                Switch to Studio
+                选择工作室
               </Button>
             )}
           </div>
@@ -79,6 +81,7 @@ export function LoginButton() {
 export function AccountButton({ className }: { className?: string }) {
   const [open, setOpen] = useState(false);
   const { account } = useApp();
+  useCurrentStudio();
   return (
     <div className="mr-4">
       {account ? (

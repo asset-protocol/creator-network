@@ -70,7 +70,7 @@ export function StudioCreateForm() {
         </Form.Item> */}
         <Form.Item label="名称" name="name" rules={[{ max: 20 }]} required>
           <Input
-            placeholder="输入频道名称"
+            placeholder="输入工作室名称"
             className="py-4"
             size="large"
             count={{
@@ -82,7 +82,7 @@ export function StudioCreateForm() {
       </Form.Item>
       <Form.Item label="描述" name="description">
         <Input.TextArea
-          placeholder="输入频道描述"
+          placeholder="输入工作室描述"
           className="py-4"
           size="large"
         />

@@ -43,3 +43,14 @@ export function fetchAssets(
   );
   return action(args);
 }
+
+export const FETCH_USER_STUDO_LIST = 'fetchUseStudios';
+export function fetchUserSutdios(owner?: string, limit?: number) {
+  const action = unstable_cache(
+    (owners?: string[], limit?: number) =>
+      indexerClient().assetHubs.fetchAssetHubs(owners, limit),
+    [FETCH_USER_STUDO_LIST],
+    { tags: [`${FETCH_USER_STUDO_LIST}_${owner}_${limit}`] }
+  );
+  return action(owner ? [owner] : undefined, limit);
+}

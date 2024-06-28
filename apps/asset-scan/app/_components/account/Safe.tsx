@@ -194,7 +194,7 @@ export function SafeAddressList(props: SafeAddressListProps) {
               </div>
             ) : (
               <div className="text-sm text-gray-500 ml-2">
-                暂无频道，去
+                暂无工作室，去
                 <Button type="link" className="px-1 text-sm">
                   <Link href="/studio/create">创建</Link>
                 </Button>
@@ -203,13 +203,17 @@ export function SafeAddressList(props: SafeAddressListProps) {
           </div>
         ))
       ) : (
-        <Link
-          href="https://app.safe.global"
-          target="_blank"
-          className="mx-auto"
-        >
-          Create Safe Wallet
-        </Link>
+        <span className="ml-4 text-gray-500 text-sm">
+          未找到 Safe 多签钱包, 去
+          <Link
+            href="https://app.safe.global"
+            target="_blank"
+            className="text-primary"
+          >
+            {' 申请'}
+          </Link>
+          .
+        </span>
       )}
     </div>
   );

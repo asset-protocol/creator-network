@@ -9,6 +9,7 @@ import { useApp } from '../_layout/AppContext';
 import { SafeAddressList } from './Safe';
 import { useAccount } from 'wagmi';
 import { useEthersSigner } from '@/app/_creatornetwork/ether';
+import Link from 'next/link';
 
 export function AccountSwitch() {
   const { account } = useApp();
@@ -28,11 +29,11 @@ export function AccountSwitch() {
             </div>
           </div>
         ) : (
-          <span className="text-gray-500">Not Set Studio</span>
+          <span className="text-gray-500 text-sm ml-4">未选择工作室</span>
         )}
         <WalletStudioList />
         <Divider className="bg-gray-200 my-2 py-[1px]" />
-        <div className="font-semibold py-2">{'Safe{Wallet} Studios'}</div>
+        <div className="font-semibold py-2">{'Safe 账户工作室'}</div>
         <SafeAddressList />
       </div>
     )
@@ -105,18 +106,26 @@ export function WalletStudioList() {
   }, [address]);
 
   return (
-    studios.length > 0 && (
-      <div>
-        <Divider className="bg-gray-600 my-2" />
-        <div className="font-semibold">Wallet Studios</div>
-        {studios.map((c) => (
+    <div>
+      <Divider className="bg-gray-600 my-2" />
+      <div className="font-semibold">钱包账号工作室</div>
+      {studios.length > 0 ? (
+        studios.map((c) => (
           <StudioSelectItem
             key={c.id}
             studio={c}
             onSelect={() => handleSelect(c)}
           />
-        ))}
-      </div>
-    )
+        ))
+      ) : (
+        <span className="ml-4 text-sm text-gray-500">
+          未创建工作室, 去
+          <Link href="/studio/create" className="text-primary">
+            {' 创建'}
+          </Link>
+          .
+        </span>
+      )}
+    </div>
   );
 }

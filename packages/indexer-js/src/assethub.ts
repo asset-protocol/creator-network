@@ -27,6 +27,24 @@ const GET_Asset_HUBS = gql`
   }
 `;
 
+const GET_HUB_BY_ID = gql`
+  query GetHubById($id: String!) {
+    assetHubById(id: $id) {
+      id
+      admin
+      name
+      isOpen
+      nftGatedModule
+      feeCollectModule
+      tokenCollectModule
+      timestamp
+      version
+      hash
+      metadata
+    }
+  }
+`;
+
 export function useGetAssetHubs(
   owners?: string[],
   skipFunc?: (owners?: string[]) => boolean
@@ -83,7 +101,16 @@ export class AssetHubAPI {
     const { data } = await this._client.query<GqlAssetHubList<AssetHubInfo>>({
       query: GET_Asset_HUBS,
       variables: { owners, limit: limit ?? 10 },
+      fetchPolicy: 'no-cache',
     });
     return data.assetHubs;
+  }
+  async fetchById(id: string) {
+    const { data } = await this._client.query<{ assetHubById: AssetHubInfo }>({
+      query: GET_HUB_BY_ID,
+      variables: { id },
+      fetchPolicy: 'no-cache',
+    });
+    return data.assetHubById;
   }
 }
