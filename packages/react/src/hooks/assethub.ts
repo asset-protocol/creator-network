@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 import { INGORED_ADDRESS, ZERO_BYTES } from '@creator-network/core';
 
 export function useDeployNewAssetHub() {
-  const { manager, contractRunner } = useAssetHub();
+  const { manager, contractRunner, account } = useAssetHub();
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<string>();
   const zeroAssetHubCreateData: Partial<HubCreateDataStruct> = {
@@ -38,7 +38,7 @@ export function useDeployNewAssetHub() {
       let hub: string | undefined;
       const assetHubManager = NewAssetHubManager(contractRunner, manager.id);
       console.log('create hub', createData);
-      if (!contractRunner.isMulti) {
+      if (!account?.isSafe) {
         hub = await assetHubManager.deploy.staticCall(createData);
       }
       const res = await assetHubManager.deploy(createData);
@@ -88,7 +88,7 @@ function checkCreateData(
 }
 
 export function useCreateAsset() {
-  const { contractRunner } = useAssetHub();
+  const { contractRunner, account } = useAssetHub();
   const [isLoading, setIsLoading] = useState(false);
   const create = async (hub: string, data: AssetCreateData) => {
     if (!contractRunner) {
@@ -100,7 +100,7 @@ export function useCreateAsset() {
     console.log('createData', createData);
     try {
       let tokenId: bigint | undefined = undefined;
-      if (!contractRunner.isMulti) {
+      if (!account?.isSafe) {
         tokenId = await assetHub.create.staticCall(createData);
       }
       const res = await assetHub.create(createData);
@@ -158,7 +158,7 @@ export type CollectData = {
 };
 
 export function useCollectAsset() {
-  const { contractRunner } = useAssetHub();
+  const { contractRunner, account } = useAssetHub();
   const [isLoading, setIsLoading] = useState(false);
   const collect = async (
     hub: string,
@@ -173,7 +173,7 @@ export function useCollectAsset() {
     setIsLoading(true);
     try {
       let tokeNftId: bigint | undefined = undefined;
-      if (!contractRunner.isMulti) {
+      if (!account?.isSafe) {
         tokeNftId = await assetHub.collect.staticCall(
           assetId,
           collectData.collectData,

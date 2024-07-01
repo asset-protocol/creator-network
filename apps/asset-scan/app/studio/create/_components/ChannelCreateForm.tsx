@@ -10,19 +10,19 @@ import { ZeroAddress } from 'ethers';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export type StudioCreateData = {
+export type ChannelCreateData = {
   name: string;
   description: string;
 };
 
-export function StudioCreateForm() {
+export function ChannelCreateForm() {
   const { deploy } = useDeployNewAssetHub();
   const { back, push } = useRouter();
   const { storage } = useAssetHub();
 
   const [loading, setLoading] = useState(false);
 
-  const handleCreateStudio = async (values: StudioCreateData) => {
+  const handleCreateChannel = async (values: ChannelCreateData) => {
     if (!storage) {
       throw new Error('storage is null');
     }
@@ -48,14 +48,14 @@ export function StudioCreateForm() {
       const metadataUrl = await store.upload({
         data: JSON.stringify(metadata),
       });
-      const studio = await deploy({
+      const channel = await deploy({
         admin: ZeroAddress,
         name: values.name,
         createModule: ZeroAddress,
         contractURI: metadataUrl,
       });
-      if (studio) {
-        push('/' + studio);
+      if (channel) {
+        push('/' + channel);
       }
     } finally {
       setLoading(false);
@@ -63,14 +63,14 @@ export function StudioCreateForm() {
   };
 
   return (
-    <Form size="large" layout="vertical" onFinish={handleCreateStudio}>
+    <Form size="large" layout="vertical" onFinish={handleCreateChannel}>
       <Form.Item noStyle className="flex flex-row">
         {/* <Form.Item name="image">
           <AvatarUpload />
         </Form.Item> */}
         <Form.Item label="名称" name="name" rules={[{ max: 20 }]} required>
           <Input
-            placeholder="输入工作室名称"
+            placeholder="输入频道名称"
             className="py-4"
             size="large"
             count={{
@@ -82,7 +82,7 @@ export function StudioCreateForm() {
       </Form.Item>
       <Form.Item label="描述" name="description">
         <Input.TextArea
-          placeholder="输入工作室描述"
+          placeholder="输入频道描述"
           className="py-4"
           size="large"
         />

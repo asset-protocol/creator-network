@@ -18,12 +18,12 @@ export type ChainInfo = {
 };
 
 export interface AssetContractRunner extends ContractRunner {
-  isMulti?: boolean;
   getAddress(): Promise<string>;
 }
 
 export type AccountInfo = {
   address: string;
+  isSafe?: boolean;
   studio?: string;
   studioName?: string;
   studioAvatar?: string;

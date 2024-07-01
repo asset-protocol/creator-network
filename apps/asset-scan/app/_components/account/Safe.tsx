@@ -18,8 +18,6 @@ import { ArrowRightLeft, CircleCheck } from 'lucide-react';
 import useToken from 'antd/es/theme/useToken';
 
 export class SafeSigner implements Required<AssetContractRunner> {
-  isMulti: boolean = true;
-
   constructor(
     private safe: Safe,
     private chainId: number,
@@ -137,7 +135,7 @@ export function SafeAddressList(props: SafeAddressListProps) {
       safeAddress: safeAddress,
     });
     const rn = new SafeSigner(protocolKit, chain.id, signer);
-    setAccount({ address: safeAddress });
+    setAccount({ address: safeAddress, isSafe: true });
     setContractRunner(rn);
   };
 
