@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 import * as path from "path"
+import { env } from "process";
 
 const __dirname = path.resolve();
 

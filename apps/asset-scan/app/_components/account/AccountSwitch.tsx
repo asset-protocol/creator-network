@@ -10,13 +10,14 @@ import { SafeAddressList } from './Safe';
 import { useAccount } from 'wagmi';
 import { useEthersSigner } from '@/app/_creatornetwork/ether';
 import Link from 'next/link';
+import { zeroAddress } from 'viem';
 
 export function AccountSwitch() {
   const { account } = useApp();
   return (
     account && (
       <div>
-        {account.studio ? (
+        {account.studio && account.studio !== zeroAddress ? (
           <div className="flex items-center gap-2 text-sm">
             <Avatar
               size={32}

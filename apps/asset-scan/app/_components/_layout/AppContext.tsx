@@ -37,13 +37,14 @@ export function AppAssetProvider({
   );
 
   useEffect(() => {
+    console.log('account2', account);
     if (account?.address !== wallet.address) {
       setAccount(wallet.address ? { address: wallet.address } : undefined);
     }
     if (runner !== signer) {
       setRunner(signer);
     }
-  }, [wallet, signer]);
+  }, [wallet.address, signer]);
 
   const value: AppContextData = {
     contractRunner: runner,

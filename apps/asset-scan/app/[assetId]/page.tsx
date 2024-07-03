@@ -37,11 +37,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function AssetViewPage({ params, searchParams }: Props) {
   const { assetId } = params;
   const asset = await fetchAssetById(assetId);
-
-  const openCollect = searchParams['collect'] === '1';
   if (!asset) {
     notFound();
   }
+  const openCollect = searchParams['collect'] === '1';
   const config: AssetViewerProps | undefined = asset
     ? {
         asset,

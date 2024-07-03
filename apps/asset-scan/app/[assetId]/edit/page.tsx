@@ -33,7 +33,7 @@ export default async function Page({
   }
   return (
     <div className="max-w-[900px] mx-auto">
-      <AssetEditor asset={asset}></AssetEditor>
+      <AssetEditor asset={asset!}></AssetEditor>
     </div>
   );
 }

@@ -16,11 +16,12 @@ import {
   revalidateAssetById,
   revalidateAssets,
 } from '@/app/_creatornetwork/indexer-actions';
-import { RedirectType, redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export function AssetPublishForm({ onClose }: { onClose?: () => void }) {
   const { manager, account } = useAssetHub();
   const { metadata, setPublished, asset, content } = useAssetEditor();
+  const { push, replace } = useRouter();
 
   const initialValues = usePublishFormValues();
 
@@ -47,7 +48,10 @@ export function AssetPublishForm({ onClose }: { onClose?: () => void }) {
         initData: ZERO_BYTES,
       };
     }
-
+    await revalidateAssets();
+    if (asset) {
+      await revalidateAssetById(asset.id);
+    }
     const assetId = await publish(studio, values, globalTokenConfig);
     await revalidateAssets();
     if (asset) {
@@ -56,10 +60,9 @@ export function AssetPublishForm({ onClose }: { onClose?: () => void }) {
     onClose?.();
     if (assetId) {
       setPublished(BigInt(assetId));
-      console.log('redirect to ', `/studio/${studio}/asset/${assetId}`);
-      redirect(`/studio/${studio}/asset/${assetId}`, RedirectType.replace);
+      push(`/studio/${studio}/asset/${assetId}`);
     } else {
-      redirect(`/`, RedirectType.replace);
+      replace(`/`);
     }
   };
 

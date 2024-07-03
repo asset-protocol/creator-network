@@ -53,6 +53,7 @@ const GET_CURATIONS = gql`
           name
           publisher
           expiry
+          externalUrl
           timestamp
           tokenURI
           assets(limit: 4) {
@@ -96,6 +97,7 @@ const GET_CURATION_BY_ID = gql`
       publisher
       expiry
       tokenURI
+      externalUrl
       timestamp
       assets {
         status
@@ -165,6 +167,7 @@ const GET_CURATION_ASSETS = gql`
       publisher
       expiry
       timestamp
+      externalUrl
     }
   }
 `;

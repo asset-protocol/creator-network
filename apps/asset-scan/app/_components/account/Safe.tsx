@@ -150,6 +150,8 @@ export function SafeAddressList(props: SafeAddressListProps) {
     });
     const rn = new SafeSigner(protocolKit, chain.id, signer);
     setAccount({
+      ...account,
+      isSafe: true,
       address: studio.admin,
       studio: studio.id,
       studioAvatar: studio.metadata?.image,
