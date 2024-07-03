@@ -15,5 +15,5 @@ export async function POST(req: NextRequest) {
   }
   await arweave.transactions.sign(tx);
   const res = await arweave.transactions.post(tx);
-  return res;
+  return NextResponse.json(res);
 }
