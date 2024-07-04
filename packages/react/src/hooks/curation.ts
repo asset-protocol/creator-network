@@ -14,7 +14,7 @@ export type CreateCurationInput = {
 };
 
 export function useCreateCuration() {
-  const { manager, contractRunner, account } = useAssetHub();
+  const { manager, contractRunner } = useAssetHub();
   const [loading, setLoading] = useState(false);
 
   const create = useCallback(
@@ -25,14 +25,12 @@ export function useCreateCuration() {
           const curation = NewCuration(contractRunner, manager.curation);
           console.log('creage args', args);
           let curationId: bigint | undefined;
-          if (!account?.isSafe) {
-            curationId = await curation.create.staticCall(
-              args.contentURI,
-              args.status,
-              args.expiry,
-              args.assets
-            );
-          }
+          curationId = await curation.create.staticCall(
+            args.contentURI,
+            args.status,
+            args.expiry,
+            args.assets
+          );
           const tx = await curation.create(
             args.contentURI,
             args.status,

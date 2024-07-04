@@ -1,5 +1,6 @@
-import { BlobUpload } from '@/app/_components/ui/BlobUpload';
-import { Form, FormInstance, Input } from 'antd';
+'use client';
+import { BlobUpload, ImageBlobUpload } from '@/app/_components/ui/BlobUpload';
+import { Button, Form, FormInstance, Input } from 'antd';
 
 export type CurationFormData = {
   name: string;
@@ -28,7 +29,7 @@ export function CurationCreateForm(props: CurationsCreateFormProps) {
         <Input />
       </Form.Item>
       <Form.Item name="image" label="Image">
-        <BlobUpload></BlobUpload>
+        <ImageBlobUpload />
       </Form.Item>
       <Form.Item name="description" label="Description">
         <Input.TextArea />

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import SafeApiKit from '@safe-global/api-kit';
-import Safe from '@safe-global/protocol-kit';
+import Safe, { SafeProvider, Eip1193Provider } from '@safe-global/protocol-kit';
 import { AssetContractRunner, useAssetHub } from '@creator-network/react';
 import { AddressLink } from '../address/AddressLink';
 import { Button, Skeleton } from 'antd';
@@ -36,8 +36,17 @@ export class SafeSigner implements Required<AssetContractRunner> {
     return this.signer.estimateGas(tx);
   }
 
-  call(tx: ethers.TransactionRequest): Promise<string> {
-    return this.signer.call(tx);
+  async call(tx: ethers.TransactionRequest): Promise<string> {
+    return this.safe.getSafeProvider().call({
+      to: tx.to!.toString(),
+      from: tx.from?.toString() ?? (await this.safe.getAddress()),
+      data: tx.data!,
+      value: tx.value?.toString(),
+      gasLimit: tx.gasLimit?.toString(),
+      gasPrice: tx.gasPrice?.toString(),
+      maxFeePerGas: tx.maxFeePerGas?.toString(),
+      maxPriorityFeePerGas: tx.maxPriorityFeePerGas?.toString(),
+    });
   }
 
   resolveName(name: string): Promise<string | null> {
@@ -95,6 +104,7 @@ export function SafeAddressList(props: SafeAddressListProps) {
   const { data: client } = useConnectorClient<Config>();
 
   const fetchData = async () => {
+    SafeProvider;
     let data: SafeItem[] = [];
     if (address) {
       const apiKit = new SafeApiKit({

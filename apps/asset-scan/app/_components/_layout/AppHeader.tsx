@@ -3,12 +3,7 @@ import { Header } from 'antd/es/layout/layout';
 import Link from 'next/link';
 import React from 'react';
 import { AccountButton } from '../account/AccountButton';
-import {
-  BadgePlus,
-  BookText,
-  FileText,
-  SwatchBook,
-} from 'lucide-react';
+import { BadgePlus, BookText, FileText, SwatchBook } from 'lucide-react';
 
 export function AppHeader() {
   const items: MenuProps['items'] = [
@@ -17,7 +12,7 @@ export function AppHeader() {
       key: 'Assets',
     },
     {
-      label: 'Curation',
+      label: <Link href="/curation">Curation</Link>,
       key: 'Curation',
     },
     {
@@ -47,7 +42,7 @@ export function AppHeader() {
       icon: <FileText strokeWidth={1} />,
     },
     {
-      label: 'Curation',
+      label: <Link href="/curation/create">Curation</Link>,
       key: 'Curation',
       icon: <SwatchBook strokeWidth={1} />,
     },

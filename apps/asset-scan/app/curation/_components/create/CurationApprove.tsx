@@ -1,12 +1,11 @@
+import { AddressLink } from '@/app/_components/address/AddressLink';
+import { Asset, replaceUri } from '@creator-network/core';
 import {
-  AddressLink,
-  Asset,
-  AssetApprovalStatusType,
+  AssetApprovalStatus,
   Curation,
-  replaceUri,
-  useCurationApproveAssets,
   useGetCurationAssets,
-} from "@repo/ui/asset";
+} from '@creator-network/indexer-js';
+import { useCurationApproveAssets } from '@creator-network/react/hooks';
 import {
   Checkbox,
   CheckboxProps,
@@ -15,11 +14,14 @@ import {
   List,
   MenuProps,
   Image,
-} from "antd";
-import { useState } from "react";
+} from 'antd';
+import { useState } from 'react';
 
 export function CurationApprove({ account }: { account: string }) {
-  const { data, loading } = useGetCurationAssets(account, "Pending");
+  const { data, loading } = useGetCurationAssets(
+    account,
+    AssetApprovalStatus.Pending
+  );
 
   return (
     <div>
@@ -45,17 +47,17 @@ export function ApproveAssetButton({
   disabeld?: boolean;
 }) {
   const { approveAssets, loading } = useCurationApproveAssets();
-  const handleApprove = async (status: AssetApprovalStatusType) => {
+  const handleApprove = async (status: AssetApprovalStatus) => {
     const assetsInput = assets.map((a) => ({ ...a, status }));
     await approveAssets(curationId, assetsInput);
   };
   const menuProps: MenuProps = {
     items: [
       {
-        label: "Reject Asset",
-        key: "reject",
+        label: 'Reject Asset',
+        key: 'reject',
         danger: true,
-        onClick: () => handleApprove(AssetApprovalStatusType.Rejected),
+        onClick: () => handleApprove(AssetApprovalStatus.Rejected),
       },
     ],
   };
@@ -64,7 +66,7 @@ export function ApproveAssetButton({
       disabled={disabeld}
       loading={loading}
       menu={menuProps}
-      onClick={() => handleApprove(AssetApprovalStatusType.Approved)}
+      onClick={() => handleApprove(AssetApprovalStatus.Approved)}
     >
       Approve
     </Dropdown.Button>
@@ -78,7 +80,7 @@ export function CurationApproveItem({ curation }: { curation: Curation }) {
   const indeterminate =
     checkedList.length > 0 && checkedList.length < curation.assets.length;
 
-  const onCheckAllChange: CheckboxProps["onChange"] = (e) => {
+  const onCheckAllChange: CheckboxProps['onChange'] = (e) => {
     setCheckedList(e.target.checked ? curation.assets.map((a) => a.asset) : []);
   };
 
@@ -105,7 +107,10 @@ export function CurationApproveItem({ curation }: { curation: Curation }) {
           <ApproveAssetButton
             disabeld={checkedList.length === 0}
             curationId={BigInt(curation.id)}
-            assets={checkedList}
+            assets={checkedList.map((a) => ({
+              assetId: BigInt(a.assetId),
+              hub: a.hub.id,
+            }))}
           />
         </div>
       </div>
@@ -132,7 +137,7 @@ export function CurationApproveItem({ curation }: { curation: Curation }) {
                 </div>
                 <div className="flex items-center">
                   <AddressLink
-                    address={a.asset.hub}
+                    address={a.asset.hub.id}
                     className="mr-1"
                   ></AddressLink>
                   #
@@ -146,7 +151,9 @@ export function CurationApproveItem({ curation }: { curation: Curation }) {
             <div>
               <ApproveAssetButton
                 curationId={BigInt(curation.id)}
-                assets={[a.asset]}
+                assets={[
+                  { assetId: BigInt(a.asset.assetId), hub: a.asset.hub.id },
+                ]}
               />
             </div>
           </div>
