@@ -9,8 +9,8 @@ import { Curation } from '@creator-network/indexer-js';
 import { useRef, useState } from 'react';
 import { useSetCurationURI } from '@creator-network/react/hooks';
 import { useAssetHub } from '@creator-network/react';
-import { getStorage } from '@/app/_creatornetwork';
-import { revalidateCurationById, revalidateCurations } from '../../../create/actions';
+import { revalidateAllCurations, revalidateCurationById, revalidateCurations } from '../../../create/actions';
+import { getStorage } from '@creator-network/core';
 
 export function DetailEdit({ curation }: { curation: Curation }) {
   const formRef = useRef<FormInstance<CurationFormData>>(null);
@@ -48,8 +48,7 @@ export function DetailEdit({ curation }: { curation: Curation }) {
         data: content,
       });
       await setCurationURI(BigInt(curation.id), contentURI);
-      await revalidateCurationById(curation.id);
-      await revalidateCurations();
+      await revalidateAllCurations();
     } catch (e: any) {
       message.error('set curation URI error: ' + e.message);
     } finally {
