@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { ARWAVE_PRIVATE_KEY, arweave } from './ar';
+import { ARWAVE_PRIVATE_KEY, arweave } from './_ar';
 
 export async function POST(req: NextRequest) {
   const formdata = await req.formData();
