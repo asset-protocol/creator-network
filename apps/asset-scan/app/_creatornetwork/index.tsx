@@ -1,3 +1,2 @@
-export * from './creator-network'
-export * from './storage'
-export * from './indexer'
+export * from './creator-network';
+export * from './indexer';
