@@ -11,13 +11,17 @@ export type CurationCreateModalProps = Pick<ModalProps, 'open' | 'onCancel'> & {
   onFinish?: (curationId: bigint) => void;
 };
 export function useCurationFormCreate() {
-  const { storage } = useAssetHub();
+  const { storage, account } = useAssetHub();
   const { create } = useCreateCuration();
 
   const [loading, setLoading] = useState(false);
 
   const createCuration = async (values: CurationFormData) => {
     setLoading(true);
+    if (!account?.studio) {
+      message.error('Not set studio');
+      return;
+    }
     try {
       let image = values.image;
       const storageImpl = getStorage(storage!);
@@ -39,6 +43,7 @@ export function useCurationFormCreate() {
         data: content,
       });
       const curationId = await create({
+        hub: account.studio,
         contentURI,
         status: CurationStatus.Public,
         assets: [],
@@ -62,8 +67,13 @@ export function useCurationFormCreate() {
 export function CurationCreateModal(props: CurationCreateModalProps) {
   const formRef = useRef<FormInstance<CurationFormData>>(null);
   const { create, loading } = useCurationFormCreate();
+  const { account } = useAssetHub();
 
   const handleSubmit = async (values: CurationFormData) => {
+    if (!account?.studio) {
+      message.error('Not set studio');
+      return;
+    }
     const curationId = await create(values);
     if (curationId) {
       props.onFinish?.(curationId);

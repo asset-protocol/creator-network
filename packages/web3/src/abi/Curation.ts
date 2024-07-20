@@ -67,6 +67,7 @@ export interface CurationInterface extends Interface {
   getFunction(
     nameOrSignature:
       | "UPGRADE_INTERFACE_VERSION"
+      | "_curation"
       | "addAssets"
       | "approve"
       | "approveAsset"
@@ -78,6 +79,7 @@ export interface CurationInterface extends Interface {
       | "getApproved"
       | "initialize"
       | "isApprovedForAll"
+      | "manager"
       | "name"
       | "owner"
       | "ownerOf"
@@ -118,6 +120,7 @@ export interface CurationInterface extends Interface {
     functionFragment: "UPGRADE_INTERFACE_VERSION",
     values?: undefined
   ): string;
+  encodeFunctionData(functionFragment: "_curation", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "addAssets",
     values: [BigNumberish, CurationAssetStruct[]]
@@ -144,7 +147,13 @@ export interface CurationInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "create",
-    values: [string, BigNumberish, BigNumberish, CurationAssetStruct[]]
+    values: [
+      AddressLike,
+      string,
+      BigNumberish,
+      BigNumberish,
+      CurationAssetStruct[]
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "curationData",
@@ -162,6 +171,7 @@ export interface CurationInterface extends Interface {
     functionFragment: "isApprovedForAll",
     values: [AddressLike, AddressLike]
   ): string;
+  encodeFunctionData(functionFragment: "manager", values?: undefined): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
@@ -231,6 +241,7 @@ export interface CurationInterface extends Interface {
     functionFragment: "UPGRADE_INTERFACE_VERSION",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "_curation", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "addAssets", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(
@@ -260,6 +271,7 @@ export interface CurationInterface extends Interface {
     functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "manager", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
@@ -579,6 +591,8 @@ export interface Curation extends BaseContract {
 
   UPGRADE_INTERFACE_VERSION: TypedContractMethod<[], [string], "view">;
 
+  _curation: TypedContractMethod<[], [string], "view">;
+
   addAssets: TypedContractMethod<
     [curationId: BigNumberish, assets: CurationAssetStruct[]],
     [void],
@@ -623,6 +637,7 @@ export interface Curation extends BaseContract {
 
   create: TypedContractMethod<
     [
+      hub: AddressLike,
       curationURI: string,
       status: BigNumberish,
       expiry: BigNumberish,
@@ -651,6 +666,8 @@ export interface Curation extends BaseContract {
     [boolean],
     "view"
   >;
+
+  manager: TypedContractMethod<[], [string], "view">;
 
   name: TypedContractMethod<[], [string], "view">;
 
@@ -747,6 +764,9 @@ export interface Curation extends BaseContract {
     nameOrSignature: "UPGRADE_INTERFACE_VERSION"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
+    nameOrSignature: "_curation"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
     nameOrSignature: "addAssets"
   ): TypedContractMethod<
     [curationId: BigNumberish, assets: CurationAssetStruct[]],
@@ -798,6 +818,7 @@ export interface Curation extends BaseContract {
     nameOrSignature: "create"
   ): TypedContractMethod<
     [
+      hub: AddressLike,
       curationURI: string,
       status: BigNumberish,
       expiry: BigNumberish,
@@ -830,6 +851,9 @@ export interface Curation extends BaseContract {
     [boolean],
     "view"
   >;
+  getFunction(
+    nameOrSignature: "manager"
+  ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "name"
   ): TypedContractMethod<[], [string], "view">;

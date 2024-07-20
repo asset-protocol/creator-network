@@ -6,7 +6,7 @@ export type CurationFormData = {
   name: string;
   description: string;
   image: string;
-  externalUrl: string;
+  externalUrl?: string;
 };
 
 export type CurationsCreateFormProps = {
@@ -18,7 +18,11 @@ export type CurationsCreateFormProps = {
 
 export function CurationCreateForm(props: CurationsCreateFormProps) {
   return (
-    <Form<CurationFormData> ref={props.formRef} onFinish={props.onSubmit}>
+    <Form<CurationFormData>
+      ref={props.formRef}
+      onFinish={props.onSubmit}
+      initialValues={props.initialValues}
+    >
       <Form.Item
         name="name"
         label="Name"

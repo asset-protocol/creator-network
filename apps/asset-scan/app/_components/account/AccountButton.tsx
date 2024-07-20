@@ -12,11 +12,13 @@ import { useApp } from '../_layout/AppContext';
 import clsx from 'clsx';
 import { replaceUri } from '@creator-network/core';
 import { useCurrentStudio } from './hook';
+import { useRouter } from 'next/navigation';
 
-export function AccountContent() {
+export function AccountContent({ onClose }: { onClose?: () => void }) {
   const { account } = useApp();
   const [subContent, setSubContent] = useState<ReactNode>();
   const { disconnect } = useDisconnect();
+  const { push } = useRouter();
   return (
     <div className="w-[240px] text-base">
       {subContent !== undefined && (
@@ -62,9 +64,21 @@ export function AccountContent() {
               children: [],
             },
             {
+              type: 'item',
+              key: 'creator',
+              label: '创作者中心',
+              onClick: () => {
+                push('/creator/content');
+                onClose?.();
+              },
+            },
+            {
               key: 'disconnect',
               label: '断开连接',
-              onClick: () => disconnect(),
+              onClick: () => {
+                disconnect();
+                onClose?.();
+              },
             },
           ]}
         ></Menu>
@@ -89,7 +103,7 @@ export function AccountButton({ className }: { className?: string }) {
           trigger={['click']}
           motion={{ motionName: '' }}
           overlayStyle={{ marginRight: '8px' }}
-          content={<AccountContent />}
+          content={<AccountContent onClose={() => setOpen(false)} />}
           open={open}
           placement="bottomLeft"
           onOpenChange={(v) => setOpen(v)}

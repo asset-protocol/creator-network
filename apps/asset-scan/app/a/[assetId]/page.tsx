@@ -8,9 +8,9 @@ import { AssetWeb3Info } from '@/app/_components/assets/AssetInfo';
 import { CollectButton } from '@/app/_components/assets/collect/CollectButton';
 import { AssetEditButton } from '@/app/_components/assets/AssetEditButton';
 import { Avatar, Tag } from 'antd';
-import { SeeAlsoAssetList } from '../_components/assets/SeeAlsoAssetList';
 import { notFound } from 'next/navigation';
 import { PresetColors } from 'antd/es/theme/internal';
+import { SeeAlsoAssetList } from '@/app/_components/assets/SeeAlsoAssetList';
 
 // export const dynamic = 'force-dynamic';
 // export const revalidate = 0;
@@ -92,7 +92,7 @@ export default async function AssetViewPage({ params, searchParams }: Props) {
                   {<AssetEditButton asset={asset} />}
                 </div>
                 {/* <Image
-                  src={replaceUri(asset.image)!}
+                  src={replaceUri(asset.image)??""}
                   alt={asset.name}
                   className="aspect-[2/1] w-full py-4 rounded-lg"
                   width={400}

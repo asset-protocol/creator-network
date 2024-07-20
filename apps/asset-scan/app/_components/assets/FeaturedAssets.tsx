@@ -58,9 +58,9 @@ export function PopularAssetItem(props: AssetItemProps) {
   const { asset, className } = props;
   return (
     <div className={clsx('grid grid-cols-2 w-full py-4 gap-4', className)}>
-      <Link href={`/${asset.id}`}>
+      <Link href={`/a/${asset.id}`}>
         <Image
-          src={replaceUri(asset.image)!}
+          src={replaceUri(asset.image) ?? ''}
           alt={asset.name}
           width={320}
           height={200}
@@ -89,7 +89,7 @@ export function PopularAssetItem(props: AssetItemProps) {
           )}
         </div>
         <Link
-          href={`/${asset.id}`}
+          href={`/a/${asset.id}`}
           className="text-base font-semibold mt-4 line-clamp-2 text-black"
         >
           {asset.name}
@@ -133,9 +133,9 @@ export function AssetItem(props: AssetItemProps) {
   const { asset, className } = props;
   return (
     <div className={clsx('grid grid-cols-2 w-full p-4 gap-4', className)}>
-      <Link href={`/${asset.id}`}>
+      <Link href={`/a/${asset.id}`}>
         <Image
-          src={replaceUri(asset.image)!}
+          src={replaceUri(asset.image) ?? ''}
           alt={asset.name}
           width={320}
           height={200}
@@ -164,7 +164,7 @@ export function AssetItem(props: AssetItemProps) {
           )}
         </div>
         <Link
-          href={`/${asset.id}`}
+          href={`/a/${asset.id}`}
           className="text-xl font-bold mt-4 line-clamp-2 text-black"
         >
           {asset.name}

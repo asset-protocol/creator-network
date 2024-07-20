@@ -20,14 +20,29 @@ export type GqlAssetList<T> = {
   };
 };
 
-const GET_HUb_ASSETS = (tags?: string[]) => gql`
+const GET_HUb_ASSETS = (args: GetAssetHubAssetsInput) => gql`
 ${ASSET_FIELDS}
-query GetAssets($hub: String, $publisher: String, $assetId: BigInt${tags?.length ? ', $tags: [String!]' : ''}, $first: Int, $after: String, $orderBy: [AssetOrderByInput!]!){
+query GetAssets(
+  ${args.hub ? '$hub: String, ' : ''}
+  $publisher: String, 
+  ${args.search ? '$search: String, ' : ''}
+  $assetId: BigInt,
+  ${args.tags?.length ? '$tags: [String!], ' : ''}, 
+  $first: Int, 
+  $after: String, 
+  $orderBy: [AssetOrderByInput!]!
+){
   assetsConnection(
     first: $first,
     after: $after,
     orderBy: $orderBy,
-    where: { hub:{id_eq: $hub}, publisher_eq: $publisher, assetId_eq: $assetId${tags?.length ? ', tags_some: {normalizedName_in: $tags}' : ''} }){
+    where: { 
+      ${args.hub ? 'hub: {id_eq: $hub}, ' : ''}
+      publisher_eq: $publisher,
+      ${args.search ? 'name_containsInsensitive: $search,' : ''}
+      assetId_eq: $assetId,
+      ${args.tags?.length ? ', tags_some: {normalizedName_in: $tags}' : ''} 
+    }){
       edges {
         node {
           ...AssetFields
@@ -55,6 +70,7 @@ export type GetAssetHubAssetsInput = {
   hub?: string;
   publisher?: string;
   assetId?: string;
+  search?: string;
   tags?: string[];
   first?: number;
   after?: string;
@@ -68,7 +84,7 @@ const defaultInput: GetAssetHubAssetsInput = {
 };
 
 export function useGetAssets(args?: GetAssetHubAssetsInput) {
-  const gqlText = GET_HUb_ASSETS(args?.tags);
+  const gqlText = GET_HUb_ASSETS(args ?? {});
   const { data, ...res } = useQuery<GqlAssetList<Asset>>(gqlText, {
     variables: { ...defaultInput, ...args },
     fetchPolicy: args?.fetchPolicy,
@@ -267,7 +283,7 @@ export class AssetsAPI {
       args.tags = args.tags?.map((t) => t.toLowerCase());
     }
     const { data } = await this.client.query<GqlAssetList<Asset>>({
-      query: GET_HUb_ASSETS(args?.tags),
+      query: GET_HUb_ASSETS(args ?? {}),
       variables: { ...defaultInput, ...args },
       fetchPolicy: args?.fetchPolicy,
     });

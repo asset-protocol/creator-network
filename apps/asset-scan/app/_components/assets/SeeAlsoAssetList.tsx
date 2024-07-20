@@ -61,9 +61,9 @@ function SeeAlsoAssetItem(props: AssetItemProps) {
         className
       )}
     >
-      <Link href={`/${asset.id}`} className="flex-1 aspect-[3/2] w-full">
+      <Link href={`/a/${asset.id}`} className="flex-1 aspect-[3/2] w-full">
         <Image
-          src={replaceUri(asset.image)!}
+          src={replaceUri(asset.image) ?? ''}
           alt={asset.name}
           width={320}
           height={200}
@@ -77,7 +77,7 @@ function SeeAlsoAssetItem(props: AssetItemProps) {
           </div>
         </div>
         <Link
-          href={`/${asset.id}`}
+          href={`/a/${asset.id}`}
           className="text-base font-semibold mt-2 line-clamp-2"
         >
           {asset.name}

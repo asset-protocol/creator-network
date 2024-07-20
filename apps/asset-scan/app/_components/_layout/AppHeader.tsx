@@ -9,15 +9,15 @@ export function AppHeader() {
   const items: MenuProps['items'] = [
     {
       label: 'Assets',
-      key: 'Assets',
+      key: 'assets',
     },
     {
       label: <Link href="/curation">Curation</Link>,
-      key: 'Curation',
+      key: 'curation',
     },
     {
       label: 'Apps',
-      key: 'Apps',
+      key: 'apps',
       children: [
         {
           label: 'DeSchool',
@@ -31,23 +31,23 @@ export function AppHeader() {
     },
     {
       label: 'About',
-      key: 'About',
+      key: 'about',
     },
   ];
 
   const createMenuItems: MenuProps['items'] = [
     {
-      label: <Link href="/asset/create">Asset</Link>,
+      label: <Link href="/creator/asset/create">Asset</Link>,
       key: 'Asset',
       icon: <FileText strokeWidth={1} />,
     },
     {
-      label: <Link href="/curation/create">Curation</Link>,
+      label: <Link href="/creator/curation/create">Curation</Link>,
       key: 'Curation',
       icon: <SwatchBook strokeWidth={1} />,
     },
     {
-      label: <Link href="/studio/create">Studio</Link>,
+      label: <Link href="/creator/studio/create">Studio</Link>,
       key: 'studio',
       icon: <BookText strokeWidth={1} />,
     },
@@ -64,6 +64,7 @@ export function AppHeader() {
         items={items}
         mode="horizontal"
         className="flex-1"
+        activeKey='Curation'
         subMenuOpenDelay={0}
       ></Menu>
       <Dropdown

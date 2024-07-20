@@ -7,6 +7,7 @@ import {
 } from '@creator-network/indexer-js';
 
 export type CreateCurationInput = {
+  hub: string;
   contentURI: string;
   status: CurationStatus;
   assets: curation.CurationAssetStruct[];
@@ -26,12 +27,14 @@ export function useCreateCuration() {
           console.log('creage args', args);
           let curationId: bigint | undefined;
           curationId = await curation.create.staticCall(
+            args.hub,
             args.contentURI,
             args.status,
             args.expiry,
             args.assets
           );
           const tx = await curation.create(
+            args.hub,
             args.contentURI,
             args.status,
             args.expiry,
@@ -47,6 +50,28 @@ export function useCreateCuration() {
     [manager, contractRunner]
   );
   return { create, loading };
+}
+
+export function useSetCurationURI() {
+  const { manager, contractRunner } = useAssetHub();
+  const [loading, setLoading] = useState(false);
+
+  const setCurationURI = useCallback(
+    async (curationId: bigint, curationURI: string) => {
+      setLoading(true);
+      try {
+        if (manager && contractRunner) {
+          const curation = NewCuration(contractRunner, manager.curation);
+          const tx = await curation.setCurationURI(curationId, curationURI);
+          await tx.wait();
+        }
+      } finally {
+        setLoading(false);
+      }
+    },
+    [manager, contractRunner]
+  );
+  return { setCurationURI, loading };
 }
 
 export function useCurationAddAssets() {

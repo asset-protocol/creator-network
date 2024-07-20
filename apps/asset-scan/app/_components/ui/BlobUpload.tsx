@@ -42,7 +42,7 @@ export function ImageBlobUpload(props: BlobUploadProps) {
       >
         {blob && (
           <Image
-            src={replaceUri(blob)!}
+            src={replaceUri(blob) ?? ''}
             alt="preview"
             width={400}
             height={200}

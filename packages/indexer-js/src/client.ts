@@ -30,7 +30,7 @@ export class IndexerClient {
   constructor(uri: string, options?: InMemoryCacheConfig) {
     this._apolloClient = new ApolloClient({
       uri: uri,
-      cache: new InMemoryCache(options)
+      cache: new InMemoryCache(options),
     })
   }
 }

@@ -1,5 +1,5 @@
 import { ApolloClient, gql, useQuery } from '@apollo/client';
-import { Asset } from '@creator-network/core';
+import { Asset, AssetHubInfo } from '@creator-network/core';
 
 export enum CurationStatus {
   Private = 0,
@@ -15,15 +15,17 @@ export enum AssetApprovalStatus {
 
 export type Curation = {
   id: string;
+  tokenId: string;
   name: string;
   description: string;
   image: string;
   status: CurationStatus;
   expiry: number;
-  publisher: string;
+  hub: AssetHubInfo;
   tokenURI: string;
   timestamp: string;
   lastUpdatedAt: number;
+  externalUrl: string;
   hash: string;
   assets: { asset: Asset; status: AssetApprovalStatus }[];
 };
@@ -40,18 +42,26 @@ export type GqlCurationList<T> = {
 };
 
 const GET_CURATIONS = gql`
-  query GetCurations {
-    curationsConnection(orderBy: timestamp_DESC) {
+  query GetCurations($contract: String, $hub: String) {
+    curationsConnection(
+      orderBy: timestamp_DESC
+      where: { hub: { id_eq: $hub }, contract_eq: $contract }
+    ) {
       edges {
         node {
           id
+          tokenId
           status
           image
           hash
           description
           lastUpdatedAt
           name
-          publisher
+          hub {
+            id
+            name
+            metadata
+          }
           expiry
           externalUrl
           timestamp
@@ -89,12 +99,17 @@ const GET_CURATION_BY_ID = gql`
   query GetCurationById($id: String!) {
     curationById(id: $id) {
       id
+      tokenId
       name
       image
       description
       lastUpdatedAt
       metadata
-      publisher
+      hub {
+        id
+        name
+        metadata
+      }
       expiry
       tokenURI
       externalUrl
@@ -110,14 +125,16 @@ const GET_CURATION_BY_ID = gql`
           type
           lastUpdatedAt
           publisher
-          hub
-          hubName
+          hub {
+            id
+            name
+            metadata
+          }
           assetId
           collectCount
           tags {
             name
           }
-          metadata
         }
       }
     }
@@ -233,10 +250,27 @@ export function useGetCurationAssetsStatus(
 export class CurationAPI {
   constructor(private client: ApolloClient<unknown>) {}
 
-  async fetchCurations() {
+  async fetchCurations(curation: string, studio?: string) {
+    console.log('fetchCurations', curation, studio);
     const { data } = await this.client.query<GqlCurationList<Curation>>({
       query: GET_CURATIONS,
+      variables: {
+        hub: studio,
+        contract: curation,
+      },
+      fetchPolicy: 'no-cache',
     });
+    console.log('fetchCurations', data);
     return data.curationsConnection.edges.map((edge) => edge.node);
+  }
+  async fetchById(tokenId: string) {
+    const { data } = await this.client.query<{
+      curationById: Curation | null;
+    }>({
+      query: GET_CURATION_BY_ID,
+      variables: { id: tokenId },
+      fetchPolicy: 'no-cache',
+    });
+    return data.curationById;
   }
 }

@@ -8,7 +8,7 @@ export function AssetEditButton({ asset }: { asset: Asset }) {
   const { account } = useAssetHub();
   return (
     account?.address === asset.publisher && (
-      <Link className="mx-2" href={`/${asset.id}/edit`}>
+      <Link className="mx-2" href={`/creator/asset/${asset.id}/edit`}>
         <Button>Edit</Button>
       </Link>
     )

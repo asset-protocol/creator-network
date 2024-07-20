@@ -7,7 +7,8 @@ import List, { ListGridType } from 'antd/es/list';
 import { Asset } from '@creator-network/core';
 
 export type AssetListProps = {
-  query?: GetAssetHubAssetsInput;
+  assets: Asset[];
+  loading?: boolean;
   onAssetClick?: (asset: Asset) => void;
   grid?: ListGridType;
   classname?: string;
@@ -15,14 +16,13 @@ export type AssetListProps = {
 };
 
 export function AssetList(props: AssetListProps) {
-  const { data, loading } = useGetAssets(props.query);
   return (
     <List
       className={props.classname}
       // pagination={{ position: "bottom", align: "center" }}
       grid={props.grid}
-      loading={loading}
-      dataSource={data?.assets}
+      loading={props.loading}
+      dataSource={props.assets}
       itemLayout="horizontal"
       rowKey={(item) => item.id}
       renderItem={(item) => (

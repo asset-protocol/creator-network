@@ -5,14 +5,10 @@ import { fromNow } from '@creator-network/react/utils';
 
 export function AssetItem(props: {
   value: Asset;
-  onClick?: (asset: Asset) => void;
   classname?: string;
   footer?: React.ReactNode;
 }) {
   const { value } = props;
-  const viewAsset = () => {
-    props.onClick?.(value);
-  };
 
   return (
     <div className="shadow-md rounded overflow-hidden flex flex-col w-full h-full">
@@ -21,7 +17,7 @@ export function AssetItem(props: {
           title="asset image"
           preview={false}
           className="aspect-[2/1] cursor-pointer object-cover w-full"
-          src={replaceUri(value.image)}
+          src={replaceUri(value.image) ?? ''}
           placeholder={
             <Skeleton.Image
               active
@@ -29,13 +25,11 @@ export function AssetItem(props: {
               className="!w-full !h-full"
             />
           }
-          onClick={viewAsset}
         ></Image>
       }
       {!value.name && (
         <div
           className="text-3xl aspect-[2/1] flex items-center justify-center bg-gray-200 font-bold"
-          onClick={viewAsset}
         >
           No Metadata
         </div>
@@ -45,7 +39,6 @@ export function AssetItem(props: {
           <div
             className="flex-1 cursor-pointer line-clamp-1 hover:underline"
             title={value.name}
-            onClick={viewAsset}
           >
             {value.name ?? '---'}
           </div>

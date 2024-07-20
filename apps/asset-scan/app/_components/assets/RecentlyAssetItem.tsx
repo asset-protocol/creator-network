@@ -12,9 +12,9 @@ export function RecentlyAssetItem(props: AssetItemProps) {
   const { asset, className } = props;
   return (
     <div className={clsx('flex flex-col p-0 gap-4 w-full', className)}>
-      <Link href={`/${asset.id}`}>
+      <Link href={`/a/${asset.id}`}>
         <Image
-          src={replaceUri(asset.image)!}
+          src={replaceUri(asset.image) ?? ''}
           alt={asset.name}
           style={{ width: '100%' }}
           width={320}
@@ -43,7 +43,7 @@ export function RecentlyAssetItem(props: AssetItemProps) {
             <></>
           )}
         </div>
-        <Link href={`/${asset.id}`}>
+        <Link href={`/a/${asset.id}`}>
           <div className="text-xl font-bold mt-4 line-clamp-2 cursor-pointer text-black">
             {asset.name}
           </div>

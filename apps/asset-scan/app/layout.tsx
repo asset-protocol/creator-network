@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { indexerClient, useStorage } from './_creatornetwork';
+import { indexerClient } from './_creatornetwork';
 import { AppHeader } from './_components/_layout/AppHeader';
 import clsx from 'clsx';
 import { AppProviders } from './_components/_layout/AppRoot';
@@ -9,6 +9,7 @@ import { Content } from 'antd/es/layout/layout';
 import { AntThmeConfigProvider } from './_components/_layout/AntConfig';
 import './globals.css';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
+import '@/app/_creatornetwork/storage';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,7 +23,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  useStorage();
   const manager = await indexerClient().manager.fetchHubManager();
   return (
     <html lang="en">

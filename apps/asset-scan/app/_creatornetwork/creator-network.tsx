@@ -11,7 +11,6 @@ import { AssetHubManagerInfo } from '@creator-network/indexer-js';
 import { useApp } from '../_components/_layout/AppContext';
 import { FeeCollectModuleItem } from './components/FeeCollectModuleItem';
 import { TokenCollectModuleItem } from './components/TokenCollectModuleItem';
-import { useStorage } from './storage';
 import { indexerClient } from './indexer';
 
 export type HubModulesData = {
@@ -43,10 +42,6 @@ const Plugins = () => {
       }
     })();
   }, [manager]);
-
-  useEffect(() => {
-    return useStorage();
-  }, []);
 
   useEffect(() => {
     if (modules) {

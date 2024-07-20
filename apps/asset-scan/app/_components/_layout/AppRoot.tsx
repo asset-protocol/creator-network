@@ -12,7 +12,6 @@ import { baseSepolia } from 'wagmi/chains';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { AppAssetProvider } from './AppContext';
 import { AssetHubManagerInfo } from '@creator-network/indexer-js';
-import { useStorage } from '@/app/_creatornetwork';
 import { AntThmeConfigProvider } from './AntConfig';
 
 const queryClient = new QueryClient();
@@ -35,7 +34,6 @@ export function AppProviders({
   children: ReactNode;
   manager: AssetHubManagerInfo;
 }) {
-  useStorage();
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>

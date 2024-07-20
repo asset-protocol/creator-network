@@ -13,5 +13,5 @@ export default async function Page({
   if (!asset) {
     notFound();
   }
-  redirect('/' + asset.id);
+  redirect('/a/' + asset.id);
 }

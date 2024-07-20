@@ -1,4 +1,4 @@
-import { CurationCreateModal } from "@/app/curation/_components/create/CurationCreateModal";
+import { CurationCreateModal } from "@/app/creator/curation/create/_components/CurationCreateModal";
 
 export function CreateCurationMenuItem() {
   return <div>

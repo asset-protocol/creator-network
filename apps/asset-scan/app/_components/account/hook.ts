@@ -53,7 +53,6 @@ export function useCurrentStudio() {
 
   const checkSafe = async () => {
     if (wallet) {
-      debugger;
       const isSafe = localStorage.getItem(`${wallet}.account.type`) === 'safe';
       if (isSafe) {
         const safeAddr = localStorage.getItem(`${wallet}.account.safe`);
