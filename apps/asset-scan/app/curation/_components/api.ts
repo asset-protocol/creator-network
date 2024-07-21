@@ -7,7 +7,7 @@ export const FETCH_CURATIONS_TAG = 'fetchCurations';
 export function fetchCurations(contract: string) {
   const action = unstable_cache(
     (contract: string) => indexerClient().curations.fetchCurations(contract),
-    [FETCH_CURATIONS_TAG],
+    [FETCH_CURATIONS_TAG, FETCH_CURATION_TAG],
     { tags: [FETCH_CURATION_TAG, `${FETCH_CURATIONS_TAG}_${contract}`] }
   );
   return action(contract);
