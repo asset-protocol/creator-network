@@ -2,10 +2,11 @@ import { replaceUri } from '@creator-network/core';
 import { Curation } from '@creator-network/indexer-js';
 import Image from 'next/image';
 import { fetchCurations } from './api';
-import Link from 'next/link';
+import Link, { LinkProps } from 'next/link';
 import { CurationAuthorPanel } from './CurationInfo';
 import { indexerClient } from '@/app/_creatornetwork';
 import { notFound } from 'next/navigation';
+import { HtmlHTMLAttributes } from 'react';
 
 export async function CurationList() {
   const manager = await indexerClient().manager.fetchHubManager();
@@ -21,6 +22,25 @@ export async function CurationList() {
     </div>
   );
 }
+export type CurationLinkProps = {
+  curationId: string;
+  externalUrl?: string;
+  children?: React.ReactNode;
+} & HtmlHTMLAttributes<HTMLAnchorElement>;
+export function CurationLink({
+  curationId,
+  externalUrl,
+  children,
+  ...resProps
+}: CurationLinkProps) {
+  const des = externalUrl || `/curation/${curationId}`;
+  const target = externalUrl ? '_blank' : undefined;
+  return (
+    <Link {...resProps} href={des} target={target}>
+      {children}
+    </Link>
+  );
+}
 
 export function CurationListItem({
   curation,
@@ -34,21 +54,26 @@ export function CurationListItem({
       className={`flex${reverse ? ' flex-row-reverse' : ''} items-stretch gap-6 h-auto overflow-auto`}
     >
       <div className="flex flex-col flex-1 gap-2 py-8">
-        <Link href={`/curation/${curation.id}`}>
+        <CurationLink
+          externalUrl={curation.externalUrl}
+          curationId={curation.id}
+        >
           <h1 className="font-semibold line-clamp-3 text-xl">
             {curation.name}
           </h1>
-        </Link>
+        </CurationLink>
         <CurationAuthorPanel curation={curation} />
-        <Link
-          href={`/curation/${curation.id}`}
+        <CurationLink
+          curationId={curation.id}
+          externalUrl={curation.externalUrl}
           className="flex-1 flex items-center text-gray-500"
         >
           {curation.description}
-        </Link>
+        </CurationLink>
       </div>
-      <Link
-        href={`/curation/${curation.id}`}
+      <CurationLink
+        curationId={curation.id}
+        externalUrl={curation.externalUrl}
         className="relative aspect-[2/1] flex-1 flex my-2"
       >
         <div className="absolute t-0 l-0 bg-[#DFF1F0] w-[50%] h-[50%] rounded-xl"></div>
@@ -61,7 +86,7 @@ export function CurationListItem({
             className="w-full h-full rounded-xl overflow-hidden"
           ></Image>
         </div>
-      </Link>
+      </CurationLink>
     </div>
   );
 }

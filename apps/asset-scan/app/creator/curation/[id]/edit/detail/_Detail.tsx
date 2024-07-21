@@ -9,7 +9,11 @@ import { Curation } from '@creator-network/indexer-js';
 import { useRef, useState } from 'react';
 import { useSetCurationURI } from '@creator-network/react/hooks';
 import { useAssetHub } from '@creator-network/react';
-import { revalidateAllCurations, revalidateCurationById, revalidateCurations } from '../../../create/actions';
+import {
+  revalidateAllCurations,
+  revalidateCurationById,
+  revalidateCurations,
+} from '../../../create/actions';
 import { getStorage } from '@creator-network/core';
 
 export function DetailEdit({ curation }: { curation: Curation }) {
@@ -32,7 +36,7 @@ export function DetailEdit({ curation }: { curation: Curation }) {
       if (!storageImpl) {
         throw new Error('No storage implementation found');
       }
-      setLoading(false);
+      setLoading(true);
       if (image && image.startsWith('blob:')) {
         const imageBlob = await fetch(values.image).then((res) => res.blob());
         image = await storageImpl.upload({
@@ -47,10 +51,10 @@ export function DetailEdit({ curation }: { curation: Curation }) {
       const contentURI = await storageImpl.upload({
         data: content,
       });
-      await setCurationURI(BigInt(curation.id), contentURI);
+      await setCurationURI(BigInt(curation.tokenId), contentURI);
       await revalidateAllCurations();
     } catch (e: any) {
-      message.error('set curation URI error: ' + e.message);
+      message.error('set curation URI error: ' + (e.shortMessage || e.message));
     } finally {
       setLoading(false);
     }
@@ -60,9 +64,13 @@ export function DetailEdit({ curation }: { curation: Curation }) {
       <div className="flex items-center flex-wrap gap-2">
         <div className="flex-1 font-semibold">Curation Detail</div>
         <Button onClick={() => formRef.current?.resetFields()}>
-          Undo Changes
+          Reset
         </Button>
-        <Button onClick={() => formRef.current?.submit()} loading={loading}>
+        <Button
+          onClick={() => formRef.current?.submit()}
+          loading={loading}
+          type="primary"
+        >
           Save
         </Button>
       </div>
