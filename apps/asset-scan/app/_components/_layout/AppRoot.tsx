@@ -13,6 +13,7 @@ import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { AppAssetProvider } from './AppContext';
 import { AssetHubManagerInfo } from '@creator-network/indexer-js';
 import { AntThmeConfigProvider } from './AntConfig';
+import '@/app/_creatornetwork/storage';
 
 const queryClient = new QueryClient();
 const config = getDefaultConfig({
