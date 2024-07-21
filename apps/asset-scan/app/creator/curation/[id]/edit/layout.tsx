@@ -1,8 +1,4 @@
 import { notFound } from 'next/navigation';
-import { InfoCircleOutlined } from '@ant-design/icons';
-import { Package2 } from 'lucide-react';
-import { Menu, MenuProps } from 'antd';
-import Link from 'next/link';
 import Image from 'next/image';
 import { replaceUri } from '@creator-network/core';
 import { fetchCurationById } from '@/app/curation/_components/api';
@@ -32,7 +28,7 @@ export default async function ({
         />
         <div className="line-clamp-2 font-semibold">{curation.name}</div>
         <div className="line-clamp-3 text-gray-500 text-sm">
-          {curation.name}
+          {curation.description}
         </div>
         <CurationTabs curationId={curation.id} />
       </div>

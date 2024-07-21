@@ -9,12 +9,9 @@ import { Curation } from '@creator-network/indexer-js';
 import { useRef, useState } from 'react';
 import { useSetCurationURI } from '@creator-network/react/hooks';
 import { useAssetHub } from '@creator-network/react';
-import {
-  revalidateAllCurations,
-  revalidateCurationById,
-  revalidateCurations,
-} from '../../../create/actions';
+import { revalidateAllCurations } from '../../../create/actions';
 import { getStorage } from '@creator-network/core';
+import { revalidateAssetById } from '@/app/_creatornetwork/indexer-actions';
 
 export function DetailEdit({ curation }: { curation: Curation }) {
   const formRef = useRef<FormInstance<CurationFormData>>(null);
@@ -52,6 +49,7 @@ export function DetailEdit({ curation }: { curation: Curation }) {
         data: content,
       });
       await setCurationURI(BigInt(curation.tokenId), contentURI);
+      await revalidateAssetById(curation.id);
       await revalidateAllCurations();
     } catch (e: any) {
       message.error('set curation URI error: ' + (e.shortMessage || e.message));
@@ -63,9 +61,7 @@ export function DetailEdit({ curation }: { curation: Curation }) {
     <div>
       <div className="flex items-center flex-wrap gap-2">
         <div className="flex-1 font-semibold">Curation Detail</div>
-        <Button onClick={() => formRef.current?.resetFields()}>
-          Reset
-        </Button>
+        <Button onClick={() => formRef.current?.resetFields()}>Reset</Button>
         <Button
           onClick={() => formRef.current?.submit()}
           loading={loading}
