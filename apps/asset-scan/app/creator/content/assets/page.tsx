@@ -56,6 +56,7 @@ export default function () {
   useEffect(() => {
     if (!account?.studio) {
       setData([]);
+      return;
     }
     setLoading(true);
     indexerClient()
