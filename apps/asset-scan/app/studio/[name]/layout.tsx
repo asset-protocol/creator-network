@@ -3,6 +3,30 @@ import { fetchStudioByNameOrId } from './fetch';
 import Image from 'next/image';
 import { replaceUri } from '@creator-network/core';
 import { StudioTabs } from './_components/StudioTabs';
+import { Metadata } from 'next';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { name: string };
+}): Promise<Metadata> {
+  const studio = await fetchStudioByNameOrId(params.name);
+  if (!studio) {
+    notFound();
+  }
+  return {
+    title: studio.name,
+    description: studio.metadata?.description,
+    icons: studio.metadata?.image
+      ? [replaceUri(studio.metadata?.image) ?? '']
+      : null,
+    openGraph: {
+      images: [replaceUri(studio.metadata?.image) ?? ''],
+      title: studio.name,
+      description: studio.metadata?.description,
+    },
+  };
+}
 
 export default async function ({
   params,
