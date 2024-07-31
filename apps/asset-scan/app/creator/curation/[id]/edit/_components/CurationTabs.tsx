@@ -1,34 +1,41 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { Menu, MenuProps } from 'antd';
 import { InfoIcon, Package2 } from 'lucide-react';
 import { InfoCircleOutlined } from '@ant-design/icons';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 type MenuItem = Required<MenuProps>['items'][number];
 
 export function CurationTabs({ curationId }: { curationId: string }) {
   const pathName = usePathname();
+  const { push } = useRouter();
   const activeKey = pathName.split('/').pop();
-  console.log('activeKey', activeKey);
+
   const menus: MenuItem[] = [
     {
       key: 'detail',
-      label: (
-        <Link href={`/creator/curation/${curationId}/edit/detail`}>Detail</Link>
-      ),
+      label: 'Detail',
       icon: <InfoIcon size={18} />,
       className: 'flex items-center',
     },
     {
       key: 'assets',
-      label: (
-        <Link href={`/creator/curation/${curationId}/edit/assets`}>Assets</Link>
-      ),
+      label: 'Assets',
       icon: <Package2 size={18} />,
       className: 'flex items-center',
     },
   ];
-  return <Menu items={menus} activeKey={activeKey} />;
+  const handleChange = (k: string) => {
+    push(`/creator/curation/${curationId}/edit/${k}`);
+  };
+
+  return (
+    <Menu
+      items={menus}
+      selectedKeys={activeKey ? [activeKey] : []}
+      onSelect={(t) => handleChange(t.key)}
+    />
+  );
 }

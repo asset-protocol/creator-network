@@ -2,6 +2,7 @@ import { indexerClient } from '@/app/_creatornetwork';
 import { fetchCurations } from '@/app/curation/_components/api';
 import { AssetHubInfo, replaceUri } from '@creator-network/core';
 import { Curation } from '@creator-network/indexer-js';
+import { Empty } from 'antd';
 import clsx from 'clsx';
 import { Link as LinkIcon } from 'lucide-react';
 import Image from 'next/image';
@@ -10,6 +11,9 @@ import Link from 'next/link';
 export async function StudioCurationList({ studio }: { studio: AssetHubInfo }) {
   const manager = await indexerClient().manager.fetchHubManager();
   const res = await fetchCurations(manager.curation, studio.id);
+  if (res.length === 0) {
+    return <Empty />;
+  }
   return (
     <div className="grid grid-cols-3 gap-6">
       {res.map((c) => (

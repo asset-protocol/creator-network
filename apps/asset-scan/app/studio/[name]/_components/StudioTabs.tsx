@@ -9,11 +9,7 @@ import { useEffect, useState } from 'react';
 export function StudioTabs() {
   const pathName = usePathname();
   const { push } = useRouter();
-  const [activeKey, setActiveKey] = useState<string>();
-
-  useEffect(() => {
-    setActiveKey(pathName.split('/').pop());
-  }, [pathName]);
+  const activeKey = pathName.split('/').pop();
 
   const items: TabsProps['items'] = [
     {
