@@ -7,10 +7,11 @@ import { fetchAssetById } from '@/app/_creatornetwork';
 import { AssetWeb3Info } from '@/app/_components/assets/AssetInfo';
 import { CollectButton } from '@/app/_components/assets/collect/CollectButton';
 import { AssetEditButton } from '@/app/_components/assets/AssetEditButton';
-import { Avatar, Tag } from 'antd';
+import { Avatar, Divider, Tag } from 'antd';
 import { notFound } from 'next/navigation';
 import { PresetColors } from 'antd/es/theme/internal';
 import { SeeAlsoAssetList } from '@/app/_components/assets/SeeAlsoAssetList';
+import { StudioAvatar } from '@/app/_components/studio/StudioAvatar';
 
 // export const dynamic = 'force-dynamic';
 // export const revalidate = 0;
@@ -79,17 +80,14 @@ export default async function AssetViewPage({ params, searchParams }: Props) {
 
                 <div className="text-3xl font-semibold py-4">{asset.name}</div>
                 <div className="text-gray-500 text-sm flex items-center py-2">
-                  <Avatar size={26} src={replaceUri(asset.hub.metadata?.image)}>
-                    {asset.hub.name[0]}
-                  </Avatar>
-                  <span className="ml-1">{asset.hub.name}</span>
-                  <div className="divider divider-horizontal mx-1"></div>
+                  <StudioAvatar hub={asset.hub} />
+                  <Divider type="vertical" className="w-[2px] bg-gray-300" />
                   <div>
                     {fromNow(Number.parseInt(asset.timestamp.toString()))}
                   </div>
                   <div className="flex-1"></div>
                   <CollectButton asset={asset} open={openCollect} />
-                  {<AssetEditButton asset={asset} />}
+                  {/* {<AssetEditButton asset={asset} />} */}
                 </div>
                 {/* <Image
                   src={replaceUri(asset.image)??""}

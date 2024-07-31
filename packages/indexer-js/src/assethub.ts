@@ -20,6 +20,7 @@ const GET_Asset_HUBS = gql`
       feeCollectModule
       tokenCollectModule
       timestamp
+      management
       version
       hash
       metadata
@@ -39,6 +40,7 @@ const GET_HUB_BY_ID = gql`
       tokenCollectModule
       timestamp
       version
+      management
       hash
       metadata
     }
@@ -74,6 +76,7 @@ const GET_HUB_BY_NAME_OR_ID = gql`
       tokenCollectModule
       timestamp
       version
+      management
       hash
       metadata
     }
@@ -105,12 +108,12 @@ export class AssetHubAPI {
     });
     return data.assetHubs;
   }
-  async fetchById(id: string) {
-    const { data } = await this._client.query<{ assetHubById: AssetHubInfo }>({
-      query: GET_HUB_BY_ID,
-      variables: { id },
+  async fetchByNameOrId(nameOrId: string) {
+    const { data } = await this._client.query<GqlAssetHubList<AssetHubInfo>>({
+      query: GET_HUB_BY_NAME_OR_ID,
+      variables: { nameOrId: nameOrId },
       fetchPolicy: 'no-cache',
     });
-    return data.assetHubById;
+    return data.assetHubs[0];
   }
 }

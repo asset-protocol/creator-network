@@ -66,7 +66,7 @@ export function AccountContent({ onClose }: { onClose?: () => void }) {
             {
               type: 'item',
               key: 'creator',
-              label: '创作者中心',
+              label: '你的工作室',
               onClick: () => {
                 push('/creator/content');
                 onClose?.();
@@ -92,7 +92,7 @@ export function LoginButton() {
   return <Button onClick={() => openConnectModal?.()}>Connect Wallet</Button>;
 }
 
-export function AccountButton({ className }: { className?: string }) {
+export default function AccountButton({ className }: { className?: string }) {
   const [open, setOpen] = useState(false);
   const { account } = useApp();
   useCurrentStudio();

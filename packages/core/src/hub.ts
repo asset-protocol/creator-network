@@ -7,6 +7,7 @@ export type AssetHubInfo = {
   tokenCollectModule: string;
   implementation: string;
   timestamp: bigint;
+  management: string;
   version: string;
   hash: string;
 

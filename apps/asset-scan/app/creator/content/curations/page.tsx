@@ -59,6 +59,7 @@ export default function () {
       return;
     }
     setLoading(true);
+    console.log('studio', account.studio);
     indexerClient()
       .curations.fetchCurations(manager.curation, account.studio)
       .then((res) => {

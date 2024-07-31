@@ -2,8 +2,12 @@ import { Button, Dropdown, Menu, MenuProps } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 import Link from 'next/link';
 import React from 'react';
-import { AccountButton } from '../account/AccountButton';
 import { BadgePlus, BookText, FileText, SwatchBook } from 'lucide-react';
+import dynamic from 'next/dynamic';
+
+const AccountButton = dynamic(() => import('../account/AccountButton'), {
+  ssr: false,
+});
 
 export function AppHeader() {
   const items: MenuProps['items'] = [
@@ -64,7 +68,7 @@ export function AppHeader() {
         items={items}
         mode="horizontal"
         className="flex-1"
-        activeKey='Curation'
+        activeKey="Curation"
         subMenuOpenDelay={0}
       ></Menu>
       <Dropdown

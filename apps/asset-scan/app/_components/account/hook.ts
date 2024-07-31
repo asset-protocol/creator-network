@@ -39,7 +39,7 @@ export function useCurrentStudio() {
   };
 
   const setCurrentStudio = async (address: string, sutdio: string) => {
-    const res = await indexerClient().assetHubs.fetchById(sutdio);
+    const res = await indexerClient().assetHubs.fetchByNameOrId(sutdio);
     if (!res || res.admin !== address) {
       return setFirstStudio(address);
     } else {
