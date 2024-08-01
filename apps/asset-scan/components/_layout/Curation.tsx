@@ -1,8 +1,10 @@
-import { CurationCreateModal } from "@/app/creator/curation/creat../components/CurationCreateModal";
+import { CurationCreateModal } from '@/app/creator/curation/create/_components/CurationCreateModal';
 
 export function CreateCurationMenuItem() {
-  return <div>
-    Curation
-    <CurationCreateModal/>
-  </div>;
+  return (
+    <div>
+      Curation
+      <CurationCreateModal />
+    </div>
+  );
 }
