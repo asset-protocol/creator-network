@@ -1,4 +1,4 @@
-import { AssetEditor } from '@/app/_components/assets/AssetEdtor';
+import { AssetEditor } from '@/components/assets/AssetEdtor';
 
 export default function Page({
   searchParams,

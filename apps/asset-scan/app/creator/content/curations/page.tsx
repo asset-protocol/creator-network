@@ -1,6 +1,6 @@
 'use client';
 
-import { indexerClient } from '@/app/_creatornetwork';
+import { indexerClient } from '@/creatornetwork';
 import { replaceUri } from '@creator-network/core';
 import { Curation } from '@creator-network/indexer-js';
 import { useAssetHub } from '@creator-network/react';

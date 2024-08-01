@@ -1,9 +1,9 @@
 'use client';
 
-import { generatAvatar } from '@/app/_components/ui/Avatar';
+import { generatAvatar } from '@/components/ui/Avatar';
 import { AssetHubMetadata, getStorage } from '@creator-network/core';
 import { useAssetHub } from '@creator-network/react';
-// import { AvatarUpload } from "@/app/_components/ui/AvatarUpload";
+// import { AvatarUpload } from "@/components/ui/AvatarUpload";
 import { useDeployNewAssetHub } from '@creator-network/react/hooks';
 import { Avatar, Button, Form, Input, Space, Upload } from 'antd';
 import { ZeroAddress } from 'ethers';

@@ -1,5 +1,5 @@
-import { AddressLink } from '@/app/_components/address/AddressLink';
-import { StudioAvatar } from '@/app/_components/studio/StudioAvatar';
+import { AddressLink } from '@/components/address/AddressLink';
+import { StudioAvatar } from '@/components/studio/StudioAvatar';
 import { replaceUri } from '@creator-network/core';
 import { Curation } from '@creator-network/indexer-js';
 import { fromNow } from '@creator-network/react/utils';

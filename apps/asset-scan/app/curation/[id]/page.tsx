@@ -1,9 +1,9 @@
 import { notFound } from 'next/navigation';
-import { fetchCurationById } from '../_components/api';
 import { Metadata } from 'next';
 import { Empty } from 'antd';
+import { RecentlyAssetItem } from '@/components/assets/RecentlyAssetItem';
+import { fetchCurationById } from '../_components/api';
 import { CurationItem } from '../_components/CurationInfo';
-import { RecentlyAssetItem } from '@/app/_components/assets/RecentlyAssetItem';
 export async function generateMetadata({
   params,
 }: {

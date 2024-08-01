@@ -251,7 +251,6 @@ export class CurationAPI {
   constructor(private client: ApolloClient<unknown>) {}
 
   async fetchCurations(curation: string, studio?: string) {
-    console.log('fetchCurations', curation, studio);
     const { data } = await this.client.query<GqlCurationList<Curation>>({
       query: GET_CURATIONS,
       variables: {
@@ -260,7 +259,6 @@ export class CurationAPI {
       },
       fetchPolicy: 'no-cache',
     });
-    console.log('fetchCurations', data);
     return data.curationsConnection.edges.map((edge) => edge.node);
   }
   async fetchById(tokenId: string) {

@@ -1,4 +1,4 @@
-import { indexerClient } from '@/app/_creatornetwork';
+import { indexerClient } from '@/creatornetwork';
 import { unstable_cache } from 'next/cache';
 
 export const FETCH_STUDIO = 'sutdio';

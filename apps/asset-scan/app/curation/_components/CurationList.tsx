@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { fetchCurations } from './api';
 import Link, { LinkProps } from 'next/link';
 import { CurationAuthorPanel } from './CurationInfo';
-import { indexerClient } from '@/app/_creatornetwork';
+import { indexerClient } from '@/creatornetwork';
 import { notFound } from 'next/navigation';
 import { HtmlHTMLAttributes } from 'react';
 

@@ -1,5 +1,5 @@
-import { RecentlyAssetItem } from '@/app/_components/assets/RecentlyAssetItem';
-import { fetchAssets } from '@/app/_creatornetwork';
+import { fetchAssets } from '@/creatornetwork';
+import { RecentlyAssetItem } from '@/components/assets/RecentlyAssetItem';
 import { Empty } from 'antd';
 
 export async function StudioAssetList({ studioId }: { studioId: string }) {
@@ -8,15 +8,13 @@ export async function StudioAssetList({ studioId }: { studioId: string }) {
     orderBy: ['timestamp_DESC'],
     first: 99999,
   });
+
+  if (!res.assets) return <Empty />;
   return (
     <div className="grid grid-cols-3 gap-4">
-      {res.assets?.length > 0 ? (
-        res.assets.map((a) => (
-          <RecentlyAssetItem key={a.id} asset={a} />
-        ))
-      ) : (
-        <Empty />
-      )}
+      {res.assets.map((a) => (
+        <RecentlyAssetItem key={a.id} asset={a} />
+      ))}
     </div>
   );
 }

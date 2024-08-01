@@ -1,15 +1,15 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { indexerClient } from './_creatornetwork';
-import { AppHeader } from './_components/_layout/AppHeader';
+import { indexerClient } from '../creatornetwork';
+import { AppHeader } from '../components/_layout/AppHeader';
 import clsx from 'clsx';
-import { AppProviders } from './_components/_layout/AppRoot';
+import { AppProviders } from '../components/_layout/AppRoot';
 import { Layout } from 'antd';
 import { Content } from 'antd/es/layout/layout';
-import { AntThmeConfigProvider } from './_components/_layout/AntConfig';
+import { AntThmeConfigProvider } from '../components/_layout/AntConfig';
 import './globals.css';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
-import '@/app/_creatornetwork/storage';
+import '@/creatornetwork/storage';
 
 const inter = Inter({ subsets: ['latin'] });
 

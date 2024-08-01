@@ -1,6 +1,6 @@
 'use client';
-import { useApp } from '@/app/_components/_layout/AppContext';
-import { AddressLink } from '@/app/_components/address/AddressLink';
+import { useApp } from '@/components/_layout/AppContext';
+import { AddressLink } from '@/components/address/AddressLink';
 import { replaceUri } from '@creator-network/core';
 import Image from 'next/image';
 

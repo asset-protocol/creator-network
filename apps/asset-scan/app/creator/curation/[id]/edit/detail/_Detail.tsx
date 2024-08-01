@@ -1,9 +1,4 @@
 'use client';
-
-import {
-  CurationCreateForm,
-  CurationFormData,
-} from '@/app/creator/curation/create/_components/CurationCreateForm';
 import { Button, FormInstance, message } from 'antd';
 import { Curation } from '@creator-network/indexer-js';
 import { useRef, useState } from 'react';
@@ -11,7 +6,11 @@ import { useSetCurationURI } from '@creator-network/react/hooks';
 import { useAssetHub } from '@creator-network/react';
 import { revalidateAllCurations } from '../../../create/actions';
 import { getStorage } from '@creator-network/core';
-import { revalidateAssetById } from '@/app/_creatornetwork/indexer-actions';
+import { revalidateAssetById } from '@/creatornetwork/indexer-actions';
+import {
+  CurationCreateForm,
+  CurationFormData,
+} from '../../../create/_components/CurationCreateForm';
 
 export function DetailEdit({ curation }: { curation: Curation }) {
   const formRef = useRef<FormInstance<CurationFormData>>(null);

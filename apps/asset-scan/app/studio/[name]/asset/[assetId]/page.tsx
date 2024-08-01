@@ -1,4 +1,4 @@
-import { indexerClient } from '@/app/_creatornetwork';
+import { indexerClient } from '@/creatornetwork';
 import { notFound, redirect } from 'next/navigation';
 
 export default async function Page({

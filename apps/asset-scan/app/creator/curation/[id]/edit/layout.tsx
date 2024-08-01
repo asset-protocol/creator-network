@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { replaceUri } from '@creator-network/core';
-import { fetchCurationById } from '@/app/curation/_components/api';
 import { CurationTabs } from './_components/CurationTabs';
+import { fetchCurationById } from '@/app/curation/_components/api';
 
 export default async function ({
   params,

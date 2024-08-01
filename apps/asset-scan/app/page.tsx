@@ -1,10 +1,10 @@
-import { RecentlyAssets } from './_components/assets/RecentlyAssets';
+import { RecentlyAssets } from '../components/assets/RecentlyAssets';
 import {
   FeaturedAssets,
   PopularAssets,
-} from './_components/assets/FeaturedAssets';
-import { SearchWithTags } from './_components/assets/SearchWithTags';
-import { TopAuthors } from './_components/assets/TopAuthors';
+} from '../components/assets/FeaturedAssets';
+import { SearchWithTags } from '../components/assets/SearchWithTags';
+import { TopAuthors } from '../components/assets/TopAuthors';
 import { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {

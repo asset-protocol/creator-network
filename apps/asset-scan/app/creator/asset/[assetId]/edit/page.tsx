@@ -1,5 +1,5 @@
-import { AssetEditor } from '@/app/_components/assets/AssetEdtor';
-import { fetchAssetById } from '@/app/_creatornetwork';
+import { AssetEditor } from '@/components/assets/AssetEdtor';
+import { fetchAssetById } from '@/creatornetwork';
 import { replaceUri } from '@creator-network/core';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';

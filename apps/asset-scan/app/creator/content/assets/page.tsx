@@ -1,7 +1,7 @@
 'use client';
 
-import { useApp } from '@/app/_components/_layout/AppContext';
-import { indexerClient } from '@/app/_creatornetwork';
+import { useApp } from '@/components/_layout/AppContext';
+import { indexerClient } from '@/creatornetwork';
 import { Asset, replaceUri } from '@creator-network/core';
 import { Table, TableColumnsType, message } from 'antd';
 import Image from 'next/image';

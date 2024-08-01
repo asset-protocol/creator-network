@@ -1,5 +1,5 @@
 'use client';
-import { BlobUpload, ImageBlobUpload } from '@/app/_components/ui/BlobUpload';
+import { BlobUpload, ImageBlobUpload } from '@/components/ui/BlobUpload';
 import { Button, Form, FormInstance, Input } from 'antd';
 
 export type CurationFormData = {

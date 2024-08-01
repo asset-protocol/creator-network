@@ -1,4 +1,4 @@
-import { indexerClient } from '@/app/_creatornetwork';
+import { indexerClient } from '@/creatornetwork';
 import { fetchCurations } from '@/app/curation/_components/api';
 import { AssetHubInfo, replaceUri } from '@creator-network/core';
 import { Curation } from '@creator-network/indexer-js';

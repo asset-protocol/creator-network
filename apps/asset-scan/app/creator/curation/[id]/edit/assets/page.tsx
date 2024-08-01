@@ -6,11 +6,11 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { Curation } from '@creator-network/indexer-js';
 import { useEffect, useState } from 'react';
-import { indexerClient } from '@/app/_creatornetwork';
-import { AssetSelector } from '../../../_components/AssetSelector';
+import { indexerClient } from '@/creatornetwork';
 import { useCurationAddAssets } from '@creator-network/react/hooks';
 import { revalidateAllCurations } from '../../../create/actions';
 import { TableRowSelection } from 'antd/es/table/interface';
+import { AssetSelector } from '../../../_components/AssetSelector';
 import { RemoveAssetButton } from '../_components/RemoveAssetButton';
 
 export default function ({ params }: { params: { id: string } }) {

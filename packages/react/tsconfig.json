@@ -3,6 +3,6 @@
   "compilerOptions": {
     "outDir": "dist"
   },
-  "include": ["src", "../../apps/asset-scan/app/_components/_AssetViewerHeader.tsx"],
+  "include": ["src", "../../apps/asset-scan/ap../components/_AssetViewerHeader.tsx"],
   "exclude": ["node_modules", "dist","turbo"]
 }

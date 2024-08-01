@@ -1,6 +1,6 @@
 'use client';
 
-import { indexerClient } from '@/app/_creatornetwork';
+import { indexerClient } from '@/creatornetwork';
 import { CloseOutlined } from '@ant-design/icons';
 import { Asset, replaceUri } from '@creator-network/core';
 import { useAssetHub } from '@creator-network/react';

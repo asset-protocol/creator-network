@@ -1,17 +1,17 @@
-import { AssetClientViewer } from '@/app/_components/assets/AssetViewer';
+import { AssetClientViewer } from '@/components/assets/AssetViewer';
 import { AssetViewerProps } from '@creator-network/react/asset/viewer';
 import { replaceUri } from '@creator-network/core';
 import { Metadata } from 'next';
 import { fromNow } from '@creator-network/react/utils';
-import { fetchAssetById } from '@/app/_creatornetwork';
-import { AssetWeb3Info } from '@/app/_components/assets/AssetInfo';
-import { CollectButton } from '@/app/_components/assets/collect/CollectButton';
-import { AssetEditButton } from '@/app/_components/assets/AssetEditButton';
+import { fetchAssetById } from '@/creatornetwork';
+import { AssetWeb3Info } from '@/components/assets/AssetInfo';
+import { CollectButton } from '@/components/assets/collect/CollectButton';
+import { AssetEditButton } from '@/components/assets/AssetEditButton';
 import { Avatar, Divider, Tag } from 'antd';
 import { notFound } from 'next/navigation';
 import { PresetColors } from 'antd/es/theme/internal';
-import { SeeAlsoAssetList } from '@/app/_components/assets/SeeAlsoAssetList';
-import { StudioAvatar } from '@/app/_components/studio/StudioAvatar';
+import { SeeAlsoAssetList } from '@/components/assets/SeeAlsoAssetList';
+import { StudioAvatar } from '@/components/studio/StudioAvatar';
 
 // export const dynamic = 'force-dynamic';
 // export const revalidate = 0;

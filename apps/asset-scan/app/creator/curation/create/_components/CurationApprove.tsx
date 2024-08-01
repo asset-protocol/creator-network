@@ -1,4 +1,4 @@
-import { AddressLink } from '@/app/_components/address/AddressLink';
+import { AddressLink } from '@/components/address/AddressLink';
 import { Asset, replaceUri } from '@creator-network/core';
 import {
   AssetApprovalStatus,
