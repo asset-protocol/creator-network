@@ -6,6 +6,7 @@ import { fetchCurationById } from '../_components/api';
 import { CurationItem } from '../_components/CurationInfo';
 import Ribbon from 'antd/es/badge/Ribbon';
 import { AssetApprovalStatus, Curation } from '@creator-network/indexer-js';
+
 export async function generateMetadata({
   params,
 }: {
@@ -58,7 +59,7 @@ export default async function ({ params }: { params: { id: string } }) {
   );
 }
 
-export function CurationAssetItem({ asset }: { asset: Curation['assets'][0] }) {
+function CurationAssetItem({ asset }: { asset: Curation['assets'][0] }) {
   let props = { text: 'Approved', color: '#00AAA1' };
   switch (asset.status) {
     case AssetApprovalStatus.Approved:
