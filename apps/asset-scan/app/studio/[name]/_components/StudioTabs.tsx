@@ -1,10 +1,7 @@
 'use client';
 
 import { Tabs, TabsProps } from 'antd';
-import { StudioAssetList } from './StudioAssetList';
-import Link from 'next/link';
-import { useParams, usePathname, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 
 export function StudioTabs() {
   const pathName = usePathname();

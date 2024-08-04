@@ -59,7 +59,7 @@ export function DetailEdit({ curation }: { curation: Curation }) {
   return (
     <div>
       <div className="flex items-center flex-wrap gap-2">
-        <div className="flex-1 font-semibold">Curation Detail</div>
+        <div className="flex-1 text-2xl font-semibold">Curation Detail</div>
         <Button onClick={() => formRef.current?.resetFields()}>Reset</Button>
         <Button
           onClick={() => formRef.current?.submit()}

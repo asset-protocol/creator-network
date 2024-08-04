@@ -5,7 +5,7 @@ import { AddressLink, formatAddress } from '../address/AddressLink';
 import { indexerClient } from '@/creatornetwork';
 import { useEffect, useState } from 'react';
 import { AssetHubInfo, replaceUri } from '@creator-network/core';
-import { useApp } from '../_layout/AppContext';
+import { useApp } from '../layout/AppContext';
 import { SafeAddressList } from './Safe';
 import { useAccount } from 'wagmi';
 import { useEthersSigner } from '@/creatornetwork/ether';

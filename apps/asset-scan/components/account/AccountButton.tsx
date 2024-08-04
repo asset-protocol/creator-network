@@ -8,7 +8,7 @@ import { useDisconnect } from 'wagmi';
 import { AddressLink } from '../address/AddressLink';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { AccountSwitch } from './AccountSwitch';
-import { useApp } from '../_layout/AppContext';
+import { useApp } from '../layout/AppContext';
 import clsx from 'clsx';
 import { replaceUri } from '@creator-network/core';
 import { useCurrentStudio } from './hook';
@@ -68,7 +68,7 @@ export function AccountContent({ onClose }: { onClose?: () => void }) {
               key: 'creator',
               label: '你的工作室',
               onClick: () => {
-                push('/creator/content');
+                push('/creator/studio');
                 onClose?.();
               },
             },

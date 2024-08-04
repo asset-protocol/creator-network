@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { indexerClient } from '../creatornetwork';
-import { AppHeader } from '../components/_layout/AppHeader';
+import { AppHeader } from '../components/layout/AppHeader';
 import clsx from 'clsx';
-import { AppProviders } from '../components/_layout/AppRoot';
+import { AppProviders } from '../components/layout/AppRoot';
 import { Layout } from 'antd';
 import { Content } from 'antd/es/layout/layout';
-import { AntThmeConfigProvider } from '../components/_layout/AntConfig';
+import { AntThmeConfigProvider } from '../components/layout/AntConfig';
 import './globals.css';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import '@/creatornetwork/storage';

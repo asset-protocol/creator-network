@@ -3,6 +3,8 @@ import Image from 'next/image';
 import { replaceUri } from '@creator-network/core';
 import { CurationTabs } from './_components/CurationTabs';
 import { fetchCurationById } from '@/app/curation/_components/api';
+import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 
 export default async function ({
   params,
@@ -17,8 +19,14 @@ export default async function ({
   }
 
   return (
-    <div className="max-w-[1280px] mx-auto flex gap-6 mt-10">
-      <div className="max-w-[260px] flex flex-col gap-4">
+    <div className="flex gap-6 mt-4">
+      <div className="flex flex-col gap-4 w-[240px] ml-4 mr-2">
+        <Link href={`/creator/studio/content/curations`}>
+          <div className="w-full flex hover:bg-gray-100 px-2 py-2 rounded-lg">
+            <ArrowLeft />
+            <span className="ml-2 flex-1">Studio Content</span>
+          </div>
+        </Link>
         <Image
           src={replaceUri(curation.image) ?? ''}
           width={200}

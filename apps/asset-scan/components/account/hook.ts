@@ -1,6 +1,6 @@
 'use client';
 import { indexerClient } from '@/creatornetwork';
-import { useApp } from '../_layout/AppContext';
+import { useApp } from '../layout/AppContext';
 import { useEffect } from 'react';
 import { SafeSigner } from './Safe';
 import Safe from '@safe-global/protocol-kit';

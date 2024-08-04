@@ -1,10 +1,8 @@
 'use client';
 
-import React, { useEffect } from 'react';
-import Link from 'next/link';
+import React from 'react';
 import { Menu, MenuProps } from 'antd';
 import { InfoIcon, Package2 } from 'lucide-react';
-import { InfoCircleOutlined } from '@ant-design/icons';
 import { usePathname, useRouter } from 'next/navigation';
 type MenuItem = Required<MenuProps>['items'][number];
 

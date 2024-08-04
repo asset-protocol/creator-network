@@ -8,7 +8,7 @@ import { creatorNetwork } from '@creator-network/core';
 import feeCollectModulePlugin from '@creator-network/react/plugins/module-fee-collect';
 import tokenCollectModulePlugin from '@creator-network/react/plugins/module-token-collect';
 import { AssetHubManagerInfo } from '@creator-network/indexer-js';
-import { useApp } from '../components/_layout/AppContext';
+import { useApp } from '../components/layout/AppContext';
 import { FeeCollectModuleItem } from './components/FeeCollectModuleItem';
 import { TokenCollectModuleItem } from './components/TokenCollectModuleItem';
 import { indexerClient } from './indexer';

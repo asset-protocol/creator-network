@@ -1,6 +1,6 @@
 'use client';
 
-import { useApp } from '@/components/_layout/AppContext';
+import { useApp } from '@/components/layout/AppContext';
 import { indexerClient } from '@/creatornetwork';
 import { Asset, replaceUri } from '@creator-network/core';
 import { Table, TableColumnsType, message } from 'antd';

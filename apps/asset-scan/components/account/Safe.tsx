@@ -8,7 +8,7 @@ import { AddressLink } from '../address/AddressLink';
 import { Button, Skeleton } from 'antd';
 import { Signer, ethers } from 'ethers';
 import { useEthersSigner } from '@/creatornetwork/ether';
-import { useApp } from '../_layout/AppContext';
+import { useApp } from '../layout/AppContext';
 import { Config, useAccount, useConnectorClient } from 'wagmi';
 import { AssetHubInfo } from '@creator-network/core';
 import { indexerClient } from '@/creatornetwork';

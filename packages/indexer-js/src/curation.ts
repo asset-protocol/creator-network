@@ -154,22 +154,22 @@ export function useGetCurationById(id: string) {
 }
 
 const GET_CURATION_ASSETS = gql`
-  query GetCurationAssets($publisher: String, $status: Int) {
+  query GetCurationAssets($hub: String, $status: Int) {
     curations(
       where: {
-        assets_some: { asset: { publisher_eq: $publisher }, status_eq: $status }
+        assets_some: { asset: { hub: { id_eq: $hub } }, status_eq: $status }
       }
     ) {
-      assets(
-        where: { status_eq: $status, asset: { publisher_eq: $publisher } }
-      ) {
+      assets(where: { status_eq: $status, asset: { hub: { id_eq: $hub } } }) {
         asset {
           id
           assetId
           type
-          hub
-          hubName
+          hub {
+            id
+          }
           name
+          timestamp
           description
           image
         }
@@ -177,11 +177,16 @@ const GET_CURATION_ASSETS = gql`
         status
         timestamp
       }
+      tokenId
       name
       description
       image
       id
-      publisher
+      hub {
+        id
+        name
+        metadata
+      }
       expiry
       timestamp
       externalUrl
@@ -270,5 +275,14 @@ export class CurationAPI {
       fetchPolicy: 'no-cache',
     });
     return data.curationById;
+  }
+
+  async fetchCurationAssets(hub: string, status?: AssetApprovalStatus) {
+    const { data } = await this.client.query<{ curations: Curation[] }>({
+      query: GET_CURATION_ASSETS,
+      variables: { hub, status },
+      fetchPolicy: 'no-cache',
+    });
+    return data.curations;
   }
 }

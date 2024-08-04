@@ -102,7 +102,7 @@ export default function ({ params }: { params: { id: string } }) {
   return (
     <div>
       <div className="flex items-center gap-2">
-        <div className="text-lg font-semibold flex-1">Curation Assets</div>
+        <div className="text-2xl font-semibold flex-1">Curation Assets</div>
         {curation && (
           <RemoveAssetButton
             curationId={curation?.tokenId}

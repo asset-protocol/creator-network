@@ -15,7 +15,7 @@ export function ContentTabs(props: ContentTabsProps) {
     <Tabs
       items={props.items}
       activeKey={activeKey}
-      onChange={(key) => push(`/creator/content/${key}`)}
+      onChange={(key) => push(`/creator/studio/content/${key}`)}
     />
   );
 }
