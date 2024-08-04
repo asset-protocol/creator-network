@@ -43,8 +43,10 @@ const Columns: TableColumnsType<Asset> = [
     dataIndex: 'type',
   },
   {
-    title: '描述',
-    dataIndex: 'description',
+    title: '日期',
+    dataIndex: 'timestamp',
+    render: (_, row) =>
+      new Date(Number.parseInt(row.timestamp)).toLocaleString(),
   },
 ];
 

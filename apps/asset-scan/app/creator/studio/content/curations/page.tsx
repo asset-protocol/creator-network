@@ -35,16 +35,15 @@ const Columns: TableColumnsType<Curation> = [
     ),
   },
   {
-    title: '创建日期',
+    title: '日期',
     render: (_, row) => (
-      <div>
-        {new Date(Number.parseFloat(row.timestamp)).toLocaleDateString()}
-      </div>
+      <div>{new Date(Number.parseFloat(row.timestamp)).toLocaleString()}</div>
     ),
   },
   {
-    title: '描述',
+    title: 'Token ID',
     dataIndex: 'description',
+    render: (_, row) => <div>#{row.tokenId}</div>,
   },
 ];
 
