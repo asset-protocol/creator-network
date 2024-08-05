@@ -10,7 +10,8 @@ import { Metadata } from 'next';
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: 'AssetScan-创作者数字资产一站式浏览与交易平台',
-    description: 'AssetScan 用于创建、浏览、更新和查看链上交易信息。无缝连接创作者和收藏家，发现独一无二的数字资产，体验前所未有的透明度和交易便捷性。立即加入，开启您的数字收藏之旅。',
+    description:
+      'AssetScan 用于创建、浏览、更新和查看链上交易信息。无缝连接创作者和收藏家，发现独一无二的数字资产，体验前所未有的透明度和交易便捷性。立即加入，开启您的数字收藏之旅。',
     openGraph: {
       title: 'AssetScan-创作者数字资产一站式浏览与交易平台',
       description:
@@ -21,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function Home() {
   return (
-    <main className="flex flex-col mx-auto">
+    <div className="flex flex-col mx-auto">
       <div className="px-[20px] w-full bg-[#F2F8F7] max-h-[880px] overflow-hidden">
         <div className=" flex mx-auto h-full max-w-[1280px]">
           <div className="flex-[2] h-full flex flex-col">
@@ -40,7 +41,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="bg-base-100 w-full max-w-[1280px] mx-auto flex">
+      <div className="w-full max-w-[1280px] mx-auto flex">
         <div className="flex-[2] pr-[105px] flex">
           <div className="flex-1">
             <div className="text-xl font-bold mt-[60px] mb-[40px]">
@@ -67,6 +68,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

@@ -25,14 +25,14 @@ export default async function RootLayout({
 }>) {
   const manager = await indexerClient().manager.fetchHubManager();
   return (
-    <html lang="en">
+    <html lang="en" className="bg-white">
       <body className={clsx(inter.className)}>
         <AntdRegistry>
           <AntThmeConfigProvider>
             <AppProviders manager={manager}>
               <Layout>
                 <AppHeader />
-                <Content className="w-full bg-base-100">{children}</Content>
+                <Content className="w-full bg-white">{children}</Content>
               </Layout>
             </AppProviders>
           </AntThmeConfigProvider>

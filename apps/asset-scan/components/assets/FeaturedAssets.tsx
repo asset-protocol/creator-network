@@ -42,7 +42,7 @@ export async function FeaturedAssets({ className }: { className?: string }) {
                 <AssetItem
                   key={a.id}
                   asset={a}
-                  className="bg-base-100 rounded-md"
+                  className="rounded-md"
                 />
               ))}
             </div>
