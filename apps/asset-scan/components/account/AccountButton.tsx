@@ -20,7 +20,7 @@ export function AccountContent({ onClose }: { onClose?: () => void }) {
   const { disconnect } = useDisconnect();
   const { push } = useRouter();
   return (
-    <div className="w-[240px] text-base">
+    <div className="w-[240px]">
       {subContent !== undefined && (
         <div className="flex flex-col">
           <Button

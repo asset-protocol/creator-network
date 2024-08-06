@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import SafeApiKit from '@safe-global/api-kit';
-import Safe, { SafeProvider, Eip1193Provider } from '@safe-global/protocol-kit';
+import Safe, { SafeProvider } from '@safe-global/protocol-kit';
 import { AssetContractRunner, useAssetHub } from '@creator-network/react';
 import { AddressLink } from '../address/AddressLink';
 import { Button, Skeleton } from 'antd';

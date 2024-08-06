@@ -1,9 +1,9 @@
-import { CopyFilled, CopyOutlined, CopyTwoTone } from '@ant-design/icons';
 import { message } from 'antd';
 import clsx from 'clsx';
 import { Copy } from 'lucide-react';
 import Link from 'next/link';
 import { MouseEvent, ReactNode } from 'react';
+import { useChainId } from 'wagmi';
 
 export type AddressLinkProps = {
   herf?: string;

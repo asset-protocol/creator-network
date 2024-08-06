@@ -17,24 +17,29 @@ import Image from 'next/image';
 import { SizeType } from 'antd/es/config-provider/SizeContext';
 import Link from 'next/link';
 import { StudioAvatar } from '../studio/StudioAvatar';
+import { revalidateAllCurations } from '@/app/creator/curation/create/actions';
+import { CurationAssetRibbon } from './CurationAsset';
 
 export function CurationApprove() {
   const [curations, setCurations] = useState<Curation[]>([]);
 
   const { account } = useAssetHub();
-
+  const handleApprove = async (status: AssetApprovalStatus) => {
+    await revalidateAllCurations();
+    await fetchCurations();
+  };
+  const fetchCurations = async () => {
+    if (!account?.studio) {
+      setCurations([]);
+      return;
+    }
+    const curations = await indexerClient().curations.fetchCurationAssets(
+      account?.studio,
+      undefined
+    );
+    setCurations(curations);
+  };
   useEffect(() => {
-    const fetchCurations = async () => {
-      if (!account?.studio) {
-        setCurations([]);
-        return;
-      }
-      const curations = await indexerClient().curations.fetchCurationAssets(
-        account?.studio,
-        undefined
-      );
-      setCurations(curations);
-    };
     fetchCurations();
   }, [account]);
   return (
@@ -43,7 +48,11 @@ export function CurationApprove() {
         dataSource={curations}
         split
         renderItem={(item) => (
-          <CurationApproveItem key={item.id} curation={item} />
+          <CurationApproveItem
+            key={item.id}
+            curation={item}
+            onApprove={handleApprove}
+          />
         )}
       />
     </div>
@@ -55,11 +64,13 @@ export function ApproveAssetButton({
   assets,
   disabeld,
   size,
+  onApprove,
 }: {
   curationId: bigint;
   assets: Asset[];
   disabeld?: boolean;
   size?: SizeType;
+  onApprove?: (status: AssetApprovalStatus) => void;
 }) {
   const { approveAssets, loading } = useCurationApproveAssets();
   const handleApprove = async (status: AssetApprovalStatus) => {
@@ -69,6 +80,7 @@ export function ApproveAssetButton({
       status,
     }));
     await approveAssets(curationId, assetsInput);
+    onApprove?.(status);
   };
   const menuProps: MenuProps = {
     items: [
@@ -93,7 +105,13 @@ export function ApproveAssetButton({
   );
 }
 
-export function CurationApproveItem({ curation }: { curation: Curation }) {
+export function CurationApproveItem({
+  curation,
+  onApprove,
+}: {
+  curation: Curation;
+  onApprove?: (status: AssetApprovalStatus) => void;
+}) {
   const [checkedList, setCheckedList] = useState<Asset[]>([]);
 
   const checkAll = curation.assets.length === checkedList.length;
@@ -122,7 +140,7 @@ export function CurationApproveItem({ curation }: { curation: Curation }) {
           ></Checkbox>
           <div className="ml-2">
             <div className="flex gap-2 items-end ">
-              <Link className='flex-shrink' href={`/curation/${curation.id}`}>
+              <Link className="flex-shrink" href={`/curation/${curation.id}`}>
                 <span>{curation.name}</span>
               </Link>
               <StudioAvatar
@@ -143,6 +161,7 @@ export function CurationApproveItem({ curation }: { curation: Curation }) {
             disabeld={checkedList.length === 0}
             curationId={BigInt(curation.tokenId)}
             assets={checkedList}
+            onApprove={onApprove}
           />
         </div>
       </div>
@@ -151,46 +170,52 @@ export function CurationApproveItem({ curation }: { curation: Curation }) {
         {curation.assets.map((a) => (
           <div className="flex items-center ml-2 gap-2  p-2 rounded-lg hover:bg-gray-100 py-4">
             <Checkbox
+              className="mr-2"
               key={a.asset.id}
               onChange={(e) => onChange(a.asset, e.target.checked)}
               checked={checkedList.includes(a.asset)}
             ></Checkbox>
-            <div className="flex gap-2 flex-1">
-              <Link href={`/a/${a.asset.id}`} target="_blank">
-                <Image
-                  src={replaceUri(a.asset.image) ?? ''}
-                  width={140}
-                  height={70}
-                  alt={a.asset.name}
-                  className="aspect-[2/1] rounded-lg object-cover"
-                />
-              </Link>
-              <div className="flex flex-col flex-1">
-                <Link href={`/a/${a.asset.id}`} target="_blank">
-                  <div className="text-lg line-clamp-2 font-semibold">
-                    {a.asset.name}
+            <div className="flex-1">
+              <CurationAssetRibbon key={a.asset.id} asset={a} placement="start">
+                <div className="flex gap-2 flex-1">
+                  <Link href={`/a/${a.asset.id}`} target="_blank">
+                    <Image
+                      src={replaceUri(a.asset.image) ?? ''}
+                      width={140}
+                      height={70}
+                      alt={a.asset.name}
+                      className="aspect-[2/1] rounded-lg object-cover"
+                    />
+                  </Link>
+                  <div className="flex flex-col flex-1">
+                    <Link href={`/a/${a.asset.id}`} target="_blank">
+                      <div className="text-lg line-clamp-2 font-semibold">
+                        {a.asset.name}
+                      </div>
+                    </Link>
+                    <div className="flex-1 text-lg line-clamp-2">
+                      {a.asset.description}
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <span className="font-bold">
+                        {'#' + a.asset.assetId.toString()}
+                      </span>
+                      <span className="text-gray-500">
+                        {new Date(
+                          Number.parseInt(a.asset.timestamp)
+                        ).toLocaleDateString()}
+                      </span>
+                    </div>
                   </div>
-                </Link>
-                <div className="flex-1 text-lg line-clamp-2">
-                  {a.asset.description}
                 </div>
-                <div className="flex items-center gap-4">
-                  <span className="font-bold">
-                    {'#' + a.asset.assetId.toString()}
-                  </span>
-                  <span className="text-gray-500">
-                    {new Date(
-                      Number.parseInt(a.asset.timestamp)
-                    ).toLocaleDateString()}
-                  </span>
-                </div>
-              </div>
+              </CurationAssetRibbon>
             </div>
             <div className="">
               <ApproveAssetButton
                 curationId={BigInt(curation.tokenId)}
                 assets={[a.asset]}
                 size="small"
+                onApprove={onApprove}
               />
             </div>
           </div>

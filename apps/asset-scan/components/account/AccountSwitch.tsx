@@ -64,7 +64,7 @@ export function StudioSelectItem({ studio, onSelect }: StudioSelectItem) {
 
   return (
     <div
-      className="flex cursor-pointer gap-2 py-2 px-2 hover:bg-gray-200 items-center"
+      className="flex cursor-pointer rounded-md gap-2 py-2 px-2 hover:bg-gray-200 items-center"
       onClick={handleSelectStudio}
     >
       <Avatar
