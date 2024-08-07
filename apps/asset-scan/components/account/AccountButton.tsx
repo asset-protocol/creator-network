@@ -5,7 +5,7 @@ import Popover from 'antd/es/popover';
 import { ArrowLeft, Wallet } from 'lucide-react';
 import { ReactNode, useState } from 'react';
 import { useDisconnect } from 'wagmi';
-import { AddressLink } from '../address/AddressLink';
+import { AddressLink, formatAddress } from '../address/AddressLink';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { AccountSwitch } from './AccountSwitch';
 import { useApp } from '../layout/AppContext';
@@ -113,17 +113,15 @@ export default function AccountButton({ className }: { className?: string }) {
         >
           <div className="flex items-center gap-1 cursor-pointer">
             <Avatar
-              size={28}
+              size={32}
               shape="circle"
               src={replaceUri(account.studioAvatar)}
               icon={!account.studioAvatar && <Wallet />}
             />
-            <AddressLink
-              hideCopy={true}
-              address={account.studioName || account.address}
-              splitNum={2}
-              splitNum2={4}
-            />
+            {/* <span>
+              {formatAddress(account.studioName, 4, 2) ||
+                formatAddress(account.address, 2, 4)}
+            </span> */}
           </div>
         </Popover>
       ) : (

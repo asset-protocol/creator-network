@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { replaceUri } from '@creator-network/core';
 import { StudioTabs } from './_components/StudioTabs';
 import { Metadata } from 'next';
+import { AddressLink } from '@/components/address/AddressLink';
 
 export async function generateMetadata({
   params,
@@ -57,6 +58,10 @@ export default async function ({
                 {studio.metadata?.name ?? studio.name}
               </h1>
               <div className="text-gray-500">@{studio.name}</div>
+              <AddressLink
+                className="text-gray-500 text-sm mt-1"
+                address={studio.id}
+              />
             </div>
             <p className="text-gray-500 line-clamp-6">
               {studio.metadata?.description}

@@ -1,44 +1,12 @@
-import { Button, Dropdown, Menu, MenuProps } from 'antd';
+import { Button, Dropdown, MenuProps } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 import Link from 'next/link';
 import React from 'react';
 import { BadgePlus, BookText, FileText, SwatchBook } from 'lucide-react';
-import dynamic from 'next/dynamic';
-
-const AccountButton = dynamic(() => import('../account/AccountButton'), {
-  ssr: false,
-});
+import { AppTabs } from './AppTabs';
+import AccountButton from '../account/AccountButton';
 
 export function AppHeader() {
-  const items: MenuProps['items'] = [
-    {
-      label: 'Assets',
-      key: 'assets',
-    },
-    {
-      label: <Link href="/curation">Curation</Link>,
-      key: 'curation',
-    },
-    {
-      label: 'Apps',
-      key: 'apps',
-      children: [
-        {
-          label: 'DeSchool',
-          key: 'DeSchool',
-        },
-        {
-          label: 'Booth',
-          key: 'Booth',
-        },
-      ],
-    },
-    {
-      label: 'About',
-      key: 'about',
-    },
-  ];
-
   const createMenuItems: MenuProps['items'] = [
     {
       label: <Link href="/creator/asset/create">Asset</Link>,
@@ -58,19 +26,13 @@ export function AppHeader() {
   ];
 
   return (
-    <Header className="flex items-center bg-[#E8F3F3] py-[10px] px-0 gap-4">
+    <Header className="flex items-center bg-[#E8F3F3] px-0 gap-2">
       <div>
-        <Link href="/" className="btn btn-ghost text-xl">
+        <Link href="/" className="text-xl font-semibold cursor-pointer px-2">
           Creator Network
         </Link>
       </div>
-      <Menu
-        items={items}
-        mode="horizontal"
-        className="flex-1"
-        activeKey="Curation"
-        subMenuOpenDelay={0}
-      ></Menu>
+      <AppTabs />
       <Dropdown
         transitionName=""
         menu={{ items: createMenuItems, className: 'min-w-[160px]' }}

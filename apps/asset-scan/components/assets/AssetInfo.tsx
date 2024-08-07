@@ -1,7 +1,6 @@
 'use client';
 import { Asset } from '@creator-network/core';
-import { AddressLink } from '../address/AddressLink';
-import { message } from 'antd';
+import { AddressLink, BlobLink, TxLink } from '../address/AddressLink';
 import clsx from 'clsx';
 
 export type AssetWeb3InfoProps = {
@@ -12,19 +11,15 @@ export function AssetWeb3Info({ asset, className }: AssetWeb3InfoProps) {
   return (
     <div className={clsx('flex flex-col', className)}>
       <div className="font-semibold">Publisher: </div>
-      <AddressLink address={asset.publisher} herf=""></AddressLink>
+      <AddressLink address={asset.publisher}></AddressLink>
       <div className="mt-2 font-semibold">Studio Address: </div>
-      <AddressLink address={asset.hub.id} herf=""></AddressLink>
+      <AddressLink address={asset.hub.id}></AddressLink>
       <div className="mt-2 font-semibold">Content URI: </div>
-      <AddressLink
-        address={asset.contentUri}
-        splitNum={16}
-        herf=""
-      ></AddressLink>
+      <BlobLink address={asset.contentUri} splitNum={16}></BlobLink>
       <div className="mt-2 font-semibold">Tx hash: </div>
-      <AddressLink address={asset.hash} splitNum={16} herf=""></AddressLink>
+      <TxLink address={asset.hash} splitNum={16}></TxLink>
       <div className="mt-2 font-semibold">Collect NFT: </div>
-      <AddressLink address={asset.collectNft} herf=""></AddressLink>
+      <AddressLink address={asset.collectNft}></AddressLink>
     </div>
   );
 }

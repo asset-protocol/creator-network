@@ -4,7 +4,7 @@ import { indexerClient } from '../creatornetwork';
 import { AppHeader } from '../components/layout/AppHeader';
 import clsx from 'clsx';
 import { AppProviders } from '../components/layout/AppRoot';
-import { Layout } from 'antd';
+import { Affix, Layout } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 import { AntThmeConfigProvider } from '../components/layout/AntConfig';
 import './globals.css';
@@ -26,12 +26,18 @@ export default async function RootLayout({
   const manager = await indexerClient().manager.fetchHubManager();
   return (
     <html lang="en" className="bg-white">
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+      ></meta>
       <body className={clsx(inter.className)}>
         <AntdRegistry>
           <AntThmeConfigProvider>
             <AppProviders manager={manager}>
               <Layout>
-                <AppHeader />
+                <Affix>
+                  <AppHeader />
+                </Affix>
                 <Content className="w-full bg-white">{children}</Content>
               </Layout>
             </AppProviders>
