@@ -1,0 +1,62 @@
+{
+  "name": "@creator-network/react",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts",
+    "./utils": "./src/utils/index.ts",
+    "./hooks": "./src/hooks/index.ts",
+    "./collect": "./src/collect/index.ts",
+    "./asset": "./src/asset/index.ts",
+    "./asset/editor": "./src/asset/components/AssetEditor/index.ts",
+    "./asset/viewer": "./src/asset/components/AssetViewer/index.ts",
+    "./ui": "./src/ui/index.ts",
+    "./plugins/all-asset": "./src/plugins/all-asset/index.ts",
+    "./plugins/asset-audio": "./src/plugins/asset-audio/index.ts",
+    "./plugins/asset-default": "./src/plugins/asset-default/index.ts",
+    "./plugins/asset-richtext": "./src/plugins/asset-richtext-quill/index.ts",
+    "./plugins/asset-richtext/QuillEditor": "./src/plugins/asset-richtext-quill/components/QuillEditor.tsx",
+    "./plugins/asset-embed-video": "./src/plugins/asset-embed-video/index.ts",
+    "./plugins/module-fee-collect": "./src/plugins/module-fee-collect/index.ts",
+    "./plugins/module-token-collect": "./src/plugins/module-token-collect/index.ts",
+    "./plugins/storage-arwave": "./src/plugins/storage-arwave/index.ts",
+    "./plugins/storage-ipfs-pinata": "./src/plugins/storage-ipfs-pinata/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "gen:component": "turbo gen react-component"
+  },
+  "devDependencies": {
+    "@creator-network/core": "workspace:*",
+    "@creator-network/indexer-js": "workspace:*",
+    "@creator-network/web3": "workspace:*",
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@turbo/gen": "^1.12.4",
+    "@types/eslint": "^8.56.5",
+    "@types/node": "^20.11.24",
+    "@types/react": "^18.2.61",
+    "@types/react-dom": "^18.2.19",
+    "daisyui": "^4.11.1",
+    "eslint": "^8.57.0",
+    "postcss": "^8.4.38",
+    "react": "^18.2.0",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.3.7",
+    "@apollo/client": "^3.10.4",
+    "@tanstack/react-query": "^5.40.0",
+    "arweave": "^1.14.4",
+    "clsx": "^2.1.0",
+    "dayjs": "^1.11.10",
+    "deschool-vditor": "^3.10.2",
+    "ethers": "^6.11.1",
+    "highlight.js": "^11.9.0",
+    "mime": "^4.0.3",
+    "parchment": "^3.0.0",
+    "quill": "^2.0.1",
+    "react-player": "^2.13.0"
+  }
+}

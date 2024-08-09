@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
 import QuillEditor from "./QuillEditor";
-import { selectFile } from "../utils/file";
 import Quill from "quill";
 import { AssetEditorHeader, useAssetEditor } from "../../../components";
+import { selectFile } from "../utils/file";
 export type RichTextEditorProps = {
   className?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
